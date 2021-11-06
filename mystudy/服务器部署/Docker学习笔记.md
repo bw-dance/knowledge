@@ -8,7 +8,11 @@ docker容器：[Docker Hub](https://hub.docker.com/)
 
 docker文档：[Docker Documentation | Docker Documentation](https://docs.docker.com/)
 
+docker教程：[docker教程_docker使用快速入门-php中文网](https://www.php.cn/docker/)
+
 狂神笔记：[(61条消息) 狂神说docker(最全笔记）_烟霞畔的博客-CSDN博客_狂神说docker笔记](https://blog.csdn.net/qq_21197507/article/details/115071715)[(61条消息) 狂神说docker(最全笔记）_烟霞畔的博客-CSDN博客_狂神说docker笔记](https://blog.csdn.net/qq_21197507/article/details/115071715)
+
+docker容器常见故障：https://blog.csdn.net/qq_41958579/article/details/107927140
 
 # 学习内容
 
@@ -785,7 +789,7 @@ docker cp 容器id：容器内路径(/home/Test.java)    目的地主机路径(/
 **安装步骤**
 
 1. 下载mysql最新版:docker pull mysql
-2. 运行mysql容器:docker run -d --name mysql01-p 3366:66 mysql
+2. 运行mysql容器:docker run -d --name mysql01-p 3366:3366 mysql
    1. 出现问题：mysql闪退，docker ps 发现没有正在运行的容器
    2. 原因：需要未mysql设置账户
       1. 查看错误原因：docker logs mysql01
@@ -795,6 +799,9 @@ docker cp 容器id：容器内路径(/home/Test.java)    目的地主机路径(/
 3. 进入mysql：mysql -u root -p
 4. 查看数据库信息：show databases
 5. 外部访问数据库
+   1. 出现问题，nativecat连接mysql一直报错。
+   2. 原因：我是用的端口映射是3366:3366，外部端口3366没有问题，但是容器内部端口3366并不是mysql的默认端口，mysql的默认端口是3306，所以就需要修改mysql的默认端口。
+   3. 修改方式：[docker安装mysql后如何修改默认端口_aaa6202341的博客-CSDN博客](https://blog.csdn.net/aaa6202341/article/details/107415723)
 
 ```shell
 [root@ZHQ /]# docker run -p 3366:3366 --name mysql01 -e MYSQL_ROOT_PASSWORD=1111111 -d mysql
@@ -840,6 +847,854 @@ mysql> exit
 
 [【狂神说Java】Docker最新超详细版教程通俗易懂_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1og4y1q7M4?p=17)
 
+# Docker镜像
+
+## 镜像是什么
+
+镜像是一种轻量级、可执行的独立软件保，用来打包软件运行环境和基于运行环境开发的软件，他包含运行某个软件所需的所有内容，包括代码、运行时库、环境变量和配置文件。
+
+所有的应用，直接打包docker镜像，就可以直接跑起来。
+
+如何获取镜像：
+
+1. 远程仓库下载
+2. 别人拷贝
+3. 自己制作一个镜像 DockerFile
+
+## Docker镜像加载原理
+
+关于docker下载为什么是分层下载的解答！
+
+安装centos  第一层
+
+安装docker  第二层
+
+安装jdk         第三层。
+
+联合文件系统：
+
+![image-20211105145911706](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211105145911706.png)
+
+**UnionFs （联合文件系统）**
+
+UnionFs（联合文件系统）：Union文件系统（UnionFs）是一种**分层**、轻量级并且高性能的文件系统，他支持对**文件系统的修改作为一次提交来一层层的叠加，**同时可以将不同目录挂载到同一个虚拟文件系统下（ unite several directories into a single virtual filesystem)。Union文件系统是 Docker镜像的基础。镜像可以通过分层来进行继承，基于基础镜像（没有父镜像），可以制作各种具体的应用镜像
+特性：一次同时加载多个文件系统，但从外面看起来，只能看到一个文件系统，联合加载会把各层文件系统叠加起来，这样最终的文件系统会包含所有底层的文件和目录
+
+**Docker镜像加载原理**
+
+docker的镜像实际上由一层一层的文件系统组成，这种层级的文件系统UnionFS。
+
+boots(boot file system）主要包含 **bootloader和 Kernel**, bootloader主要是引导加载 kernel, Linux刚启动时会加载bootfs文件系统，在 Docker镜像的最底层是 boots。这一层与我们典型的Linux/Unix系统是一样的，包含boot加載器和内核。当boot加载完成之后整个内核就都在内存中了，此时内存的使用权已由 bootfs转交给内核，此时系统也会卸载bootfs。
+
+rootfs（root file system),在 bootfs之上。包含的就是典型 Linux系统中的/dev,/proc,/bin,/etc等标准目录和文件。 rootfs就是各种不同的操作系统发行版，比如 Ubuntu, Centos等等。
+
+![image-20211105150332150](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211105150332150.png)
+
+
+
+平时我们安装进虚拟机的CentOS都是好几个G，为什么Docker这里才200M？
+
+![image-20211105144649595](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211105144649595.png)
+
+对于个精简的OS,rootfs可以很小，只需要包合最基本的命令，工具和程序库就可以了，因为**底层直接用Host的kernel，**自己只需要提供rootfs就可以了。由此可见对于不同的Linux发行版， boots基本是一致的， rootfs会有差別，因此不同的发行版可以公用bootfs.
+
+虚拟机是分钟级别，容器是秒级！
+
+## 分层理解
+
+**分层的镜像**
+
+我们可以去下载一个镜像，注意观察下载的日志输出，可以看到是一层层的在下载
+
+其中id为54的已经存在，就不需要下载，只需要下载没有的。
+
+![image-20211105144727523](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211105144727523.png)
+
+思考：为什么Docker镜像要采用这种分层的结构呢？
+
+最大的好处，我觉得莫过于资源共享了！比如有多个镜像都从相同的Base镜像构建而来，那么宿主机只需在磁盘上保留一份base镜像，同时内存中也只需要加载一份base镜像，这样就可以为所有的容器服务了，而且镜像的每一层都可以被共享。
+
+查看镜像分层的方式可以通过docker image inspect 命令
+
+```shell
+➜  / docker image inspect redis          
+[
+    {
+        "Id": "sha256:f9b9909726890b00d2098081642edf32e5211b7ab53563929a47f250bcdc1d7c",
+        "RepoTags": [
+            "redis:latest"
+        ],
+        "RepoDigests": [
+            "redis@sha256:399a9b17b8522e24fbe2fd3b42474d4bb668d3994153c4b5d38c3dafd5903e32"
+        ],
+        "Parent": "",
+        "Comment": "",
+        "Created": "2020-05-02T01:40:19.112130797Z",
+        "Container": "d30c0bcea88561bc5139821227d2199bb027eeba9083f90c701891b4affce3bc",
+        "ContainerConfig": {
+            "Hostname": "d30c0bcea885",
+            "Domainname": "",
+            "User": "",
+            "AttachStdin": false,
+            "AttachStdout": false,
+            "AttachStderr": false,
+            "ExposedPorts": {
+                "6379/tcp": {}
+            },
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                "GOSU_VERSION=1.12",
+                "REDIS_VERSION=6.0.1",
+                "REDIS_DOWNLOAD_URL=http://download.redis.io/releases/redis-6.0.1.tar.gz",
+                "REDIS_DOWNLOAD_SHA=b8756e430479edc162ba9c44dc89ac394316cd482f2dc6b91bcd5fe12593f273"
+            ],
+            "Cmd": [
+                "/bin/sh",
+                "-c",
+                "#(nop) ",
+                "CMD [\"redis-server\"]"
+            ],
+            "ArgsEscaped": true,
+            "Image": "sha256:704c602fa36f41a6d2d08e49bd2319ccd6915418f545c838416318b3c29811e0",
+            "Volumes": {
+                "/data": {}
+            },
+            "WorkingDir": "/data",
+            "Entrypoint": [
+                "docker-entrypoint.sh"
+            ],
+            "OnBuild": null,
+            "Labels": {}
+        },
+        "DockerVersion": "18.09.7",
+        "Author": "",
+        "Config": {
+            "Hostname": "",
+            "Domainname": "",
+            "User": "",
+            "AttachStdin": false,
+            "AttachStdout": false,
+            "AttachStderr": false,
+            "ExposedPorts": {
+                "6379/tcp": {}
+            },
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                "GOSU_VERSION=1.12",
+                "REDIS_VERSION=6.0.1",
+                "REDIS_DOWNLOAD_URL=http://download.redis.io/releases/redis-6.0.1.tar.gz",
+                "REDIS_DOWNLOAD_SHA=b8756e430479edc162ba9c44dc89ac394316cd482f2dc6b91bcd5fe12593f273"
+            ],
+            "Cmd": [
+                "redis-server"
+            ],
+            "ArgsEscaped": true,
+            "Image": "sha256:704c602fa36f41a6d2d08e49bd2319ccd6915418f545c838416318b3c29811e0",
+            "Volumes": {
+                "/data": {}
+            },
+            "WorkingDir": "/data",
+            "Entrypoint": [
+                "docker-entrypoint.sh"
+            ],
+            "OnBuild": null,
+            "Labels": null
+        },
+        "Architecture": "amd64",
+        "Os": "linux",
+        "Size": 104101893,
+        "VirtualSize": 104101893,
+        "GraphDriver": {
+            "Data": {
+                "LowerDir": "/var/lib/docker/overlay2/adea96bbe6518657dc2d4c6331a807eea70567144abda686588ef6c3bb0d778a/diff:/var/lib/docker/overlay2/66abd822d34dc6446e6bebe73721dfd1dc497c2c8063c43ffb8cf8140e2caeb6/diff:/var/lib/docker/overlay2/d19d24fb6a24801c5fa639c1d979d19f3f17196b3c6dde96d3b69cd2ad07ba8a/diff:/var/lib/docker/overlay2/a1e95aae5e09ca6df4f71b542c86c677b884f5280c1d3e3a1111b13644b221f9/diff:/var/lib/docker/overlay2/cd90f7a9cd0227c1db29ea992e889e4e6af057d9ab2835dd18a67a019c18bab4/diff",
+                "MergedDir": "/var/lib/docker/overlay2/afa1de233453b60686a3847854624ef191d7bc317fb01e015b4f06671139fb11/merged",
+                "UpperDir": "/var/lib/docker/overlay2/afa1de233453b60686a3847854624ef191d7bc317fb01e015b4f06671139fb11/diff",
+                "WorkDir": "/var/lib/docker/overlay2/afa1de233453b60686a3847854624ef191d7bc317fb01e015b4f06671139fb11/work"
+            },
+            "Name": "overlay2"
+        },
+        "RootFS": {
+            "Type": "layers",
+            "Layers": [
+                "sha256:c2adabaecedbda0af72b153c6499a0555f3a769d52370469d8f6bd6328af9b13",
+                "sha256:744315296a49be711c312dfa1b3a80516116f78c437367ff0bc678da1123e990",
+                "sha256:379ef5d5cb402a5538413d7285b21aa58a560882d15f1f553f7868dc4b66afa8",
+                "sha256:d00fd460effb7b066760f97447c071492d471c5176d05b8af1751806a1f905f8",
+                "sha256:4d0c196331523cfed7bf5bafd616ecb3855256838d850b6f3d5fba911f6c4123",
+                "sha256:98b4a6242af2536383425ba2d6de033a510e049d9ca07ff501b95052da76e894"
+            ]
+        },
+        "Metadata": {
+            "LastTagTime": "0001-01-01T00:00:00Z"
+        }
+    }
+]
+```
+
+![image-20211105150859797](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211105150859797.png)
+
+**问题：这些已下载的层是如何记录的呢？**
+
+**理解：**
+
+所有的 Docker镜像都起始于一个基础镜像层，当进行修改或培加新的内容时，就会在当前镜像层之上，创建新的镜像层。
+
+举一个简单的例子，假如基于 Ubuntu Linux16.04创建一个新的镜像，这就是新镜像的第一层；如果在该镜像中添加 Python包，
+就会在基础镜像层之上创建第二个镜像层；如果继续添加一个安全补丁，就会创健第三个镜像层该像当前已经包含3个镜像层，如下图所示（这只是一个用于演示的很简单的例子）。
+
+我们如果再加一个jdk，那么上面就会为我们再加一个第四层
+
+![image-20211105144909349](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211105144909349.png)
+
+在添加额外的镜像层的同时，镜像始终保持是当前所有镜像的组合，理解这一点非常重要。下图中举了一个简单的例子，每个镜像层包含3个文件，而镜像包含了来自两个镜像层的**6个文件。**
+
+![image-20211105144937051](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211105144937051.png)
+
+上图中的镜像层跟之前图中的略有区別，主要目的是便于展示文件
+
+下图中展示了一个稍微复杂的三层镜像，在外部看来整个镜像只有6个文件，这是因为最上层中的文件7是文件5的一个更新版
+
+![image-20211105152143766](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211105152143766.png)
+
+文种情況下，上层镜像层中的文件覆盖了底层镜像层中的文件。这样就使得文件的更新版本作为一个新镜像层添加到镜像当中
+
+Docker通过存储引擎（新版本采用快照机制）的方式来实现镜像层堆栈，并保证多镜像层对外展示为统一的文件系统
+
+Linux上可用的存储引撃有AUFS、 Overlay2、 Device Mapper、Btrfs以及ZFS。顾名思义，每种存储引擎都基于 Linux中对应的
+件系统或者块设备技术，井且每种存储引擎都有其独有的性能特点。
+
+Docker在 Windows上仅支持 windowsfilter 一种存储引擎，该引擎基于NTFS文件系统之上实现了分层和CoW [1]。
+
+下图展示了与系统显示相同的三层镜像。所有镜像层堆并合井，对外提供统一的视图
+![image-20211105145054358](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211105145054358.png)
+
+**特点**
+
+Docker 镜像都是只读的，当容器启动时，一个新的可写层加载到镜像的顶部！
+
+这一层就是我们通常说的容器层，容器之下的都叫镜像层！
+
+![image-20211105145127770](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211105145127770.png)
+
+理解：我们pull下来一个镜像之后，假如这个镜像有6层，这6层都是只可读的，并不能修改。当我们运行这个镜像的容器时，我们就可以对它进行操作了，但是我们的操作，都是在这六层之上的容器层（那六层是不会变得），我们操作之后，如果想把我们操作后的容器发给他人，我们可以直接将这7层打包成一个镜像，然后发给别人。
+
+![image-20211106085056268](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211106085056268.png)
+
+## **commit镜像**
+
+```shell
+docker commit 提交容器成为一个新的副本
+ 
+# 命令和git原理类似
+docker commit -m="描述信息" -a="作者" 容器id 目标镜像名:[TAG]
+```
+
+实战检测
+
+我们下载tomcat时，运行成功后会出现404，原因时tomcat里面的webapps下面没有任何内容，需要把web apps.dist下的文件拷贝到webapps中。我们可以生成一个这样的镜像，webapps里面包含了启动tomcat的内容，我们再次使用直接创建这个镜像的容器就行，而不需要再从webapps.dist中复制。
+
+```shell
+# 1、启动一个默认的tomcat
+docker run -d -p 8080:8080 tomcat
+
+# 2、发现这个默认的tomcat 是没有webapps应用，官方的镜像默认webapps下面是没有文件的！
+docker exec -it 容器id
+
+# 3、拷贝文件进去
+cp -r webapps.dist/* webapps
+ 
+# 4、将操作过的容器通过commit调教为一个镜像！我们以后就使用我们修改过的镜像即可，这就是我们自己的一个修改的镜像。
+docker commit -m="描述信息" -a="作者" 容器id 目标镜像名:[TAG]
+docker commit -m "tomcat add webapp app" -a "zhq"  8ca6316887f1 tomcat10:1.0
+
+```
+
+如果你想要保存当前容器的状态，就可以通过commit来提交，获得一个镜像，就好比我们我们使用虚拟机的快照。
+
+![image-20211105154619509](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211105154619509.png)
+
+# Docker数据卷
+
+## 问题
+
+**docker的理念回顾**
+
+将应用和环境打包成一个镜像！
+
+数据？如果数据都在容器中，那么我们**容器删除，数据就会丢失**！**需求：数据可以持久化**
+
+MySQL，容器删除了，删库跑路！**需求：MySQL数据可以存储在本地！**
+
+容器之间可以有一个数据共享的技术！**Docker容器中产生的数据，同步到本地！**
+
+这就是卷技术！**目录的挂载，将我们容器内的目录，挂载到Linux上面**！
+![image-20211105161130440](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211105161130440.png)
+
+**总结一句话：容器的持久化和同步操作！容器间也是可以数据共享的！**
+
+## 使用数据卷
+
+使用方式：直接使用容器挂在 -v
+
+```shell
+
+-v, --volume list                    Bind mount a volume
+ 
+docker run -it -v 主机目录:容器内目录  -p 主机端口:容器内端口
+将主机的host下的home下的cesh文件与docker容器中的home目录绑定
+docker run -it -v /home/ceshi:/home centos /bin/bash
+```
+
+要求：将本机home文件下的test目录与centosdocker镜像中home目录绑定
+
+1. 下载centos镜像 docker pull centos
+2. 运行镜像 docker run -it centos /bin/bash
+3. 在home目录下创建文件testdata.java： touch testdata.java
+4. 退出容器： exit
+5. 进行目录映射：docker run -it -v /home/test:/home centos /bin/bash
+   1. 查看绑定：docker inspect 容器号
+   2. ![image-20211105164854893](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211105164854893.png)
+6. 在本机中出现目录test，修改文件:vim testdata.java
+   1. ![image-20211105164600735](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211105164600735.png)
+   2. ![image-20211105164648438](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211105164648438.png)
+7. 进入容器中查看效果，发现容器中testdata.java的内容和主机一致。
+   1. ![image-20211105164724603](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211105164724603.png)
+
+我们双向绑定后，其中一方进行修改，另一方也会跟着修改。并且，就算停止容器，本机修改后，容器再次启动时也会是最新的数据。可以理解成本机和docker容器共同指向了一个地址。
+
+## 实战：挂载mysql
+
+创建容器时，直接进行挂载
+
+1. docker pull mysql:5.7
+
+1. docker run -d -p 3307:3306 -v /home/mysql/conf:/etc/mysql/conf.d -v /home/mysql/data:/var/lib/mysql -r MYSQL_ROOT_PASSWORD=123456 --name mysql01 mysql:5.7
+   1. /etc/mysql/conf.d  mysql的相关配置文件
+      1. ![image-20211105195852199](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211105195852199.png)
+   2. /var/lib/mysql    mysql存储的表信息
+      1. ![image-20211105195810894](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211105195810894.png)
+2. 此时我们删除容器，容器中的表以及配置信息都还是有的。
+
+## 具名挂载和匿名挂载
+
+``` shell
+# 匿名挂载   没有指定挂载卷的名称和宿主机的挂载路径
+-v 容器内路径!   
+docker run -d -P --name nginx01 -v /etc/nginx nginx
+ 
+# 查看所有的volume（数据卷）的情况
+➜  ~ docker volume ls    
+DRIVER              VOLUME NAME
+local               33ae588fae6d34f511a769948f0d3d123c9d45c442ac7728cb85599c2657e50d
+local            
+# 这里发现，这种就是匿名挂载，我们在 -v只写了容器内的路径，没有写容器外的路劲！
+ 
+# 具名挂载     指定了挂在卷名称juming-nigix，但是没有主机路径
+➜  ~ docker run -d -P --name nginx02 -v juming-nginx:/etc/nginx nginx
+➜  ~ docker volume ls                  
+DRIVER              VOLUME NAME
+local               juming-nginx
+ 
+# 通过 -v 卷名：容器内路径
+# 查看一下这个卷
+
+# 三种挂载： 匿名挂载、具名挂载、指定路径挂载
+-v 容器内路径			#匿名挂载
+-v 卷名：容器内路径		#具名挂载
+-v /宿主机路径：容器内路径 #指定路径挂载 docker volume ls 是查看不到的
+```
+
+**具名挂载的卷信息**
+
+![image-20211105205808350](C:\Users\DELL\AppData\Roaming\Typora\typora-user-images\image-20211105205808350.png)
+
+所有的docker容器内的卷，没有指定目录的情况下都是在`/var/lib/docker/volumes/xxxx/_data`下
+如果指定了目录，docker volume ls 是查看不到的
+
+![image-20211105205920686](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211105205920686.png)
+
+## 挂载权限设置
+
+```shell
+# 通过 -v 容器内路径： ro rw 改变读写权限
+ro #readonly 只读
+rw #readwrite 可读可写  （默认）
+docker run -d -P --name nginx05 -v juming:/etc/nginx:ro nginx
+docker run -d -P --name nginx05 -v juming:/etc/nginx:rw nginx
+ 
+# ro 只要看到ro就说明这个路径只能通过宿主机来操作，容器内部是无法操作！
+```
+
+## 数据卷之DockerFile
+
+DockerFile用于构建docker镜像的够建文件。是命令脚本！
+
+**创建步骤：**
+
+1. 创建一个dockerfile文件。名字随机，建议dockerfile
+2. 文件中的内容 指令（大写）
+3. 每个命令都是一层
+
+**镜像脚本**
+
+```shell
+FROM centos
+
+VOLUME [ "volume01","volume02"]
+
+CMD echo "----end----"
+CMD /bin/bash
+
+```
+
+1. FROM centos 以centos为基础
+2. VOLUME ["volume01","volume02"]在生成的时候就挂载卷
+3. CMD echo "----end-----"   够建完给我们发的消息 ----end-----
+4. CMD /bin/bash   构建完默认走/bin/bash 控制台
+
+**生成镜像**
+
+docker build -f /home/docker-test-volume/dockerfile1 -t kuangshen/centos .
+
+​                                       镜像脚本地址                                                       镜像名       .表示在当前路径下
+
+```shell
+[root@ZHQ docker-test-volume]# docker build -f /home/docker-test-volume/dockerfile1 -t kuangshen/centos .
+Sending build context to Docker daemon 2.048 kB
+Step 1/4 : FROM centos   
+ ---> 5d0da3dc9764      #  生成镜像
+Step 2/4 : VOLUME volume01 volume02
+ ---> Running in 0593446e65a0
+ ---> 4fdb7fac091d       # 进行挂载
+Removing intermediate container 0593446e65a0
+Step 3/4 : CMD echo "----end----"
+ ---> Running in d9e9d1d5870f
+ ---> ae6f9bdab4ff
+Removing intermediate container d9e9d1d5870f
+Step 4/4 : CMD /bin/bash   
+ ---> Running in 6d2d2330b36e
+ ---> 4d563c27c3ed
+Removing intermediate container 6d2d2330b36e
+Successfully built 4d563c27c3ed
+
+```
+
+此时已经生成我们自己的镜像
+
+![image-20211105214302489](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211105214302489.png)
+
+**启动我们自己的容器**
+
+ docker run -it  4d563c27c3ed /bin/bash
+
+![image-20211105215558738](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211105215558738.png)
+
+volume01和volume02我们创建时只指定了容器内路径，因此是匿名挂载。
+
+查看容器信息：docker inspect optimistic_sammet
+
+![image-20211105220523164](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211105220523164.png)
+
+我们在volume01这个文件夹创建一个文件
+
+```shell
+[root@bb20967099d9 /]# cd volume01
+[root@bb20967099d9 volume01]# touch test.java
+[root@bb20967099d9 volume01]# ls
+test.java
+```
+
+查看宿主机的挂载目录
+
+![image-20211105220856340](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211105220856340.png)
+
+这是我们之后经常使用的方式。
+
+假设构建镜像时我们没有挂载卷，那么我们创建容器的时候需要手动镜像挂载  -v 卷名：容器内路径！
+
+## 数据卷容器
+
+容器内数据共享，多个容器之间数据同步。如多个mysql同步数据。
+
+![image-20211105221452771](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211105221452771.png)
+
+利用一个父容器，去给别的容器共享数据。
+
+``` shell
+# 创建docker01为父容器
+docker run -it --name docker01 kuangshen/centos
+# 创建docker02为子容器，继承docker01
+docker run -it --name docker02 --volumes-from docker01 kuangshen/centos
+# 创建docker03为子容器，继承docker01
+docker run -it --name docker03 --volumes-from docker01 kuangshen/centos
+# 在docker01下的volume的文件夹下创建docker01file
+ touch docker01file
+# 发现docker02和docker03中都包含此文件
+```
+
+**说明：**在宿主机中，docker01-03有一个共同的文件存储空间，他们之间实现了数据共享，即使退出或者删除某个容器，这些共享数据还是存储的。如果删除宿主机下的这个文件，那么这些绑定的数据也将消失。
+
+数据卷操作：
+
+1. 查看所有数据卷
+   1. 方式一：docker volume ls
+   2. 方式二：进入指定文件夹查看![image-20211106082742835](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211106082742835.png)
+2. 查看所有不在使用的数据卷，使用--filter dangling=true 过滤 不在使用的数据卷
+   1. docker volume ls --filter dangling=true
+3. 创建一个数据卷，可以设置，--name，--path，--mode。 也可以不用
+   1. 拥有一切自动生成的参数: docker volume create
+4. 删除数据卷
+   1. docker volume rm 数据卷名称
+5. 删除所有数据卷
+   1. docker volume ls --filter dangling=true | grep local |awk '{print $2}'|xargs docker volume rm
+   2. 注意：正在使用的不能删除
+      1. Error response from daemon: Unable to remove volume, **volume still in use:** remove 02fdaf3c2190237871d79e86f30df34a00a8d1bf67322c01313b241cc0ece207: volume is in use - [75ee5c98a2b9e67f25d41d8465474dbd25a0a82ec2a05b3a5b368fa79e533c6d]
+
+## 数据库同步
+
+```shell
+docker run -d -p 3310:3306 -v /etc/mysql/conf.d -v var/lib/mysql --name mysql01 -e MYSQL_ROOT_PASSWORD=123456 mysql:5.7
+
+docker run -d -p 3311:3306 -e MYSQL_ROOT_PASSWORD=123456 --name mysql02 --volumes-from mysql01 mysql:5.7
+
+注意：两个数据库的端口号不一样。
+```
+
+# DockerFile
+
+dockerfile是用来构建docker镜像！是命令参数脚本！
+
+构建步骤：
+
+1. 编写一个dockerfile文件
+2. docker build 构建成一个镜像
+3. docker run 运行镜像
+4. docker push 发布镜像（DockerHub，阿里云镜像仓库）
+
+**官方dockerfile**
+
+![img](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/20200813141504113.png)
+
+![在这里插入图片描述](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/20200813141235209.png)
+
+很多官方镜像都像是基础包，很多功能都不具备，我们通常会自己搭建自己的镜像！
+
+官方既然可以制作镜像，能我们一样可以！
+
+我们可以自己制作一个镜像，centos+mysql+jdk+redis等等
+
+## DockerFile的构建过程
+
+**基础知识：**
+
+1. 每个保留关键字（指令）都是必须大写字母
+2. 执行从上到下顺序执行
+3. `#` 表示注释
+4. 每个指令都会创建提交一个新的镜像层，并提交！
+
+![image-20211106085056268](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211106085056268.png)
+
+dockerFile是面向开发的， 我们以后要发布项目， 做镜像， 就需要编写dockefile文件， 这个文件十分简单！
+
+Docker镜像逐渐成为企业的交互标准，必须要掌握！
+
+步骤：开发，部署， 运维..... 缺一不可！
+
+DockerFile： 构建文件， 定义了一切的步骤，源代码
+
+DockerImages： 通过DockerFile构建生成的镜像， 最终发布和运行的产品！
+
+Docker容器：容器就是镜像运行起来提供服务器
+
+## DockerFile指令
+
+![img](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/20200813144806291.png)
+
+```shell
+FROM            # 基础镜像，一切从这里开始构建
+MAINTAINER      # 镜像是谁写的， 姓名+邮箱
+RUN             # 镜像构建的时候需要运行的命令
+ADD             # 步骤， tomcat镜像， 这个tomcat压缩包！添加内容
+WORKDIR         # 镜像的工作目录
+VOLUME          # 挂载的目录
+EXPOSE          # 保留端口配置
+CMD             # 指定这个容器启动的时候要运行的命令，只有最后一个会生效可被替代
+ENTRYPOINT      # 指定这个容器启动的时候要运行的命令， 可以追加命令
+ONBUILD         # 当构建一个被继承DockerFile 这个时候就会运行 ONBUILD 的指令，触发指令
+COPY            # 类似ADD, 将我们文件拷贝到镜像中
+ENV             # 构建的时候设置环境变量！
+```
+
+## 创建一个自己的centos
+
+1. 在home目录下创建dockerfile1文件
+
+2. 编写脚本内容：安装一个centos，包含一些常用指令。
+
+   1. ```shell
+      # 编写dockerfile文件
+      # 编写dockerfile文件
+      #基础镜像
+      FROM centos
+      # 作者信息
+      MAINTAINER zhq<1427421650@qq.com>
+      # 构建时创建的环境变量  MYPATH 启动时默认访问的目录
+      ENV MYPATH /user/local
+      # 镜像的工作目录
+      WORKDIR $MYPATH
+      
+      # 安装常用指令
+      RUN yum -y install vim
+      RUN yum -y install net-tools
+      
+      # 暴露80端口
+      EXPOSE 80
+      CMD echo $MYPATH
+      CMD echo "----end----"
+      CMD /bin/bash
+      
+      ```
+
+3. 运行脚本：docker build -f dockerfile1 -t zhq/centos .
+
+   1. ![image-20211106093717750](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211106093717750.png)
+   2. ![](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211106093748008.png)
+   3. 通过安装流程我们发现，我们一共10条指令，就分成了10层进行下载。
+
+4. 镜像下载完成
+
+   1. ![image-20211106094010014](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211106094010014.png)
+
+5. 创建镜像的容器并运行 
+   1. docker run -it zhq/centos
+   2. ![image-20211106094631204](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211106094631204.png)
+
+6. 安装完毕
+
+## 查看镜像历史
+
+可以看到镜像的构建过程。
+
+步骤：
+
+1. docker images
+2. docker history 镜像id
+3. ![image-20211106094947966](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211106094947966.png)
+
+## CMD和ENTRYPOINT区别
+
+CMD					# 指定这个容器启动的时候要运行的命令，只有最后一个会生效，可被替代。
+ENTRYPOINT			# 指定这个容器启动的时候要运行的命令，可以追加命令
+
+**测试CMD**
+
+```shell
+# 编写dockerfile文件
+$ vim dockerfile-test-cmd
+FROM centos
+CMD ["ls","-a"]
+# 构建镜像
+$ docker build  -f dockerfile-test-cmd -t cmd-test:0.1 .
+# 运行镜像
+$ docker run cmd-test:0.1
+.
+..
+.dockerenv
+bin
+dev
+
+# 想追加一个命令  -l 成为ls -al
+$ docker run cmd-test:0.1 -l
+docker: Error response from daemon: OCI runtime create failed: container_linux.go:349: starting container process caused "exec: \"-l\":
+ executable file not found in $PATH": unknown.
+ERRO[0000] error waiting for container: context canceled 
+# cmd的情况下 -l 替换了CMD["ls","-l"]。 -l  不是命令所有报错
+
+```
+
+**测试ENTRYPOINT**
+
+```shell
+# 编写dockerfile文件
+$ vim dockerfile-test-entrypoint
+FROM centos
+ENTRYPOINT ["ls","-a"]
+# 构建镜像
+$ docker build  -f dockerfile-test-entrypoint -t entrypoint-test:0.1
+$ docker run entrypoint-test:0.1
+.
+..
+.dockerenv
+bin
+dev
+etc
+home
+lib
+lib64
+lost+found ...
+# 我们的命令，是直接拼接在我们得ENTRYPOINT命令后面的
+$ docker run entrypoint-test:0.1 -l
+total 56
+drwxr-xr-x   1 root root 4096 May 16 06:32 .
+drwxr-xr-x   1 root root 4096 May 16 06:32 ..
+-rwxr-xr-x   1 root root    0 May 16 06:32 .dockerenv
+lrwxrwxrwx   1 root root    7 May 11  2019 bin -> usr/bin
+drwxr-xr-x   5 root root  340 May 16 06:32 dev
+drwxr-xr-x   1 root root 4096 May 16 06:32 etc
+drwxr-xr-x   2 root root 4096 May 11  2019 home
+lrwxrwxrwx   1 root root    7 May 11  2019 lib -> usr/lib
+lrwxrwxrwx   1 root root    9 May 11  2019 lib64 -> usr/lib64 ....
+
+```
+
+## 实战：Tomcat镜像
+
+### **操作步骤**
+
+1. 准备镜像文件 tomcat压缩包（需要jdk环境），jdk压缩包
+
+2. 进入/home/zhq/tomcat
+
+3. 将上述两个压缩包上传到该目录下
+
+   1. 上传文件：
+      1. 方式1：**lrzsz方式上传文件**
+         1. 安装lrzsz包：yum install -y lrzsz
+         2. 上传文件：rz
+   2. ![image-20211106113131214](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211106113131214.png)
+
+4. 创建readme.txt说明文档:rouch readme.txt
+
+5. 创建DockerFile脚本: vim Dockerfile
+
+   1. Dockerfile是官方命名，我们也可以自定义，通常使用官方命名即可
+
+      ```shell
+      FROM centos
+      MAINTAINER zhq<1427421650@qq.com>
+      
+      # 拷贝文件  将当前目录下的readme.txt文件拷贝到容器中/usr/local目录
+      COPY readme.txt /usr/local/readme.txt
+      
+      # 将压缩包添加到容器中/usr/local目录 (通过ADD 会自动解压我们的压缩包)
+      ADD apache-tomcat-8.5.72.tar.gz /usr/local/
+      ADD jdk-8u181-linux-x64.tar.gz /usr/local/
+      
+      # 安装vim
+      
+      RUN yum -y install vim
+      
+      # 进入容器，默认走到/usr/local目录
+      ENV MYPATH /usr/local
+      # 工作目录
+      WORKDIR  /usr/local
+      
+      # 配置java环境变量
+      ENV JAVA_HOME /usr/local/jdk1.8.0_181
+      ENV CLASSPATH $JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+      # tomcat配置
+      ENV CATALINA_HOME /usr/local/apache-tomcat-8.5.72
+      ENV CATALINA_BASH /usr/local/apache-tomcat-8.5.72
+      # path配置
+      ENV PATH $PATH:$JAVA_HOME/bin:$CATALINA_HOME/lib:$CATALINA_HOME/bin
+      
+      # 暴漏tomcat的8080端口
+      EXPOSE 8080
+      
+      # 启动容器时，就执行tomcat
+      CMD /usr/local/apache-tomcat-8.5.72/bin/startup.sh && tail -F /usr/local/apache-tomcat-8.5.72/bin/logs/catalina.out
+      ```
+
+6. 创建镜像： docker build -t mytomcat .    
+
+   1. 因为我们dockerfile使用的是官方命名Dockerfile，所以构建镜像时会自动读取dockerfile，不需要指定脚本名称（非官方名称运行：$ docker build  -f dockerfile-test-entrypoint -t entrypoint-test:0.1）
+   2. ![image-20211106120523141](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211106120523141.png)
+   3. ![image-20211106120622484](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211106120622484.png)
+
+7. 创建容器
+
+   1. docker run -d -p 8080:8080 --name tomcat01 -v /home/zhq/tomcat/test:/usr/local/apache-tomcat-8.5.72/webapps/test -v /home/zhq/tomcat/tomcatlogs/:/usr/local/apache-tomcat-8.5.72/logs mytomcat
+   2. ![image-20211106151119042](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211106151119042.png)
+   3. curl localhost:8080 成功访问到tomcat页面
+
+8. 发布项目
+
+   1. 在test目录下创建一个WEB-INF目录，并写一个web.xml文件放入里面
+
+      1. ```java
+         <web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+                               http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+           version="3.1"
+           metadata-complete="true">
+         
+           <display-name>Welcome to Tomcat</display-name>
+           <description>
+              Welcome to Tomcat
+           </description>
+         <welcome-file-list>
+          <welcome-file>index2.jsp</welcome-file>
+           <welcome-file>index.jsp</welcome-file>
+         </welcome-file-list>
+         </web-app>
+         
+         ```
+
+   2. 在test目录下写一个index.jsp文件进行访问
+
+      1. ```java
+         <%@ page language="java" contentType="text/html; charset=UTF-8"
+             pageEncoding="UTF-8"%>
+         <html>
+         <head>
+         <title>life.jsp</title>
+         </head>
+         <body>
+         
+         <h1>Hello Tomcat</h1>
+         
+         </body>
+         </html>
+         ```
+
+   3. 进行访问
+
+      1. ![image-20211106152744665](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211106152744665.png)
+
+      2. 查看日志
+
+         1. cat catalina.out
+
+         2. ```java
+            [root@ZHQ tomcat]# cd test
+            [root@ZHQ test]# ls
+            index.jsp  WEB-INF
+            [root@ZHQ test]# cd ../
+            [root@ZHQ tomcat]# cd tomcatlogs
+            [root@ZHQ tomcatlogs]# ls
+            catalina.2021-11-06.log  host-manager.2021-11-06.log  localhost_access_log.2021-11-06.txt
+            catalina.out             localhost.2021-11-06.log     manager.2021-11-06.log
+            [root@ZHQ tomcatlogs]# cat catalina.out
+            06-Nov-2021 04:56:06.194 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version name:   Apache Tomcat/8.5.72
+            ```
+
+### 发布镜像到dockerhub
+
+### 发布镜像到阿里云
+
+https://www.bilibili.com/video/BV1og4y1q7M4?p=31
+
+## 小结
+
+![image-20200516171155667](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL2NoZW5nY29kZXgvY2xvdWRpbWcvbWFzdGVyL2ltZy9pbWFnZS0yMDIwMDUxNjE3MTE1NTY2Ny5wbmc?x-oss-process=image/format,png)
+
 # 问题汇总
 
 ## 1. docker卸载后，镜像还存在
@@ -854,6 +1709,36 @@ mysql> exit
 
 ## 3. mysql安装后，外部无法访问
 
+docker run -d --name mysql01 -e MYSQL_ROOT_PASSWORD=121156   -p 3366:3366 mysql
+
+1. 出现问题，nativecat连接mysql一直报错。
+   1. 原因：我是用的端口映射是3366:3366，外部端口3366没有问题，但是容器内部端口3366并不是mysql的默认端口，mysql的默认端口是3306，所以就需要修改mysql的默认端口。
+   2. 修改方式：[docker安装mysql后如何修改默认端口_aaa6202341的博客-CSDN博客](https://blog.csdn.net/aaa6202341/article/details/107415723)
+
+## 4. ls ls-a ls -l  ls -al区别
+
+1. ls 查看所有未隐藏命令
+2. ls -a 查看所有命令
+3. ls -l 查看所有未隐藏命令以及 他们的信息（创建时间等）
+4. ls -al 查看所有命令以及他们的信息
+
+## 5. 容器启动闪退问题
+
+有时候，当我们docker run -d 容器时，docker ps -a 显示这个容器闪退。主要原因是：当我们使用docker run -d启动容器时，-d设置的是后台运行，如果后台运行的话，容器中的服务要保证开启，否则的话docker就会认为该容器没有运行，就会关掉该容器。
+
+我们使用mysql进行测试
+
+1. docker run -d --name mysql01 -e MYSQL_ROOT_PASSWORD=121156   -p 3306:3306 mysql
+2. docker exec -it mysql01 /bash/bin
+3. mysql -u root -p  并输入密码,此时我们就进入了数据库中。说明我们创建docker容器时，mysql服务就已经自动开启了。
+4. 此时我们停掉mysql服务（注意，是停掉mysql服务，并不是docker容器）
+5. 停止指令：mysqladmin -uroot -p shutdown
+   Enter password: 
+6. 此时我们使用docker ps会发现，mysql所在的容器docker01 已经被自动停止掉了（我们并没有手动关闭docker，而是关闭了docker中的mysql服务）。
+   1. 问题：此时我如果重新启动docker容器，会显示启动失败，原因是需要设置密码。
+      1. 针对问题，目前没有找到启动原容器的方案，重新docker run 一下。
+   2. 如果是自定义的dockerfile出现上述问题，可能是dockerfile中的启动命令有误。
+
 
 
 # 常用命令
@@ -862,6 +1747,19 @@ mysql> exit
 
    1. 系统内核：uname -r
    2. 系统版本：cat /etc/os-release
+   3. 当前目录：pwd
+   4. 创建目录：mkdir 文件夹名
+   5. 删除目录：rmdir  文件夹名
+   6. 创建文件：touch 文件名
+   7. 查看文件：cat 文件名称
+   8. 创建/修改文件：vim 文件名称
+   9. 将一个名为abc的文件重命名为1234：mv abc 1234
+   10. 上传文件：
+       1. 方式1：**lrzsz方式上传文件**
+          1. 安装lrzsz包：yum install -y lrzsz
+          2. 上传文件：rz
+       2. 方式2：**ftp方式上传文件**
+          1. https://www.linuxprobe.com/windows-linux-ftp.html
 
 2. docker命令
 
@@ -896,12 +1794,26 @@ mysql> exit
       1. 开机启动docker：systemctl  enable docker
       2. 启动docker：systemctl start docker
       3. 停止docker：systemctl stop docker
+      4. 创建容器：
+      5. 进入容器：
+      6. 启动容器：docker start 容器名称
+      7. 关闭容器：docker stop 容器名称
+      8. 退出容器（后台运行）：ctrl+p+q
+      9. 退出容器（退出并关闭）：exit
+      10. 
 
    4. 查看指令
 
       1. 查看已下载的docker镜像：docker images
       2. 搜索镜像：docker search mysql/redis
-      3. 
+
+   5. 指令后缀
+
+      1. -d 后台运行
+      2. -p 端口映射
+      3. -P  随机端口映射（大写P）
+      4. -v 卷挂载
+      5. -e 环境配置
 
 1. 
 
