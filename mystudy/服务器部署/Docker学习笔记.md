@@ -14,6 +14,8 @@ docker教程：[docker教程_docker使用快速入门-php中文网](https://www.
 
 docker容器常见故障：https://blog.csdn.net/qq_41958579/article/details/107927140
 
+学习规划(https://www.processon.com/mindmap/61872e0b0791293fb6c57d95)](https://www.processon.com/mindmap/61872e0b0791293fb6c57d95)
+
 # 学习内容
 
 1. Docker概述
@@ -835,7 +837,7 @@ mysql> exit
 
 ```
 
-## Docker安装ES和kibana
+## Docker安装ES和kibana（未学）
 
 [【狂神说Java】Docker最新超详细版教程通俗易懂_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1og4y1q7M4?p=16)
 
@@ -1695,6 +1697,350 @@ https://www.bilibili.com/video/BV1og4y1q7M4?p=31
 
 ![image-20200516171155667](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL2NoZW5nY29kZXgvY2xvdWRpbWcvbWFzdGVyL2ltZy9pbWFnZS0yMDIwMDUxNjE3MTE1NTY2Ny5wbmc?x-oss-process=image/format,png)
 
+# Docker网络
+
+## Docker0
+
+```shell
+# 删除全部容器
+$ docker rm -f $(docker ps -aq)
+
+# 删除全部镜像
+$ docker rmi -f $(docker images -aq)
+```
+
+
+
+![image-20211106164701814](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211106164701814.png)
+
+**问题1：docker是如何处理容器网络的访问的？**
+
+![image-20211106164745082](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211106164745082.png)
+
+1. **运行一个tomcat01**
+
+   1.  docker run -d -P --name tomcat01 mytomcat
+   2. ip addr
+      1. ![image-20211106204310768](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211106204310768.png)
+   3. docker exec tomcat01 ip addr
+      1. ![image-20211106204416241](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211106204416241.png)
+
+2. **运行一个tomcat02**
+
+   1. ip addr
+
+      1. ![](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211106204450873.png)
+
+   2. docker exec tomcat02 ip addr
+
+      1. ![image-20211106204608091](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211106204608091.png)
+
+      2. ```shell
+         # 我们发现这个容器带来网卡，都是一对对的
+         # veth-pair 就是一对的虚拟设备接口，他们都是成对出现的，一端连着协议，一端彼此相连
+         # 正因为有这个特性 veth-pair 充当一个桥梁，连接各种虚拟网络设备的
+         # OpenStac,Docker容器之间的连接，OVS的连接，都是使用evth-pair技术
+         ```
+
+      3. 
+
+   3. 使用主机ping docker1
+
+      1.  ping 172.18.0.3
+      2. ![image-20211106204900631](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211106204900631.png)
+
+   4. 使用docker1 ping docker2
+
+      1.  docker exec -it tomcat01 ping 172.18.0.3
+      2. ![image-20211106204818938](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211106204818938.png)
+      3. 容器与容器之间和容器与主机之间是可以相互ping通的
+
+   5. **网络模型图**：容器与容器之间的通信是通过路由进行的，而非直接通信
+
+      ![img](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL2NoZW5nY29kZXgvY2xvdWRpbWcvbWFzdGVyL2ltZy9pbWFnZS0yMDIwMDUxNjE3NDI0ODYyNi5wbmc?x-oss-process=image/format,png)
+
+   6. 结论：tomcat01和tomcat02公用一个路由器，docker0。所有的容器**不指定网络的情况下，都是docker0路由的**，docker会给我们的容器分配一个默认的可用ip。
+
+Docker使用的是Linux的桥接，宿主机是一个Docker容器的网桥 docker0
+
+![img](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL2NoZW5nY29kZXgvY2xvdWRpbWcvbWFzdGVyL2ltZy9pbWFnZS0yMDIwMDUxNjE3NDcwMTA2My5wbmc?x-oss-process=image/format,png)
+
+Docker中所有网络接口都是虚拟的，虚拟的转发效率高（内网传递文件）
+
+只要容器删除，对应的网桥一对就没了！
+
+![image-20211106211311450](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211106211311450.png)
+
+## 思考：数据库的容器ip切换
+
+**思考一个场景：我们编写了一个微服务，database url=ip: 项目不重启，数据ip换了，我们希望可以处理这个问题，可以通过名字来进行访问容器**？
+
+可以通过link来实现。
+
+**使用名字来连通两个容器**
+
+1. 使用ip地址ping通（见上方笔记）
+2. 使用名字ping通
+   1. 进行ping：docker exec -it tomcat02 ping tomcat01
+      1. 出错：ping: tomcat01: Name or service not known
+   2. 进行link连接
+      1. docker run -d -P --name tomcat03 --link tomcat01 mytomcat
+   3. 进行ping：docker tomcat03 ping tomcat01
+      1. 成功![image-20211106210834378](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211106210834378.png)
+   4. 反向ping（tomcat01  ping  tomcat03）：
+      1. 出错：ping: tomcat01: Name or service not known
+   5. 问题：只可以单向ping
+3. 双向ping通
+   1. 查看我们docker中的网络
+      1. docker network ls
+         1. ![image-20211106212310655](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211106212310655.png)
+      2. 查看docker主机
+         1. docker network inspect 5bc
+         2. ![image-20211106212353673](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211106212353673.png)
+         3. 里面包含他的绑定
+            1. ![image-20211106212426505](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211106212426505.png)
+   2. 查看我们的tomcat03的配置
+      1. docker inspect tomcat03
+         1. ![image-20211106212559455](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211106212559455.png)
+      2. 原理剖析，其实他是在我们docker03的本地的host文件中添加了tomcat01的地址映射
+         1. 进入查看： docker exec -it tomcat03 cat /etc/hosts
+         2. ![image-20211106212801885](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211106212801885.png)
+      3. 我们进入tomcat01进行查看配置
+         1. ![image-20211106212838016](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211106212838016.png)
+         2. 并没有tomcat03的映射。我们可以在其中添加。（没有必要，因为link的方式已经淘汰）
+4. 本质探究：--link 就是我们在hosts配置中增加了一个 172.18.0.2  tomcat01 dca6bd83479e，因此当我们访问tomcat01的时候，就相当于访问ip地址 172.18.0.2  
+5. 因未--link太过麻烦，已经不使用，现在使用自定义网络。不适用docker0
+   1. docker0问题：不支持容器名连接访问。
+
+## 自定义网络
+
+**容器互联：**容器与容器之间进行连接。
+
+查看所有的docker网络：
+
+![image-20211106213413832](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211106213413832.png)
+
+**网络模式**
+
+bridge：桥接（默认，自己创建也是用bridge 模式）
+
+none：不配置网络
+
+host：和宿主机共享网络
+
+container：容器网络联通（容器之间可以直接互联，局限很大，很少用）
+
+**测试**
+
+1. **查看网络的相关命令**
+
+   1. docker network ls
+
+      1. ```java
+         [root@ZHQ tomcat]# docker network ls
+         NETWORK ID          NAME                   DRIVER              SCOPE
+         5bc56f92ce56        bridge                 bridge              local
+         5be40764e6dc        docker_smart_network   bridge              local
+         81f37c0badc9        host                   host                local
+         cf4142c5dd51        none                   null                local
+         
+         ```
+
+2. **创建docker容器**
+
+   1. 使用docker0网络
+
+      ```shell
+      docker run -d -P --name tomcat01 tomcat
+      等价于 => 
+      docker run -d -P --name tomcat01 --net bridge tomcat
+      # 我们直接启动的命令 --net bridge,而这个就是我们得docker0
+      # bridge就是docker0
+      # docker0，特点：默认，域名不能访问。 --link可以打通连接，但是很麻烦！
+      ```
+
+   2. 使用自定义网络
+
+      ```shell
+      # 我们可以 自定义一个网络
+      $ docker network create --driver bridge --subnet 192.168.0.0/16 --gateway 192.168.0.1 mynet
+      --driver 设置连接方式
+      --subnet 子网
+      --gateway 网关
+      mynet 自定义网络名称
+      ```
+
+      1. ![image-20211106223742074](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211106223742074.png)
+
+      2. docker network inspect mynet;
+
+         ![image-20211106223824070](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211106223824070.png)
+
+   3. **使用自定义网络启动tomcat**
+
+      1.  docker run -d -P --name tomcat-net-01 --net mynet mytomcat
+
+      2.  docker run -d -P --name tomcat-net-02 --net mynet mytomcat
+
+      3. 查看  mynetwork
+
+         1. docker network inspect mynet;
+         2. 我们创建的两个容器
+
+         ![image-20211106224240706](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211106224240706.png)
+
+   4. **在自定义网络下，进行容器ping**
+
+      1. docker exec tomcat-net-02 ping tomcat-net-01
+      2. ![image-20211106224351981](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211106224351981.png)
+      3. docker exec tomcat-net-01 ping tomcat-net-02
+         1. ![image-20211106224418925](C:\Users\DELL\AppData\Roaming\Typora\typora-user-images\image-20211106224418925.png)
+      4. 我们发现，容器是可以通过名称互相ping通的。推荐使用。
+
+   5. **好处：**
+
+      1. redis -不同的集群使用不同的网络，保证集群是安全和健康的
+      2. mysql-不同的集群使用不同的网络，保证集群是安全和健康的
+
+   6. 问题：假如我们的mysql服务和redis服务在不同的网络区段下，能否进行相互连接呢？
+
+      1. ![image-20211106224640423](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211106224640423.png)
+      2. 使用网络联通解决。
+
+## 网络联通
+
+1. 在docker0上创建tomcat01,tomcat02，在mynet上创建两个tomcat-net-01,tomcat-net-02
+
+   1. ```shell
+      docker run -d -P --name tomcat01 tomcat
+      docker run -d -P --name tomcat02 tomcat
+      docker run -d -P --name tomcat-net-01 --net mynet mytomcat
+      docker run -d -P --name tomcat-net-02 --net mynet mytomcat
+      ```
+
+2. 让 tomcat01 ping tomcat-net-02
+
+   1. ```shell
+      [root@ZHQ tomcat]# docker exec  tomcat01 ping tomcat-net-01
+      rpc error: code = 2 desc = oci runtime error: exec failed: container_linux.go:235: starting container process caused "exec: \"ping\": executable file not found in $PATH"
+      
+      ```
+
+   2. 失败：两个容器并没有联通。docker0和mynet不在同一个网路区段，不可能联通。
+
+3. 虽然两个网络区段不可能联通，但是却可以让一个容器联通另一个网络区段
+
+   1. 让容器tomcat01联通mynet网络
+
+   2. docker network COMMAND
+
+      1. ```shell
+         Usage:  docker network COMMAND
+         
+         Manage networks
+         
+         Options:
+               --help   Print usage
+         
+         Commands:
+           connect     Connect a container to a network
+           create      Create a network
+           disconnect  Disconnect a container from a network
+           inspect     Display detailed information on one or more networks
+           ls          List networks
+           prune       Remove all unused networks
+           rm          Remove one or more networks
+         
+         Run 'docker network COMMAND --help' for more information on a command.
+         ```
+
+      2. docker network connect --help
+
+         1. ```shell
+            
+            Usage:  docker network connect [OPTIONS] NETWORK CONTAINER
+            
+            Connect a container to a network
+            
+            Options:
+                  --alias stringSlice           Add network-scoped alias for the container
+                  --help                        Print usage
+                  --ip string                   IP Address
+                  --ip6 string                  IPv6 Address
+                  --link list                   Add link to another container (default [])
+                  --link-local-ip stringSlice   Add a link-local address for the container
+            
+            ```
+
+      3. 将mynet 与 tomcat01 联通
+
+         1.  docker network connect mynet tomcat01
+         2. tomcat-net-01  ping  tomcat01
+            1.  docker exec -it tomcat-net-01 ping tomcat01
+            2. ![image-20211107082716468](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211107082716468.png)
+         3. 反向ping  tomcat01 ping tomcat-net-01(不可以)
+            1. docker exec -it tomcat01 ping tomcat-net-01
+            2. ![image-20211107082857606](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211107082857606.png)
+         4. tomcat-net-01  ping  tomcat02（没有联通，所以不行）
+            1.  docker exec -it tomcat-net-01 ping tomcat02
+            2. ![image-20211107083014636](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211107083014636.png)
+
+4. 结论：假设要跨网络操作别人，就需要使用docker network connect 连通！
+
+## 搭建redis集群（未学）
+
+原生redis集群：[【狂神说Java】Redis最新超详细版教程通俗易懂_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1S54y1R7SB?from=search&seid=2994884944114730596&spm_id_from=333.337.0.0)
+
+docker创建集群：[【狂神说Java】Docker最新超详细版教程通俗易懂_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1og4y1q7M4?p=38)
+
+实现（3个主机，3个从机，主机挂掉之后，进行相应的操作可以直接在从机上进行）高可用。
+
+# Docker部署SpringBoot项目
+
+**部署流程**
+
+1. 打包   mvn package
+
+2. 黑窗口运行jar包
+
+   1. 进入到jar包所在目录打开黑窗口
+   2. 执行：java -jar smpe-system-1.0.0-RELEASE.jar
+   3. 成功![image-20211107100443029](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211107100443029.png)
+
+3. 使用docker 部署
+
+   1. /home/zhq/spring
+
+   2. 上传jar包
+
+   3. 运行Dockerfile文件
+
+      ```shell
+      FROM java:8
+      COPY *.jar /app.jar
+      CMD ["--server.port=8080"]
+      EXPOSE 8080
+      ENTRYPOINT ["java","-jar","app.jar"]
+      ```
+
+   4. docker build -t safeedu .
+
+   ![image-20211107101602567](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211107101602567.png)
+
+   5. 此时我们的镜像已经打包完成，之后直接发给别人即可。别人拿到下载即可运行环境。
+
+      ![image-20211107102307336](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211107102307336.png)
+
+   6. docker run -d -P --name safeedu safeedu
+
+   7. 访问成功
+
+      ![image-20211107102221634](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211107102221634.png)
+
+   
+
+
+
 # 问题汇总
 
 ## 1. docker卸载后，镜像还存在
@@ -1782,7 +2128,8 @@ docker run -d --name mysql01 -e MYSQL_ROOT_PASSWORD=121156   -p 3366:3366 mysql
       2. 查看docker版本： docker -v
       3. 删除docker安装包：yum remove docker-ce
       4. 删除静像、容器、配置文件：rm -rf /var/lib/docker
-      5. 卸载docker：[(61条消息) docker 彻底卸载_无恋-zx的博客-CSDN博客_docker卸载干净](https://blog.csdn.net/qq_29726869/article/details/113353315)
+      5. 删除所有容器：docker rm -f $(docker ps -aq)
+      6. 卸载docker：[(61条消息) docker 彻底卸载_无恋-zx的博客-CSDN博客_docker卸载干净](https://blog.csdn.net/qq_29726869/article/details/113353315)
 
    2. 其他命令
 
@@ -1814,6 +2161,8 @@ docker run -d --name mysql01 -e MYSQL_ROOT_PASSWORD=121156   -p 3366:3366 mysql
       3. -P  随机端口映射（大写P）
       4. -v 卷挂载
       5. -e 环境配置
+      
+   6. 获取容器的ip地址：[(60条消息) 如何获取 docker 容器(container)的 ip 地址_sannerlittle的博客-CSDN博客_docker 获取容器ip](https://blog.csdn.net/sannerlittle/article/details/77063800)
 
 1. 
 
