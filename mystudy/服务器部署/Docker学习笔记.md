@@ -193,15 +193,15 @@ docker images
 
 第一步：登陆阿里云，找到容器镜像服务，进入到控制台
 
-​                 ![img](https://qqadapt.qpic.cn/txdocpic/0/1aceba8d36fa54c748bdf2a9e0da2eb9/0?w=1724&h=701)        
+​        ![image-20211107150557255](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211107150557255.png)        
 
 第二步：获取加速器地址
 
-​                 ![img](https://qqadapt.qpic.cn/txdocpic/0/ef1c05d0ef49af08fabe54fc826a267e/0?w=523&h=641)        
+​           ![image-20211107150634403](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211107150634403.png)        
 
 第三步：配置使用
 
-​                 ![img](https://docimg3.docs.qq.com/image/MbUWDxN4kOW8yOrezUZQNg?w=915&h=288)        
+​          ![](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211107150649879.png)        
 
 将EOF前的内容（包含EOF）在控制台输入，之后再分别执行下面两句话。
 
