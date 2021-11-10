@@ -769,10 +769,11 @@ docker cp 容器id：容器内路径(/home/Test.java)    目的地主机路径(/
 1. docker pull tomcat:8.5.57
    1. 直接运行（本地没有镜像会直接下载）:docker run -it --rm tomcat:8.5.57
       1. 之前启动没有--rm，启动都是容器后台，容器退出后还可以查到。 而 docker run -it --rm tomcat:8.5.57推出容器后，即把docker容器删除，用于测试使用。通常不使用。
-2. docker run -d --name tomcat01 -p 8080:8080 /bin/bash
+2. docker run -d --name tomcat01 -p 8080:8080 tomc
 3. curl localhost:8080
    1. 发现404
    2. 原因：我们下载的tomcat容器是经过缩减过的，下载的容器只保障最基本的运行。
+      1. 原来是在docker安装的tomcat在8.0.52版本之后，默认移除了默认显示的页面（webapps下的文件是空的），我们可以安装8.0.51版本.
    3. 解决方法：
       1. 进入容器内部：docker exec -it tomcat01 /bin/bash
       2. ls，发现有webapps和webapps.dist目录
@@ -797,7 +798,7 @@ docker cp 容器id：容器内路径(/home/Test.java)    目的地主机路径(/
       1. 查看错误原因：docker logs mysql01
          1. ![image-20211105103337034](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211105103337034.png)
       2. 卸载刚刚创建的容器：docker rm -f mysql01
-      3. 重新启动容器：docker run -d --name mysql01 -e MYSQL_ROOT_PASSWORD=121156   -p 3366:3366 mysql
+      3. 重新启动容器：docker run -d --name mysql01 -e MYSQL_ROOT_PASSWORD=111111   -p 3366:3366 mysql
 3. 进入mysql：mysql -u root -p
 4. 查看数据库信息：show databases
 5. 外部访问数据库
@@ -2055,7 +2056,7 @@ docker创建集群：[【狂神说Java】Docker最新超详细版教程通俗易
 
 ## 3. mysql安装后，外部无法访问
 
-docker run -d --name mysql01 -e MYSQL_ROOT_PASSWORD=121156   -p 3366:3366 mysql
+docker run -d --name mysql01 -e MYSQL_ROOT_PASSWORD=111111   -p 3366:3366 mysql
 
 1. 出现问题，nativecat连接mysql一直报错。
    1. 原因：我是用的端口映射是3366:3366，外部端口3366没有问题，但是容器内部端口3366并不是mysql的默认端口，mysql的默认端口是3306，所以就需要修改mysql的默认端口。
@@ -2074,7 +2075,7 @@ docker run -d --name mysql01 -e MYSQL_ROOT_PASSWORD=121156   -p 3366:3366 mysql
 
 我们使用mysql进行测试
 
-1. docker run -d --name mysql01 -e MYSQL_ROOT_PASSWORD=121156   -p 3306:3306 mysql
+1. docker run -d --name mysql01 -e MYSQL_ROOT_PASSWORD=111111   -p 3306:3306 mysql
 2. docker exec -it mysql01 /bash/bin
 3. mysql -u root -p  并输入密码,此时我们就进入了数据库中。说明我们创建docker容器时，mysql服务就已经自动开启了。
 4. 此时我们停掉mysql服务（注意，是停掉mysql服务，并不是docker容器）
@@ -2085,6 +2086,104 @@ docker run -d --name mysql01 -e MYSQL_ROOT_PASSWORD=121156   -p 3366:3366 mysql
       1. 针对问题，目前没有找到启动原容器的方案，重新docker run 一下。
    2. 如果是自定义的dockerfile出现上述问题，可能是dockerfile中的启动命令有误。
 
+## 6. 容器创建后如何进行文件挂载
+
+[(60条消息) 修改docker容器的挂载目录_jun-CSDN博客](https://blog.csdn.net/Doudou_Mylove/article/details/117691550?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_title~default-0.no_search_link&spm=1001.2101.3001.4242.1)
+
+## 7.文件挂载失败
+
+1. 执行将nginx的default.conf文件挂载到宿主机的default.cnof文件
+
+   1. ```shell
+       docker run -d -P --privileged=true --name nginx15 -v /home/zhq/web/nginx15/default.conf:/etc/nginx/conf.d/default.conf nginx
+      ```
+
+2. 报错
+
+   ```shell
+   "container init exited prematurely".
+   ```
+
+   ![image-20211108110950511](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211108110950511.png)
+
+2. 原因：**docker 禁止用主机上不存在的文件挂载到container中已经存在的文件**
+
+[Docker volume 挂载时文件或文件夹不存在_weixin_33953249的博客-CSDN博客](https://blog.csdn.net/weixin_33953249/article/details/88759709)
+
+## 8.容器挂载后，容器内资源消失
+
+挂载：即将宿主机与容器内的资源建立共享。注意：挂载时，宿主机里面的文件会覆盖容器内的文件。因此当宿主机文件是空的时候，会覆盖掉容器内已有的文件。
+
+解决方式：先创建容器，将容器内的文件拷贝到宿主机，删除容器，再新建容器与宿主机进行挂载。
+
+**mysql好像给我们提供了相关机制，使我们挂载时，容器内的文件不会被覆盖掉**
+
+**mysql挂载**
+
+```shell
+[root@ZHQ /]# docker run -d -p 3307:3306 -v /home/mysql/conf:/etc/mysql/conf.d -v /home/mysql/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 --name mysql01 mysql
+22df4a2635ff2859e40199355a4a770824ac1dc33b9a492b554b0968f8f62e58
+[root@ZHQ ~]# docker exec -t mysql01 bash
+root@22df4a2635ff:/# ls
+^H^H^H^C
+[root@ZHQ ~]# docker exec -it mysql01 /bin/bash
+root@22df4a2635ff:/# ls
+bin   dev                         entrypoint.sh  home  lib64  mnt  proc  run   srv  tmp  var
+boot  docker-entrypoint-initdb.d  etc            lib   media  opt  root  sbin  sys  usr
+root@22df4a2635ff:/# cd var 
+root@22df4a2635ff:/var# ls
+backups  cache  lib  local  lock  log  mail  opt  run  spool  tmp
+root@22df4a2635ff:/var# cd lib
+root@22df4a2635ff:/var/lib# ls
+apt  dpkg  mecab  misc  mysql  pam  systemd
+root@22df4a2635ff:/var/lib# cd mysql
+root@22df4a2635ff:/var/lib/mysql# ls     # 默认的配置没有被fu'gai
+'#ib_16384_0.dblwr'   binlog.000001   ca.pem            ib_logfile0   mysql                public_key.pem    undo_001
+'#ib_16384_1.dblwr'   binlog.000002   client-cert.pem   ib_logfile1   mysql.ibd            server-cert.pem   undo_002
+'#innodb_temp'        binlog.index    client-key.pem    ibdata1       performance_schema   server-key.pem
+ auto.cnf             ca-key.pem      ib_buffer_pool    ibtmp1        private_key.pem      sys
+
+```
+
+**nginx挂载**
+
+```shell
+[root@ZHQ ~]#  docker run -d -P --privileged=true --name nginx30 -v /home/zhq/web/nginx30/default:/etc/nginx/conf.d nginx
+ba374c6c870dd97b8224d78696b9223156e3a4500748a31f859144c31b1f6b75
+[root@ZHQ ~]# docker exec -it nginx30 /bin/bash
+root@ba374c6c870d:/# ls
+bin   dev                  docker-entrypoint.sh  home  lib64  mnt  proc  run   srv  tmp  var
+boot  docker-entrypoint.d  etc                   lib   media  opt  root  sbin  sys  usr
+root@ba374c6c870d:/# cd /etc/nginx
+root@ba374c6c870d:/etc/nginx# ls
+conf.d  fastcgi_params  mime.types  modules  nginx.conf  scgi_params  uwsgi_params
+root@ba374c6c870d:/etc/nginx# cd conf.d
+root@ba374c6c870d:/etc/nginx/conf.d# ls
+root@ba374c6c870d:/etc/nginx/conf.d#        # 默认的配置被覆盖
+```
+
+
+
+## 8.为什么不能直接访问服务器上面的文件，而必须使用代理。
+
+服务器的资源是通过是http访问的，而本地的HTML文件在浏览器中是通过file协议打开的，他们之间不能跨域访问。
+
+如果需要访问服务器上面的静态资源，需要使用文件传输协议：
+
+中文释义：本地[文件传输协议](https://baike.baidu.com/item/文件传输协议)
+
+注解：File协议主要用于**访问本地计算机中的文件**，就如同在Windows[资源管理器](https://baike.baidu.com/item/资源管理器)中打开文件一样。
+
+**windows主机：**
+
+**file:**///G:/ComputerStudy/%E8%BD%AF%E8%80%83/%E8%BD%AF%E8%80%83%E8%B5%84%E6%BA%90/4-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.pdf
+
+**服务器:**
+
+ curl file:////home/zhq/web/index.html
+
+![image-20211108144124369](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211108144124369.png)
+
 
 
 # 常用命令
@@ -2094,13 +2193,15 @@ docker run -d --name mysql01 -e MYSQL_ROOT_PASSWORD=121156   -p 3366:3366 mysql
    1. 系统内核：uname -r
    2. 系统版本：cat /etc/os-release
    3. 当前目录：pwd
-   4. 创建目录：mkdir 文件夹名
-   5. 删除目录：rmdir  文件夹名
-   6. 创建文件：touch 文件名
-   7. 查看文件：cat 文件名称
-   8. 创建/修改文件：vim 文件名称
-   9. 将一个名为abc的文件重命名为1234：mv abc 1234
-   10. 上传文件：
+   4. 移动文件：mv 文件  目标位置
+      1. 批量移动文件：待整理
+   5. 创建目录：mkdir 文件夹名
+   6. 删除目录：rmdir  文件夹名
+   7. 创建文件：touch 文件名
+   8. 查看文件：cat 文件名称
+   9. 创建/修改文件：vim 文件名称
+   10. 将一个名为abc的文件重命名为1234：mv abc 1234
+   11. 上传文件：
        1. 方式1：**lrzsz方式上传文件**
           1. 安装lrzsz包：yum install -y lrzsz
           2. 上传文件：rz
@@ -2164,5 +2265,5 @@ docker run -d --name mysql01 -e MYSQL_ROOT_PASSWORD=121156   -p 3366:3366 mysql
       
    6. 获取容器的ip地址：[(60条消息) 如何获取 docker 容器(container)的 ip 地址_sannerlittle的博客-CSDN博客_docker 获取容器ip](https://blog.csdn.net/sannerlittle/article/details/77063800)
 
-1. 
+3. docker 安装vim [(60条消息) docker容器中安装vim_人在码途-CSDN博客_docker vim](https://blog.csdn.net/huangjinao/article/details/101099081)
 
