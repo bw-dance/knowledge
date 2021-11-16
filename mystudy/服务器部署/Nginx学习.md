@@ -356,51 +356,23 @@ Nginx 的典型配置：
 ```puppet
 user  nginx;                        # 运行用户，默认即是nginx，可以不进行设置
 
-
-
 worker_processes  1;                # Nginx 进程数，一般设置为和 CPU 核数一样
-
-
 
 error_log  /var/log/nginx/error.log warn;   # Nginx 的错误日志存放目录
 
-
-
 pid        /var/run/nginx.pid;      # Nginx 服务启动时的 pid 存放位置
 
-
-
- 
-
-
-
 events {
-
-
-
+    
     use epoll;     # 使用epoll的I/O模型(如果你不知道Nginx该使用哪种轮询方法，会自动选择一个最适合你操作系统的)
-
-
-
-    worker_connections 1024;   # 每个进程允许最大并发数
-
-
-
+    
+worker_connections 1024;   # 每个进程允许最大并发数
 }
-
-
-
- 
-
 
 
 http {   # 配置使用最频繁的部分，代理、缓存、日志定义等绝大多数功能和第三方模块的配置都在这里设置
 
-
-
     # 设置日志模式
-
-
 
     log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
 
@@ -445,30 +417,12 @@ http {   # 配置使用最频繁的部分，代理、缓存、日志定义等绝
     types_hash_max_size 2048;
 
 
-
- 
-
-
-
     include             /etc/nginx/mime.types;      # 文件扩展名与类型映射表
-
 
 
     default_type        application/octet-stream;   # 默认文件类型
 
-
-
- 
-
-
-
     include /etc/nginx/conf.d/*.conf;   # 加载子配置项
-
-
-
-    
-
-
 
     server {
 
@@ -590,39 +544,17 @@ Nginx 有一些常用的全局变量，你可以在配置的任何位置使用�
 ```perl
 # /etc/nginx/conf.d/fe.sherlocked93.club.conf
 
-
-
- 
-
-
-
 server {
-
-
 
   listen 80;
 
-
-
 	server_name fe.sherlocked93.club;
-
-
-
- 
-
-
 
 	location / {
 
-
-
 		root  /usr/share/nginx/html/fe;
 
-
-
 		index index.html;
-
-
 
 	}
 

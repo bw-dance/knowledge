@@ -1,4 +1,4 @@
-# Docker学习
+# Docker基础篇
 
 # 学习资料
 
@@ -1177,7 +1177,7 @@ docker run -it -v /home/ceshi:/home centos /bin/bash
 
 1. docker pull mysql:5.7
 
-1. docker run -d -p 3307:3306 -v /home/mysql/conf:/etc/mysql/conf.d -v /home/mysql/data:/var/lib/mysql -r MYSQL_ROOT_PASSWORD=123456 --name mysql01 mysql:5.7
+1. docker run -d -p 3307:3306 -v /home/mysql/conf:/etc/mysql/conf.d -v /home/mysql/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 --name mysql01 mysql:5.7
    1. /etc/mysql/conf.d  mysql的相关配置文件
       1. ![image-20211105195852199](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211105195852199.png)
    2. /var/lib/mysql    mysql存储的表信息
@@ -2086,6 +2086,14 @@ docker run -d --name mysql01 -e MYSQL_ROOT_PASSWORD=111111   -p 3366:3366 mysql
       1. 针对问题，目前没有找到启动原容器的方案，重新docker run 一下。
    2. 如果是自定义的dockerfile出现上述问题，可能是dockerfile中的启动命令有误。
 
+[(66条消息) docker run 的 -i -t -d参数_Huifeng Tang 的博客-CSDN博客](https://blog.csdn.net/qq_19381989/article/details/102781663)
+
+解决方案：启动命令不用-d  使用 -t -i
+
+```
+docker run -t -i  /bin/bash tomcat:8.5.57
+```
+
 ## 6. 容器创建后如何进行文件挂载
 
 [(60条消息) 修改docker容器的挂载目录_jun-CSDN博客](https://blog.csdn.net/Doudou_Mylove/article/details/117691550?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_title~default-0.no_search_link&spm=1001.2101.3001.4242.1)
@@ -2164,7 +2172,7 @@ root@ba374c6c870d:/etc/nginx/conf.d#        # 默认的配置被覆盖
 
 
 
-## 8.为什么不能直接访问服务器上面的文件，而必须使用代理。
+## 9.为什么不能直接访问服务器上面的文件，而必须使用代理。
 
 服务器的资源是通过是http访问的，而本地的HTML文件在浏览器中是通过file协议打开的，他们之间不能跨域访问。
 
@@ -2184,7 +2192,17 @@ root@ba374c6c870d:/etc/nginx/conf.d#        # 默认的配置被覆盖
 
 ![image-20211108144124369](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211108144124369.png)
 
+## 10. nginx刷新后页面显示404
 
+[(66条消息) nginx代理后刷新显示404_maple的博客-CSDN博客](https://blog.csdn.net/xu622/article/details/87348848)
+
+## 11.启动dockerfile，报错：no permisson
+
+docker build -f /home/docker-test-volume/dockerfile1 -t kuangshen/centos .
+
+原因：. 表示使用当前目录构建上下文。
+
+解决方案：在dockerfile所在目录下执行创建。
 
 # 常用命令
 
@@ -2196,7 +2214,12 @@ root@ba374c6c870d:/etc/nginx/conf.d#        # 默认的配置被覆盖
    4. 移动文件：mv 文件  目标位置
       1. 批量移动文件：待整理
    5. 创建目录：mkdir 文件夹名
-   6. 删除目录：rmdir  文件夹名
+   6. 删除目录：
+      1. (只能删除空目录)rmdir  文件夹名
+      2. （删除文件夹下所有文件）rm -rf 文件夹
+      2. -i 删除前逐一询问确认。
+      4. -f 即使原档案属性设为唯读，亦直接删除，无需逐一确认。
+      5. -r 将目录及以下之档案亦逐一删除（并询问）。
    7. 创建文件：touch 文件名
    8. 查看文件：cat 文件名称
    9. 创建/修改文件：vim 文件名称
@@ -2229,8 +2252,21 @@ root@ba374c6c870d:/etc/nginx/conf.d#        # 默认的配置被覆盖
       2. 查看docker版本： docker -v
       3. 删除docker安装包：yum remove docker-ce
       4. 删除静像、容器、配置文件：rm -rf /var/lib/docker
-      5. 删除所有容器：docker rm -f $(docker ps -aq)
-      6. 卸载docker：[(61条消息) docker 彻底卸载_无恋-zx的博客-CSDN博客_docker卸载干净](https://blog.csdn.net/qq_29726869/article/details/113353315)
+      5. 删除镜像
+         1. docker rmi 镜像名
+      6. 删除所有容器
+         1. （包含正在运行的容器）：docker rm -f $(docker ps -aq)
+         2. （不包含正在运行的容器）:docker rm $(docker ps -aq)
+      7. 卸载docker：[(61条消息) docker 彻底卸载_无恋-zx的博客-CSDN博客_docker卸载干净](https://blog.csdn.net/qq_29726869/article/details/113353315)
+      8. docker start 容器id           # 启动容器
+         docker restart 容器id         # 重启容器
+         docker stop 容器id            # 停止当前正在运行的容器
+         docker kill 容器id            # 强制停止当前的容器
+      9. docker rm -f 容器id                       # 删除指定容器，不能删除正在运行的容器
+         docker rm -f $(docker ps -aq)       # 删除所有容器
+         docker ps -a -q|xargs docker rm -f  # 删除所有的容器
+      10. 修改容器名称  docker rename 旧 新
+      10. 将一个名为abc的文件重命名为1234：mv abc 1234
 
    2. 其他命令
 
@@ -2248,7 +2284,6 @@ root@ba374c6c870d:/etc/nginx/conf.d#        # 默认的配置被覆盖
       7. 关闭容器：docker stop 容器名称
       8. 退出容器（后台运行）：ctrl+p+q
       9. 退出容器（退出并关闭）：exit
-      10. 
 
    4. 查看指令
 
@@ -2263,7 +2298,12 @@ root@ba374c6c870d:/etc/nginx/conf.d#        # 默认的配置被覆盖
       4. -v 卷挂载
       5. -e 环境配置
       
-   6. 获取容器的ip地址：[(60条消息) 如何获取 docker 容器(container)的 ip 地址_sannerlittle的博客-CSDN博客_docker 获取容器ip](https://blog.csdn.net/sannerlittle/article/details/77063800)
+   6. 获取容器的ip地址：
+
+      1. docker inspect 容器id/名称 | grep Mounts -A 20 *//查看容器与服务器的映射目录*
+      2. docker inspect 容器id/名称 | grep IPAddress *//查看容器的ip地址*
+      3. 获取一个容器：docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' 容器id/名称
+      4. [(60条消息) 如何获取 docker 容器(container)的 ip 地址_sannerlittle的博客-CSDN博客_docker 获取容器ip](https://blog.csdn.net/sannerlittle/article/details/77063800)
 
 3. docker 安装vim [(60条消息) docker容器中安装vim_人在码途-CSDN博客_docker vim](https://blog.csdn.net/huangjinao/article/details/101099081)
 
