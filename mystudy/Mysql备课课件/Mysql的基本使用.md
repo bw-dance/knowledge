@@ -25,13 +25,13 @@
       
       utf8mb4
       
-      <数据库名>：创建数据库的名称。
+      <数据库名>:创建数据库的名称。
       
-      IF NOT EXISTS：在创建数据库之前进行判断,只有该数据库目前尚不存在时才能执行操作。
+      IF NOT EXISTS:在创建数据库之前进行判断,只有该数据库目前尚不存在时才能执行操作。
       
-      [DEFAULT] CHARACTER SET：指定数据库的字符集。指定字符集的目的是为了避免在数据库中存储的数据出现乱码的情况。不指定字符集，使用系统的默认字符集。
+      [DEFAULT] CHARACTER SET:指定数据库的字符集。指定字符集的目的是为了避免在数据库中存储的数据出现乱码的情况。不指定字符集，使用系统的默认字符集。
       
-      [DEFAULT] COLLATE：指定字符集的默认校对规则。
+      [DEFAULT] COLLATE:指定字符集的默认校对规则。
       ```
       
    2. MySQL 的字符集（CHARACTER）和校对规则（COLLATION）是两个不同的概念。字符集是用来定义 MySQL 存储字符串的方式，校对规则定义了比较字符串的方式。
@@ -48,22 +48,22 @@
 
 5. **查看数据库结构 SHOW CREATE DATABASE test_db_char;**
 
-   1. 模糊匹配：SHOW DATABASES LIKE '%db'
+   1. 模糊匹配:SHOW DATABASES LIKE '%db'
 
    2. mysql自带数据库
 
       1. ```sql
-         information_schema：主要存储了系统中的一些数据库对象信息，比如用户表信息、列信息、权限信息、字符集信息和分区信息等。
+         information_schema:主要存储了系统中的一些数据库对象信息，比如用户表信息、列信息、权限信息、字符集信息和分区信息等。
              
-         mysql：MySQL 的核心数据库，类似于 SQL Server 中的 master 表，主要负责存储数据库用户、用户访问权限等 MySQL 自己需要使用的控制和管理信息。常用的比如在 mysql 数据库的 user 表中修改 root 用户密码。
+         mysql:MySQL 的核心数据库，类似于 SQL Server 中的 master 表，主要负责存储数据库用户、用户访问权限等 MySQL 自己需要使用的控制和管理信息。常用的比如在 mysql 数据库的 user 表中修改 root 用户密码。
              
-         performance_schema：主要用于收集数据库服务器性能参数。
+         performance_schema:主要用于收集数据库服务器性能参数。
              
-         sakila：MySQL 提供的样例数据库，该数据库共有 16 张表，这些数据表都是比较常见的，在设计数据库时，可以参照这些样例数据表来快速完成所需的数据表。
+         sakila:MySQL 提供的样例数据库，该数据库共有 16 张表，这些数据表都是比较常见的，在设计数据库时，可以参照这些样例数据表来快速完成所需的数据表。
              
-         sys：MySQL 5.7 安装完成后会多一个 sys 数据库。sys 数据库主要提供了一些视图，数据都来自于 performation_schema，主要是让开发者和使用者更方便地查看性能问题。
+         sys:MySQL 5.7 安装完成后会多一个 sys 数据库。sys 数据库主要提供了一些视图，数据都来自于 performation_schema，主要是让开发者和使用者更方便地查看性能问题。
              
-         world：world 数据库是 MySQL 自动创建的数据库，该数据库中只包括 3 张数据表，分别保存城市，国家和国家使用的语言等内容。
+         world:world 数据库是 MySQL 自动创建的数据库，该数据库中只包括 3 张数据表，分别保存城市，国家和国家使用的语言等内容。
          ```
 
 6. **选择数据库 USER 数据库名称**
@@ -94,11 +94,11 @@
    1. ```sql
       DROP DATABASE [ IF EXISTS ] <数据库名>
       
-      <数据库名>：指定要删除的数据库名。
+      <数据库名>:指定要删除的数据库名。
           
-      IF EXISTS：用于防止当数据库不存在时发生错误。
+      IF EXISTS:用于防止当数据库不存在时发生错误。
           
-      DROP DATABASE：删除数据库中的所有表格并同时删除数据库。使用此语句时要非常小心，以免错误删除。如果要使用 DROP DATABASE，需要获得数据库 DROP 权限。
+      DROP DATABASE:删除数据库中的所有表格并同时删除数据库。使用此语句时要非常小心，以免错误删除。如果要使用 DROP DATABASE，需要获得数据库 DROP 权限。
       
       //创建数据库
       CREATE DATABASE test_db_del;
@@ -117,20 +117,20 @@
    1. ```java
       CREATE TABLE <表名> ([表定义选项])[表选项][分区选项];
       
-      [表定义选项]的格式为：
+      [表定义选项]的格式为:
       <列名1> <类型1> [,…] <列名n> <类型n>
           
-      CREATE TABLE：用于创建给定名称的表，必须拥有表CREATE的权限。
+      CREATE TABLE:用于创建给定名称的表，必须拥有表CREATE的权限。
           
-      <表名>：指定要创建表的名称，在 CREATE TABLE 之后给出，必须符合标识符命名规则。表名称被指定为 db_name.tbl_name，以便在特定的数据库中创建表。无论是否有当前数据库，都可以通过这种方式创建。
+      <表名>:指定要创建表的名称，在 CREATE TABLE 之后给出，必须符合标识符命名规则。表名称被指定为 db_name.tbl_name，以便在特定的数据库中创建表。无论是否有当前数据库，都可以通过这种方式创建。
       
       在当前数据库中创建表时，可以省略 db-name。如果使用加引号的识别名，则应对数据库和表名称分别加引号。例如，'mydb'.'mytbl' 是合法的，但 'mydb.mytbl' 不合法。
        
-      <表定义选项>：表创建定义，由列名（col_name）、列的定义（column_definition）以及可能的空值说明、完整性约束或表索引组成。
+      <表定义选项>:表创建定义，由列名（col_name）、列的定义（column_definition）以及可能的空值说明、完整性约束或表索引组成。
       默认的情况是，表被创建到当前的数据库中。若表已存在、没有当前数据库或者数据库不存在，则会出现错误。
       ```
 
-   2. 注意：数据表中每个列（字段）的名称和数据类型，如果创建多个列，要用逗号隔开。
+   2. 注意:数据表中每个列（字段）的名称和数据类型，如果创建多个列，要用逗号隔开。
 
    3. ```java
       CREATE TABLE tb_emp1
@@ -144,18 +144,18 @@
 
    4. ![image-20211208201025962](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211208201025962.png)
 
-      1. Null：表示该列是否可以存储 NULL 值。
-      2. Key：表示该列是否已编制索引。PRI 表示该列是表主键的一部分，UNI 表示该列是 UNIQUE 索引的一部分，MUL 表示在列中某个给定值允许出现多次。
-      3. Default：表示该列是否有默认值，如果有，值是多少。
-      4. Extra：表示可以获取的与给定列有关的附加信息，如 AUTO_INCREMENT 等。
+      1. Null:表示该列是否可以存储 NULL 值。
+      2. Key:表示该列是否已编制索引。PRI 表示该列是表主键的一部分，UNI 表示该列是 UNIQUE 索引的一部分，MUL 表示在列中某个给定值允许出现多次。
+      3. Default:表示该列是否有默认值，如果有，值是多少。
+      4. Extra:表示可以获取的与给定列有关的附加信息，如 AUTO_INCREMENT 等。
 
 2. **查看当前库的表**: show tables
 
-3. **查看表结构**： DESCRIBE <表名>;
+3. **查看表结构**: DESCRIBE <表名>;
 
    1. 可以查看表的字段信息，包括字段名、字段数据类型、是否为主键、是否有默认值等
 
-4. **查看表的创建语句：**SHOW CREATE TABLE tb_emp1\G；
+4. **查看表的创建语句:**SHOW CREATE TABLE tb_emp1\G；
 
    1. ```java
       Create Table: CREATE TABLE tb_emp1 (
@@ -171,7 +171,7 @@
    1. ALTER TABLE <表名> [修改选项]
 
    2. ```sql
-      修改选项的语法格式如下：
+      修改选项的语法格式如下:
       { ADD COLUMN <列名> <类型>
       | CHANGE COLUMN <旧列名> <新列名> <新列类型>
       | ALTER COLUMN <列名> { SET DEFAULT <默认值> | DROP DEFAULT }
@@ -232,9 +232,9 @@
                CHANGE col1 col3 CHAR(30);
          ```
 
-      3. 注意：由于不同类型的数据在机器中的存储方式及长度并不相同，修改数据类型可能会影响数据表中已有的数据记录，因此，当数据表中已经有数据时，不要轻易修改数据类型。
+      3. 注意:由于不同类型的数据在机器中的存储方式及长度并不相同，修改数据类型可能会影响数据表中已有的数据记录，因此，当数据表中已经有数据时，不要轻易修改数据类型。
 
-   7. **修改表名**：
+   7. **修改表名**:
 
       1. ALTER TABLE <旧表名> RENAME [TO] <新表名>；
 
@@ -366,7 +366,7 @@ SELECT id,name,height FROM tb_students_info;
 
 SELECT DISTINCT <字段名> FROM <表名>;
 
-作用：DISTINCT 关键字指示 MySQL 消除重复的记录值
+作用:DISTINCT 关键字指示 MySQL 消除重复的记录值
 
 ```sql
 # 查询 tb_students_info 表中所有 age 
@@ -381,9 +381,9 @@ SELECT  DISTINCT age FROM tb_students_info;
 
 <表名> [AS] <别名>
 
-作用：当表名很长或者执行一些特殊查询的时候，为了方便操作或者需要多次使用相同的表时，可以为表指定别名，用这个别名代替表原来的名称。
+作用:当表名很长或者执行一些特殊查询的时候，为了方便操作或者需要多次使用相同的表时，可以为表指定别名，用这个别名代替表原来的名称。
 
-注意：在为表取别名时，要保证不能与数据库中的其他表的名称冲突。
+注意:在为表取别名时，要保证不能与数据库中的其他表的名称冲突。
 
 ```sql
 # 为 tb_students_info 表取别名 stu
@@ -399,7 +399,7 @@ SELECT stu.name,stu.height FROM tb_students_info AS stu;
 SELECT name AS student_name,age AS student_age FROM tb_students_info;
 ```
 
-注意：表别名只在执行查询时使用，并不在返回结果中显示，而列定义别名之后，将返回给客户端显示，显示的结果字段为字段列的别名。
+注意:表别名只在执行查询时使用，并不在返回结果中显示，而列定义别名之后，将返回给客户端显示，显示的结果字段为字段列的别名。
 
 #### 限制查询数(limit)
 
@@ -407,9 +407,9 @@ SELECT name AS student_name,age AS student_age FROM tb_students_info;
 
 第一个参数“位置偏移量”指示 MySQL 从哪一行开始显示，是一个可选参数，如果不指定“位置偏移量”，将会从表中的第一条记录开始（第一条记录的位置偏移量是 0，第二条记录的位置偏移量是 1，以此类推）；第二个参数“行数”指示返回的记录条数。
 
-作用：SELECT 语句时往往返回的是所有匹配的行，有些时候我们仅需要返回第一行或者前几行，这时候就需要用到 MySQL LIMIT 子句。
+作用:SELECT 语句时往往返回的是所有匹配的行，有些时候我们仅需要返回第一行或者前几行，这时候就需要用到 MySQL LIMIT 子句。
 
-注意：MySQL 5.7 中可以使用“LIMIT 4 OFFSET 3”，意思是获取从第5条记录开始的后面的3条记录，和“LIMIT 4，3”返回的结果相同
+注意:MySQL 5.7 中可以使用“LIMIT 4 OFFSET 3”，意思是获取从第5条记录开始的后面的3条记录，和“LIMIT 4，3”返回的结果相同
 
 ```sql
 # 显示 tb_students_info 表查询结果的前 4 行
@@ -422,15 +422,15 @@ SELECT * FROM tb_students_info LIMIT 3,5;
 
 ORDER BY {<列名> | <表达式> | <位置>} [ASC|DESC]
 
- **列名：**指定用于排序的列。可以指定多个列，列名之间用逗号分隔。
+ **列名:**指定用于排序的列。可以指定多个列，列名之间用逗号分隔。
 
-**表达式：**指定用于排序的表达式。
+**表达式:**指定用于排序的表达式。
 
-**位置：**指定用于排序的列在 SELECT 语句结果集中的位置，通常是一个正整数。
+**位置:**指定用于排序的列在 SELECT 语句结果集中的位置，通常是一个正整数。
 
-**ASC|DESC：**关键字 ASC 表示按升序分组，关键字 DESC 表示按降序分组，其中 ASC 为默认值。这两个关键字必须位于对应的列名、表达式、列的位置之后。
+**ASC|DESC:**关键字 ASC 表示按升序分组，关键字 DESC 表示按降序分组，其中 ASC 为默认值。这两个关键字必须位于对应的列名、表达式、列的位置之后。
 
-使用 ORDER BY 子句注意：
+使用 ORDER BY 子句注意:
 
 - ORDER BY 子句中可以包含子查询。
 - 当排序的值中存在空值时，ORDER BY 子句会将该**空值作为最小值**来对待。
@@ -444,7 +444,7 @@ SELECT * FROM tb_students_info ORDER BY height;
 SELECT name,height FROM tb_students_info ORDER BY height,name;
 ```
 
-注意：在对多列进行排序时，首行排序的**第一列必须有相同的列值，才会对第二列进行排序**。如果第一列数据中所有的值都是唯一的，将不再对第二列进行排序。
+注意:在对多列进行排序时，首行排序的**第一列必须有相同的列值，才会对第二列进行排序**。如果第一列数据中所有的值都是唯一的，将不再对第二列进行排序。
 
 默认情况下，查询数据按字母升序进行排序（A～Z），但数据的排序并不仅限于此，还可以使用 ORDER BY 对查询结果进行降序排序（Z～A），这可以通过关键字 DESC 实现。可以对多列进行不同的顺序排序。
 
@@ -455,7 +455,7 @@ WHERE <查询条件> {<判定运算1>，<判定运算2>，…}
 判定运算其结果取值为 TRUE、FALSE 和 UNKNOWN。
 
 ```sq
-判定运算的语法分类如下：
+判定运算的语法分类如下:
 <表达式1>{=|<|<=|>|>=|<=>|<>|！=}<表达式2>
 <表达式1>[NOT]LIKE<表达式2>
 <表达式1>[NOT][REGEXP|RLIKE]<表达式2>
@@ -499,7 +499,7 @@ SELECT * FROM tb_students_info
 
 百分号是 MySQL 中常用的一种通配符，在过滤条件中，百分号可以表示任何字符串，并且该字符串可以出现任意次。
 
-使用百分号通配符要注意以下几点：
+使用百分号通配符要注意以下几点:
 
 - MySQL 默认是不区分大小写的，若要区分大小写，则需要更换字符集的校对规则。
 - 百分号不匹配空值。
@@ -510,7 +510,7 @@ SELECT * FROM tb_students_info
 
 下划线通配符和百分号通配符的用途一样，下画线只匹配单个字符，而不是多个字符，也不是 0 个字符。
 
-**注意：**不要过度使用通配符，对通配符检索的处理一般会比其他检索方式花费更长的时间
+**注意:**不要过度使用通配符，对通配符检索的处理一般会比其他检索方式花费更长的时间
 
 ```sql
 # 在 tb_students_info 表中，查找所有以“T”字母开头的学生姓名，
@@ -548,7 +548,7 @@ SELECT id,name,age,dept_name FROM tb_students_info INNER JOIN tb_departments
 WHERE tb_students_info.dept_id=tb_departments.dept_id;
 ```
 
-注意：使用 WHERE 子句定义连接条件比较简单明了，而 INNER JOIN 语法是 ANSI SQL 的标准规范，使用 INNER JOIN 连接语法能够确保不会忘记连接条件，而且 WHERE 子句在某些时候会影响查询的性能。
+注意:使用 WHERE 子句定义连接条件比较简单明了，而 INNER JOIN 语法是 ANSI SQL 的标准规范，使用 INNER JOIN 连接语法能够确保不会忘记连接条件，而且 WHERE 子句在某些时候会影响查询的性能。
 
 #### 外连接查询(outer join)
 
@@ -591,21 +591,21 @@ SELECT name,dept_name
 
 语法:
 
-- <表达式>：用于指定表达式。当表达式与子查询返回的结果集中的某个值相等时，返回 TRUE，否则返回 FALSE；若使用关键字 NOT，则返回的值正好相反。
-- <子查询>：用于指定子查询。这里的子查询只能返回一列数据。对于比较复杂的查询要求，可以使用 SELECT 语句实现子查询的多层嵌套。
+- <表达式>:用于指定表达式。当表达式与子查询返回的结果集中的某个值相等时，返回 TRUE，否则返回 FALSE；若使用关键字 NOT，则返回的值正好相反。
+- <子查询>:用于指定子查询。这里的子查询只能返回一列数据。对于比较复杂的查询要求，可以使用 SELECT 语句实现子查询的多层嵌套。
 
 **比较运算符子查询**
 
-比较运算符所使用的子查询主要用于对表达式的值和子查询返回的值进行比较运算。其语法格式为：
+比较运算符所使用的子查询主要用于对表达式的值和子查询返回的值进行比较运算。其语法格式为:
 
 <表达式> {= | < | > | >= | <= | <=> | < > | != }
 { ALL | SOME | ANY} <子查询>
 
 语法:
 
-- <子查询>：用于指定子查询。
-- <表达式>：用于指定要进行比较的表达式。
-- ALL、SOME 和 ANY：可选项。用于指定对比较运算的限制。其中，关键字 ALL 用于指定表达式需要与子查询结果集中的每个值都进行比较，当表达式与每个值都满足比较关系时，会返回 TRUE，否则返回 FALSE；关键字 SOME 和 ANY 是同义词，表示表达式只要与子查询结果集中的某个值满足比较关系，就返回 TRUE，否则返回 FALSE。
+- <子查询>:用于指定子查询。
+- <表达式>:用于指定要进行比较的表达式。
+- ALL、SOME 和 ANY:可选项。用于指定对比较运算的限制。其中，关键字 ALL 用于指定表达式需要与子查询结果集中的每个值都进行比较，当表达式与每个值都满足比较关系时，会返回 TRUE，否则返回 FALSE；关键字 SOME 和 ANY 是同义词，表示表达式只要与子查询结果集中的某个值满足比较关系，就返回 TRUE，否则返回 FALSE。
 
 **EXIST子查询**
 
@@ -662,15 +662,15 @@ SELECT * FROM tb_students_info
 GROUP BY { <列名> | <表达式> | <位置> } [ASC | DESC]
 
 ``` sql
-<列名>：指定用于分组的列。可以指定多个列，彼此间用逗号分隔。
-<表达式>：指定用于分组的表达式。通常与聚合函数一块使用，例如可将表达式 COUNT(*)AS' 人数 ' 作为 SELECT 选择列表清单的一项。
-<位置>：指定用于分组的选择列在 SELECT 语句结果集中的位置，通常是一个正整数。例如，GROUP BY 2 表示根据 SELECT 语句列清单上的第 2 列的值进行逻辑分组。
-ASC|DESC：关键字 ASC 表示按升序分组，关键字 DESC 表示按降序分组，其中 ASC 为默认值，注意这两个关键字必须位于对应的列名、表达式、列的位置之后。
+<列名>:指定用于分组的列。可以指定多个列，彼此间用逗号分隔。
+<表达式>:指定用于分组的表达式。通常与聚合函数一块使用，例如可将表达式 COUNT(*)AS' 人数 ' 作为 SELECT 选择列表清单的一项。
+<位置>:指定用于分组的选择列在 SELECT 语句结果集中的位置，通常是一个正整数。例如，GROUP BY 2 表示根据 SELECT 语句列清单上的第 2 列的值进行逻辑分组。
+ASC|DESC:关键字 ASC 表示按升序分组，关键字 DESC 表示按降序分组，其中 ASC 为默认值，注意这两个关键字必须位于对应的列名、表达式、列的位置之后。
 ```
 
-注意：GROUP BY 子句中的各选择列必须也是 SELECT 语句的选择列清单中的一项。
+注意:GROUP BY 子句中的各选择列必须也是 SELECT 语句的选择列清单中的一项。
 
-使用注意：
+使用注意:
 
 - GROUP BY 子句可以包含任意数目的列，使其可以对分组进行嵌套，为数据分组提供更加细致的控制。
 - GROUP BY 子句列出的每个列都必须是检索列或有效的表达式，但不能是聚合函数。若在 SELECT 语句中使用表达式，则必须在 GROUP BY 子句中指定相同的表达式。
@@ -691,7 +691,7 @@ SELECT dept_id,GROUP_CONCAT(name) AS names
 HAVING <条件>
 
 ``` sql
-HAVING 子句和 WHERE 子句非常相似，HAVING 子句支持 WHERE 子句中所有的操作符和语法，但是两者存在几点差异：
+HAVING 子句和 WHERE 子句非常相似，HAVING 子句支持 WHERE 子句中所有的操作符和语法，但是两者存在几点差异:
 WHERE 子句主要用于过滤数据行，而 HAVING 子句主要用于过滤分组，即 HAVING 子句基于分组的聚合值而不是特定行的值来过滤数据，主要用来过滤分组。
 WHERE 子句不可以包含聚合函数，HAVING 子句中的条件可以包含聚合函数。
 HAVING 子句是在数据分组后进行过滤，WHERE 子句会在数据分组前进行过滤。WHERE 子句排除的行不包含在分组中，可能会影响 HAVING 子句基于这些值过滤掉的分组。
@@ -718,9 +718,9 @@ SELECT dept_id,GROUP_CONCAT(name) AS names
    VALUES (值1) [… , (值n) ];
 
 ``` sql
-<表名>：指定被操作的表名。
-<列名>：指定需要插入数据的列名。若向表中的所有列插入数据，则全部的列名均可以省略，直接采用 INSERT<表名>VALUES(…) 即可。
-VALUES 或 VALUE 子句：该子句包含要插入的数据清单。数据清单中数据的顺序要和列的顺序相对应。
+<表名>:指定被操作的表名。
+<列名>:指定需要插入数据的列名。若向表中的所有列插入数据，则全部的列名均可以省略，直接采用 INSERT<表名>VALUES(…) 即可。
+VALUES 或 VALUE 子句:该子句包含要插入的数据清单。数据清单中数据的顺序要和列的顺序相对应。
 ```
 
 2. INSERT INTO <表名>
@@ -750,7 +750,7 @@ INSERT INTO tb_courses
      (course_id,course_name,course_grade,course_info)
      VALUES(1,'Network',3,'Computer Network');
      
-注意：插入的时候，数值要与列名的相对应
+注意:插入的时候，数值要与列名的相对应
 
 # 在 tb_courses 表中插入一条新记录，course_id 值为 2，course_name 值为“Database”，course_grade 值为 3，info值为“MySQL”。
 INSERT INTO tb_courses
@@ -817,7 +817,7 @@ DELETE FROM tb_departments WHERE dept_id=7
 
 ## 3. 数据库的存储引擎
 
-**介绍：**
+**介绍:**
 
 数据库存储引擎是数据库底层软件组件，数据库管理系统使用数据引擎进行创建、查询、更新和删除数据操作。
 
@@ -827,17 +827,17 @@ DELETE FROM tb_departments WHERE dept_id=7
 
 MySQL 提供了多个不同的存储引擎，包括处理事务安全表的引擎和处理非事务安全表的引擎。在 MySQL 中，不需要在整个服务器中使用同一种存储引擎，针对具体的要求，**可以对每一个表使用不同的存储引擎**。
 
-**常见的存储引擎：**
+**常见的存储引擎:**
 
-1. InnoDB：
+1. InnoDB:
 
    InnoDB 事务型数据库的首选引擎，**支持事务安全表（ACID），支持行锁定和外键。**MySQL 5.5.5 之后，**InnoDB 作为默认存储引擎。**
 
-2. MyISAM ：
+2. MyISAM :
 
    MyISAM 是基于 ISAM 的存储引擎，并对其进行扩展，是在 Web、数据仓储和其他应用环境下最常使用的存储引擎之一。**MyISAM 拥有较高的插入、查询速度，但不支持事务。**
 
-3. MEMORY：
+3. MEMORY:
 
    MEMORY存储引擎**将表中的数据存储到内存中，为查询和引用其他数据提供快速访问。**
 
@@ -851,7 +851,7 @@ MySQL 提供了多个不同的存储引擎，包括处理事务安全表的引�
 | **支持数据缓存** | No     | N/A    | Yes    | No      |
 | **支持外键**     | No     | No     | Yes    | No      |
 
-**选择 MySQL存储引擎原则：**
+**选择 MySQL存储引擎原则:**
 
 - 如果要提供提交、回滚和恢复的**事务**安全（ACID 兼容）能力，并要求实现并发控制，InnoDB 是一个很好的选择。
 - 如果数据表主要用来**插入和查询记录**，则 MyISAM 引擎提供较高的处理效率。
@@ -862,7 +862,7 @@ MySQL 提供了多个不同的存储引擎，包括处理事务安全表的引�
 
 MySQL 的数据类型有大概可以分为 5 种，分别是整数类型、浮点数类型和定点数类型、日期和时间类型、字符串类型、二进制类型等。
 
-注意：整数类型和浮点数类型可以统称为数值数据类型。
+注意:整数类型和浮点数类型可以统称为数值数据类型。
 
 1) **数值类型**
 
@@ -904,7 +904,7 @@ MySQL 主要提供的整数类型有 **TINYINT**、 **SMALLINT**、 **MEDIUMINT*
 
 浮点数类型的取值范围为 M（1～255）和 D（1～30，且不能大于 M-2），分别表示显示宽度和小数位数。M 和 D 在 FLOAT 和DOUBLE 中是可选的，FLOAT 和 DOUBLE 类型将被保存为硬件所支持的最大精度。DECIMAL 的默认 D 值为 0、M 值为 10。
 
-注意：如果DECIMAL 的D值为0，如果传进来小数，会四舍五入保存数据
+注意:如果DECIMAL 的D值为0，如果传进来小数，会四舍五入保存数据
 
 在 MySQL 中，定点数以字符串形式存储，在对精度要求比较高的时候（如货币、科学数据），使用 DECIMAL 的类型比较好，另外两个浮点数进行减法和比较运算时也容易出问题，所以在使用浮点数时需要注意，并尽量避免做浮点数比较。
 
@@ -918,7 +918,7 @@ MySQL 主要提供的整数类型有 **TINYINT**、 **SMALLINT**、 **MEDIUMINT*
 
 ### 时间和日期类型
 
-MySQL 中表示日期的数据类型： **YEAR**、 **TIME**、 **DATE**、 **DTAETIME**、 **TIMESTAMP**。
+MySQL 中表示日期的数据类型: **YEAR**、 **TIME**、 **DATE**、 **DTAETIME**、 **TIMESTAMP**。
 
 每一个类型都有合法的取值范围，当指定确定不合法的值时，系统将“零”值插入数据库中。
 
@@ -930,7 +930,7 @@ MySQL 中表示日期的数据类型： **YEAR**、 **TIME**、 **DATE**、 **DT
 | **DATETIME（常用）** | 日期时间 | YYYY-MM-DD HH:MM:SS | 1000-01-01 00:00:00 ~ 9999-12-31 23:59:59         | 8 个字节 |
 | TIMESTAMP            | 日期时间 | YYYY-MM-DD HH:MM:SS | 1980-01-01 00:00:01 UTC ~ 2040-01-19 03:14:07 UTC | 4 个字节 |
 
-TIMESTAMP 与 DATETIME 区别：
+TIMESTAMP 与 DATETIME 区别:
 
 1. 存储需求，范围不同
 
@@ -992,11 +992,11 @@ CHAR(4) 定义了固定长度为 4 的列，无论存入的数据长度为多少
 
 ## 5. 常用运算符
 
-MySQL 支持 4 种运算符，分别是：
+MySQL 支持 4 种运算符，分别是:
 
 ### 算术运算符
 
-执行算术运算，例如：加、减、乘、除等。
+执行算术运算，例如:加、减、乘、除等。
 
 | 算术运算符 | 说明               |
 | :--------- | :----------------- |
@@ -1008,7 +1008,7 @@ MySQL 支持 4 种运算符，分别是：
 
 ### 比较运算符
 
-​		包括大于、小于、等于或者不等于，等等。主要用于数值的比较、字符串的匹配等方面。例如：LIKE、IN、BETWEEN AND 和 IS NULL 等都是比较运算符，还包括正则表达式的 REGEXP 也是比较运算符。
+​		包括大于、小于、等于或者不等于，等等。主要用于数值的比较、字符串的匹配等方面。例如:LIKE、IN、BETWEEN AND 和 IS NULL 等都是比较运算符，还包括正则表达式的 REGEXP 也是比较运算符。
 
 | 比较运算符        | 说明                               |
 | :---------------- | :--------------------------------- |
@@ -1078,11 +1078,11 @@ MySQL 支持 4 种运算符，分别是：
 #### 1、取得每个部门最高薪水的人员名称
 
 ```sql
-# 第一步：取得每个部门最高薪水(按照部门编号分组，找出每一组最大值)
+# 第一步:取得每个部门最高薪水(按照部门编号分组，找出每一组最大值)
 
 select deptno,max(sal) as maxsal from emp group by deptno;
 
-# 第二步：将以上的查询结果当做一张临时表t，t和emp表连接，条件：t.deptno = e.deptno and t.maxsal = e.sal
+# 第二步:将以上的查询结果当做一张临时表t，t和emp表连接，条件:t.deptno = e.deptno and t.maxsal = e.sal
 
 select 
     e.ename, t.*
@@ -1097,10 +1097,10 @@ on
 #### 2、哪些人的薪水在部门的平均薪水之上
 
 ```sql
-# 第一步：找出每个部门的平均薪水
+# 第一步:找出每个部门的平均薪水
 select deptno,avg(sal) as avgsal from emp group by deptno;
 
-# 第二步：将以上查询结果当做t表，t和emp表连接,条件：部门编号相同，并且emp的sal大于t表的avgsal
+# 第二步:将以上查询结果当做t表，t和emp表连接,条件:部门编号相同，并且emp的sal大于t表的avgsal
 select 
     t.*, e.ename, e.sal
 from
@@ -1113,12 +1113,12 @@ on
 
 #### 3、取得部门中（所有人的）平均的薪水等级
 
-平均的薪水等级：先计算每一个薪水的等级，然后找出薪水等级的平均值。
+平均的薪水等级:先计算每一个薪水的等级，然后找出薪水等级的平均值。
 
-平均薪水的等级：先计算平均薪水，然后找出每个平均薪水的等级值。
+平均薪水的等级:先计算平均薪水，然后找出每个平均薪水的等级值。
 
 ```sql
- # 第一步：找出每个人的薪水等级,emp e和salgrade s表连接。连接条件：e.sal between s.losal and s.hisal
+ # 第一步:找出每个人的薪水等级,emp e和salgrade s表连接。连接条件:e.sal between s.losal and s.hisal
   select 
         e.ename,e.sal,e.deptno,s.grade
     from
@@ -1127,7 +1127,7 @@ on
         salgrade s
     on
         e.sal between s.losal and s.hisal;
- # 第二步：基于以上的结果继续按照deptno分组，求grade的平均值。
+ # 第二步:基于以上的结果继续按照deptno分组，求grade的平均值。
   select 
         e.deptno,avg(s.grade)
     from
@@ -1143,13 +1143,13 @@ on
 #### 4、不准用组函数（Max ），取得最高薪水
 
 ```sql
-# 第一种：sal降序，limit 1
+# 第一种:sal降序，limit 1
 select ename,sal from emp order by sal desc limit 1;
 
-# 第二种方案：
+# 第二种方案:
 select max(sal) from emp;
 
-# 第三种方案：表的自连接
+# 第三种方案:表的自连接
 select sal from emp where sal not in(select distinct a.sal from emp a join emp b on a.sal < b.sal);
 ```
 
@@ -1159,9 +1159,9 @@ select sal from emp where sal not in(select distinct a.sal from emp a join emp b
 
  5、取得平均薪水最高的部门的部门编号
  
-第一种方案：降序取第一个。
+第一种方案:降序取第一个。
  
-    第一步：找出每个部门的平均薪水
+    第一步:找出每个部门的平均薪水
         select deptno,avg(sal) as avgsal from emp group by deptno;
         +--------+-------------+
         | deptno | avgsal      |
@@ -1170,7 +1170,7 @@ select sal from emp where sal not in(select distinct a.sal from emp a join emp b
         |     20 | 2175.000000 |
         |     30 | 1566.666667 |
         +--------+-------------+
-    第二步：降序选第一个。
+    第二步:降序选第一个。
         select deptno,avg(sal) as avgsal from emp group by deptno order by avgsal desc limit 1;
         +--------+-------------+
         | deptno | avgsal      |
@@ -1178,9 +1178,9 @@ select sal from emp where sal not in(select distinct a.sal from emp a join emp b
         |     10 | 2916.666667 |
         +--------+-------------+
  
-第二种方案：max
+第二种方案:max
  
-    第一步：找出每个部门的平均薪水
+    第一步:找出每个部门的平均薪水
  
     select deptno,avg(sal) as avgsal from emp group by deptno;
     +--------+-------------+
@@ -1191,7 +1191,7 @@ select sal from emp where sal not in(select distinct a.sal from emp a join emp b
     |     30 | 1566.666667 |
     +--------+-------------+
  
-    第二步：找出以上结果中avgsal最大的值。
+    第二步:找出以上结果中avgsal最大的值。
     select max(t.avgsal) from (select avg(sal) as avgsal from emp group by deptno) t;
     +---------------+
     | max(t.avgsal) |
@@ -1199,7 +1199,7 @@ select sal from emp where sal not in(select distinct a.sal from emp a join emp b
     |   2916.666667 |
     +---------------+
  
-    第三步：
+    第三步:
     select 
         deptno,avg(sal) as avgsal 
     from 
@@ -1244,7 +1244,7 @@ limit
 平均薪水是900
 那么他俩都是1级别。
  
-第一步：找出每个部门的平均薪水
+第一步:找出每个部门的平均薪水
 select deptno,avg(sal) as avgsal from emp group by deptno;
 +--------+-------------+
 | deptno | avgsal      |
@@ -1254,8 +1254,8 @@ select deptno,avg(sal) as avgsal from emp group by deptno;
 |     30 | 1566.666667 |
 +--------+-------------+
  
-第二步：找出每个部门的平均薪水的等级
-以上t表和salgrade表连接，条件：t.avgsal between s.losal and s.hisal
+第二步:找出每个部门的平均薪水的等级
+以上t表和salgrade表连接，条件:t.avgsal between s.losal and s.hisal
  
 select 
     t.*,s.grade
@@ -1325,7 +1325,7 @@ mysql> select distinct mgr from emp where mgr is not null;
 +------+
 员工编号没有在以上范围内的都是普通员工。
  
-第一步：找出普通员工的最高薪水！
+第一步:找出普通员工的最高薪水！
 not in在使用的时候，后面小括号中记得排除NULL。
 select max(sal) from emp where empno not in(select distinct mgr from emp where mgr is not null);
 +----------+
@@ -1334,7 +1334,7 @@ select max(sal) from emp where empno not in(select distinct mgr from emp where m
 |  1600.00 |
 +----------+
  
-第二步：找出高于1600的
+第二步:找出高于1600的
 select ename,sal from emp where sal > (select max(sal) from emp where empno not in(select distinct mgr from emp where mgr is not null));
 +-------+---------+
 | ename | sal     |
@@ -1389,7 +1389,7 @@ select ename,sal from emp order by sal desc limit 5, 5;
 12、取得每个薪水等级有多少员工
 分组count
  
-第一步：找出每个员工的薪水等级
+第一步:找出每个员工的薪水等级
 select 
     e.ename,e.sal,s.grade 
 from 
@@ -1417,7 +1417,7 @@ on
 | MILLER | 1300.00 |     2 |
 +--------+---------+-------+
  
-第二步：继续按照grade分组统计数量
+第二步:继续按照grade分组统计数量
 select 
     s.grade ,count(*)
 from 
@@ -1439,12 +1439,12 @@ group by
 |     5 |        1 |
 +-------+----------+
  
-13、面试题：
+13、面试题:
 有 3 个表 S(学生表)，C（课程表），SC（学生选课表）
 S（SNO，SNAME）代表（学号，姓名）
 C（CNO，CNAME，CTEACHER）代表（课号，课名，教师）
 SC（SNO，CNO，SCGRADE）代表（学号，课号，成绩）
-问题：
+问题:
 1，找出没选过“黎明”老师的所有学生姓名。
 2，列出 2 门以上（含2 门）不及格学生姓名及平均成绩。
 3，即学过 1 号课程又学过 2 号课所有学生的姓名。
@@ -1837,7 +1837,7 @@ group by
      
     timestampdiff(YEAR, hiredate, now())
  
-    间隔类型：
+    间隔类型:
         SECOND   秒，
         MINUTE   分钟，
         HOUR   小时，
