@@ -269,6 +269,8 @@
 
 **表**
 
+**tb_students_info**
+
 ```sql
 CREATE TABLE `tb_students_info`  (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键id\r\n',
@@ -280,6 +282,18 @@ CREATE TABLE `tb_students_info`  (
   `login_date` datetime NULL DEFAULT NULL COMMENT '登陆时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+```
+
+**tb_departments**
+
+```sql
+CREATE TABLE `tb_departments`  (
+  `dept_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '部门id',
+  `dept_type` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '部门类型',
+  `dept_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '部门名称',
+  PRIMARY KEY (`dept_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
 ```
 
 **数据**
@@ -296,6 +310,20 @@ INSERT INTO `tb_students_info` VALUES (8, 'Susan', 1, 20, b'1', 170, '2021-11-02
 INSERT INTO `tb_students_info` VALUES (9, 'Thomas', 4, 35, b'0', 178, '2021-12-03 23:28:06');
 INSERT INTO `tb_students_info` VALUES (10, 'Tom', 3, 15, b'1', 165, '2021-12-26 23:28:10');
 ```
+
+**数据**
+
+```sql
+INSERT INTO `tb_departments` VALUES (1, 'A', 'Computer');
+INSERT INTO `tb_departments` VALUES (2, 'B', 'JS');
+INSERT INTO `tb_departments` VALUES (3, 'A', 'JAVA');
+INSERT INTO `tb_departments` VALUES (4, 'C', 'PYTHON');
+INSERT INTO `tb_departments` VALUES (5, 'A', 'C++');
+INSERT INTO `tb_departments` VALUES (6, 'B', 'C#');
+INSERT INTO `tb_departments` VALUES (7, 'A', 'JQ');
+```
+
+
 
 #### 查询(select)
 
@@ -510,6 +538,7 @@ FROM <表名1> INNER JOIN <表名2> [ ON子句]
 ``` sql
 # 表 tb_students_info 和表 tb_departments 都包含相同数据类型的字段 dept_id，在两个表之间使用内连接查询。
 SELECT id,name,age,dept_name FROM tb_students_info,tb_departments WHERE tb_students_info.dept_id=tb_departments.dept_id;
+
 # 在 tb_students_info 表和 tb_departments 表之间，使用 INNER JOIN 语法进行内连接查询
 SELECT id,name,age,dept_name FROM tb_students_info INNER JOIN tb_departments
 WHERE tb_students_info.dept_id=tb_departments.dept_id;
@@ -548,7 +577,7 @@ SELECT name,dept_name
 
 #### 子查询(in/exist)
 
-## 子查询中常用的运算符
+子查询中常用的运算符
 
 **IN子查询**
 
@@ -672,8 +701,6 @@ SELECT dept_id,GROUP_CONCAT(name) AS names
     HAVING COUNT(name)>1;
 ```
 
-
-
 #### 正则查询(regexp)
 
 ``` sql
@@ -681,8 +708,88 @@ SELECT dept_id,GROUP_CONCAT(name) AS names
 
 #### 插入数据(insert)
 
+##### 插入
+
+1. INSERT INTO <表名> [ <列名1> [ , … <列名n>] ]
+   VALUES (值1) [… , (值n) ];
+
 ``` sql
+<表名>：指定被操作的表名。
+<列名>：指定需要插入数据的列名。若向表中的所有列插入数据，则全部的列名均可以省略，直接采用 INSERT<表名>VALUES(…) 即可。
+VALUES 或 VALUE 子句：该子句包含要插入的数据清单。数据清单中数据的顺序要和列的顺序相对应。
 ```
+
+2. INSERT INTO <表名>
+   SET <列名1> = <值1>,
+           <列名2> = <值2>,
+
+在 MySQL 中，用单条 INSERT 语句处理多个插入要比使用多条 INSERT 语句更快。
+
+**创建表tb_courses**
+
+```sql
+CREATE TABLE tb_courses
+     (
+     course_id INT NOT NULL AUTO_INCREMENT,
+     course_name CHAR(40) NOT NULL,
+     course_grade FLOAT NOT NULL,
+     course_info CHAR(100) NULL,
+     PRIMARY KEY(course_id)
+     );
+```
+
+**插入练习**
+
+```sql
+# 在 tb_courses 表中插入一条新记录，course_id 值为 1，course_name 值为“Network”，course_grade 值为 3，info 值为“Computer Network”。
+INSERT INTO tb_courses
+     (course_id,course_name,course_grade,course_info)
+     VALUES(1,'Network',3,'Computer Network');
+     
+注意：插入的时候，数值要与列名的相对应
+
+# 在 tb_courses 表中插入一条新记录，course_id 值为 2，course_name 值为“Database”，course_grade 值为 3，info值为“MySQL”。
+INSERT INTO tb_courses
+     (course_name,course_info,course_id,course_grade)
+     VALUES('Database','MySQL',2,3);
+
+不指定列表名，但是值的顺序要和表结构一致
+     
+# 在 tb_courses 表中插入一条新记录，course_id 值为 3，course_name 值为“ Java”，course_grade 值为 4，info 值为“Jave EE”
+INSERT INTO tb_courses
+     VLAUES(3,'Java',4,'Java EE');
+     
+向表中指定字段添加值
+
+# 在 tb_courses 表中插入一条新记录，course_name 值为“System”，course_grade 值为 3，course_info 值为“Operating System”
+
+INSERT INTO tb_courses
+     (course_name,course_grade,course_info)
+     VALUES('System',3,'Operation System');
+```
+
+##### 复制
+
+INSERT INTO…SELECT…FROM 语句用于快速地从一个或多个表中取出数据，并将这些数据作为行数据插入另一个表中。
+
+```sql
+# 在数据库 test_db 中创建一个与 tb_courses 表结构相同的数据表 tb_courses_new
+CREATE TABLE tb_courses_new
+     (
+     course_id INT NOT NULL AUTO_INCREMENT,
+     course_name CHAR(40) NOT NULL,
+     course_grade FLOAT NOT NULL,
+     course_info CHAR(100) NULL,
+     PRIMARY KEY(course_id)
+     );
+# 从 tb_courses 表中查询所有的记录，并将其插入 tb_courses_new 表中。
+INSERT INTO tb_courses_new
+     (course_id,course_name,course_grade,course_info)
+     SELECT course_id,course_name,course_grade,course_info
+     FROM tb_courses;
+```
+
+
 
 #### 修改数据(update)
 
