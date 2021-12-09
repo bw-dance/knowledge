@@ -467,7 +467,7 @@ WHERE <查询条件> {<判定运算1>，<判定运算2>，…}
 
 ##### 普通查询
 
-```sql
+```mysql
 # 在表 tb_students_info 中查询身高为 170cm 的学生的姓名
 SELECT name,height
     FROM tb_students_info
@@ -482,7 +482,7 @@ SELECT name,height
 
 ##### 多条件的查询语句
 
-```sql
+```mysql
 # 在 tb_students_info 表中查询 age 大于 21，并且 height 大于等于 175 的学生的信息
 
 SELECT * FROM tb_students_info
@@ -514,7 +514,7 @@ SELECT * FROM tb_students_info
 
 **注意:**不要过度使用通配符，对通配符检索的处理一般会比其他检索方式花费更长的时间
 
-```sql
+```mysql
 # 在 tb_students_info 表中，查找所有以“T”字母开头的学生姓名，
 SELECT name FROM tb_students_info WHERE name LIKE 'T%';
 # 在 tb_students_info 表中，查找所有包含“e”字母的学生姓名
@@ -525,7 +525,7 @@ SELECT name FROM tb_students_info WHERE name LIKE '____y';
 
 ##### BETWEEN AND 作为条件的查询语句
 
-```sql
+```mysql
 # 在表 tb_students_info 中查询注册日期在 2021-12-01 之前的学生的信息
 SELECT * FROM tb_students_info WHERE login_date<'2021-12-01';
 # 在表 tb_students_info 中查询注册日期在 2021-11-01 和 2021-12-12 之间的学生的信息
@@ -541,7 +541,7 @@ FROM <表名1> INNER JOIN <表名2> [ ON子句]
 
 在 FROM 子句中可以在多个表之间连续使用 INNER JOIN 或 JOIN，如此可以同时实现多个表的内连接。
 
-``` sql
+``` mysql
 # 表 tb_students_info 和表 tb_departments 都包含相同数据类型的字段 dept_id，在两个表之间使用内连接查询。
 SELECT id,name,age,dept_name FROM tb_students_info,tb_departments WHERE tb_students_info.dept_id=tb_departments.dept_id;
 
