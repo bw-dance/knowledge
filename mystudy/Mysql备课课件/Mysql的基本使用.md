@@ -539,10 +539,12 @@ FROM <表名1> INNER JOIN <表名2> [ ON子句]
 
 在 [MySQL](http://www.voidme.com/mysql) FROM 子句中使用关键字 INNER JOIN 连接两张表，并使用 ON 子句来设置连接条件。
 
+
+
 在 FROM 子句中可以在多个表之间连续使用 INNER JOIN 或 JOIN，如此可以同时实现多个表的内连接。
 
 ``` mysql
-# 表 tb_students_info 和表 tb_departments 都包含相同数据类型的字段 dept_id，在两个表之间使用内连接查询。
+# 表 tb_students_info 和表 tb_departments 都包含相同数据类型的字段 dept_id，在两个表之间使用等值连接查询。
 SELECT id,name,age,dept_name FROM tb_students_info,tb_departments WHERE tb_students_info.dept_id=tb_departments.dept_id;
 
 # 在 tb_students_info 表和 tb_departments 表之间，使用 INNER JOIN 语法进行内连接查询
@@ -551,6 +553,12 @@ WHERE tb_students_info.dept_id=tb_departments.dept_id;
 ```
 
 注意:使用 WHERE 子句定义连接条件比较简单明了，而 INNER JOIN 语法是 ANSI SQL 的标准规范，使用 INNER JOIN 连接语法能够确保不会忘记连接条件，而且 WHERE 子句在某些时候会影响查询的性能。
+
+**等值连接和内连接区别**
+
+等值连接：2个表会先进行笛卡尔乘积运算，生成一个新表格，占据在电脑内存里，当表的数据量很大时，很耗内存，这种方法效率比较低，尽量不用。
+
+内连接：2个表根据共同ID进行逐条匹配，不会出现笛卡尔乘积的现象，效率比较高，优先使用这种方法。
 
 #### 外连接查询(outer join)
 
@@ -578,8 +586,6 @@ SELECT name,dept_name
      RIGHT OUTER JOIN tb_departments d
      ON s.dept_id = d.dept_id;
 ```
-
-
 
 #### 子查询(in/exist)
 
@@ -798,20 +804,44 @@ INSERT INTO tb_courses_new
 
 #### 修改数据(update)
 
-UPDATE <表名> SET <列名> <值> 条件 
+UPDATE <表名> SET 字段 1=值 1 [,字段 2=值 2… ] [WHERE 子句 ]
+[ORDER BY 子句] [LIMIT 子句]
+
+```text
+<表名>：用于指定要更新的表名称。
+SET 子句：用于指定表中要修改的列名及其列值。其中，每个指定的列值可以是表达式，也可以是该列对应的默认值。如果指定的是默认值，可用关键字 DEFAULT 表示列值。
+WHERE 子句：可选项。用于限定表中要修改的行。若不指定，则修改表中所有的行。
+ORDER BY 子句：可选项。用于限定表中的行被修改的次序。
+LIMIT 子句：可选项。用于限定被修改的行数。
+```
+
+注意：修改一行数据的多个列值时，SET 子句的每个值用逗号分开即可。
 
 ``` sql
-# 将部门id为2的部门名称改为B
-UPDATE tb_departments set dept_name = "B" where dept_id = 2
+# 在 tb_courses_new 表中，更新所有行的 course_grade 字段值为 4
+ UPDATE tb_courses_new SET course_grade=4;
+# 在 tb_courses 表中，更新 course_id 值为 2 的记录，将 course_grade 字段值改为 3.5，将 course_name 字段值改为“DB”
 ```
 
 #### MySQL删除数据(delete)
 
-DELETE FROM <表名> WHERE 
+DELETE FROM <表名> [WHERE 子句] [ORDER BY 子句] [LIMIT 子句]
+
+```text
+<表名>：指定要删除数据的表名。
+ORDER BY 子句：可选项。表示删除时，表中各行将按照子句中指定的顺序进行删除。
+WHERE 子句：可选项。表示为删除操作限定删除条件，若省略该子句，则代表删除该表中的所有行。
+LIMIT 子句：可选项。用于告知服务器在控制命令被返回到客户端前被删除行的最大值。
+```
+
+注意：在不使用 WHERE 条件的时候，将删除所有数据.
 
 ``` sql
-# 删除部门id为7的部门
-DELETE FROM tb_departments WHERE dept_id=7
+# 在 tb_courses_new 表中，删除 course_id 为 4 的记录
+DELETE FROM tb_courses WHERE course_id=4;
+     
+# 删除 tb_courses_new 表中的全部数据
+DELETE FROM tb_courses_new;
 ```
 
 ### Java与Mysql数据类型比对
