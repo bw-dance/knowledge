@@ -66,7 +66,7 @@
          world:world 数据库是 MySQL 自动创建的数据库，该数据库中只包括 3 张数据表，分别保存城市，国家和国家使用的语言等内容。
          ```
 
-6. **选择数据库 USER 数据库名称**
+6. **选择数据库 USE 数据库名称**
 
 7. **修改数据库**
 
@@ -329,7 +329,125 @@ INSERT INTO tb_departments VALUES (6, 'B', 'C#');
 INSERT INTO tb_departments VALUES (7, 'A', 'JQ');
 ```
 
+##### 课堂练习
 
+```sql
+条件查询
+
+
+# 查询id=8的数据
+SELECT id,name,dept_id,age FROM tb_students_info WHERE id = 8;
+
+# 查询id>3的数据
+SELECT id,name,dept_id,age FROM tb_students_info WHERE id >=3; 
+
+# 查询id>3并且age<25的数据
+SELECT id,name,dept_id,age FROM tb_students_info WHERE id >=3 AND age<25;
+
+# 查询所有数据
+SELECT * FROM tb_students_info;
+
+# 查询id>5并且age<25的数据
+SELECT * FROM tb_students_info WHERE id>5 AND age<25;
+
+# 获取用户的所有部门
+SELECT  dept_id FROM tb_students_info;
+
+# 用户部门去重
+SELECT DISTINCT dept_id FROM tb_students_info;
+
+# 查询用户的id，name，dept_name
+SELECT id,name,dept_name FROM tb_departments,tb_students_info WHERE
+tb_students_info.dept_id=tb_departments.dept_id;
+
+# 查询用户的id，name，dept_id,dept_name
+SELECT id,name,tb_students_info.dept_id,dept_name FROM tb_departments,tb_students_info  WHERE
+tb_students_info.dept_id=tb_departments.dept_id;
+
+别名查询
+
+# 查询用户的id，name，dept_id,dept_name 表使用别名  AS可省略
+SELECT 
+id,name,s.dept_id,dept_name 
+FROM 
+tb_departments AS d,tb_students_info AS s 
+WHERE
+s.dept_id=d.dept_id;
+
+# 查询用户的id，name，dept_id,dept_name 字段使用别名  
+SELECT 
+id AS "人员编号",name AS "姓名",s.dept_id AS "部门编号",dept_name AS "部门名称" 
+FROM 
+tb_departments AS d,tb_students_info AS s 
+WHERE
+s.dept_id=d.dept_id;
+
+# 查询用户的id，name，dept_id,dept_name 不同表的相同字段使用不同别名  
+SELECT 
+id,name,s.dept_id AS sid,d.dept_id AS did ,dept_name 
+FROM 
+tb_departments AS d,tb_students_info AS s 
+WHERE
+s.dept_id=d.dept_id;
+
+从指定位置查询
+
+# 查询表中前两条数据
+SELECT * FROM tb_students_info LIMIT 0,2;
+# 查询表中第三，四条数据
+SELECT * FROM tb_students_info LIMIT 2 ,2;
+# 查询表中五条数据
+SELECT * FROM tb_students_info LIMIT 0,5;
+SELECT * FROM tb_students_info LIMIT 5,5;
+
+排序
+
+# 将表中数据按照年龄从大到小展示
+SELECT * FROM tb_students_info ORDER BY age DESC
+# 将表中数据按照年龄从小到大展示
+SELECT * FROM tb_students_info ORDER BY age ASC
+
+# 查询结果：id正序，height倒序，age正序（倒序也试试）
+INSERT INTO tb_students_info VALUE
+(11,"Jerry",1,15,b'0',170,'2021-12-08 23:27:47');
+
+SELECT * FROM 
+tb_students_info 
+ORDER BY 
+dept_id ASC, height DESC,age ASC;
+
+模糊查询
+
+# 模糊查询有字母为J的同学
+SELECT * FROM tb_students_info WHERE name LIKE 'J%';
+
+# 模糊查询尾字母为m的同学
+SELECT * FROM tb_students_info WHERE name LIKE '%m';
+
+# 模糊查询尾字母为an的同学
+SELECT * FROM tb_students_info WHERE name LIKE '%an';
+
+# 查询名字包含e的同学
+INSERT INTO tb_students_info VALUE
+(12,"earry",1,15,b'0',170,'2021-12-08 23:27:47');
+
+INSERT INTO tb_students_info VALUE
+(13,"Earry",1,15,b'0',170,'2021-12-08 23:27:47');
+
+SELECT * FROM tb_students_info WHERE name LIKE '%e%';
+
+# 查询以n结尾，但是前面有三个字母的同学
+SELECT * FROM tb_students_info WHERE name LIKE '___n';
+
+# 查询身高在160-170的数据
+ SELECT * FROM tb_students_info WHERE height BETWEEN 160 AND 170;
+ 
+# 查询登陆日期在2021-10-30 23:27:57和2021-11-30 23:27:57之间的数据
+SELECT * FROM tb_students_info WHERE login_date BETWEEN ' 2021-10-30 23:27:57' AND '2021-11-30 23:27:57';
+
+# 查询身高在160-170的数据，年龄大于25。
+ SELECT * FROM tb_students_info WHERE height BETWEEN 160 AND 170 AND age<25;
+```
 
 #### 查询(select)
 
@@ -357,11 +475,15 @@ GROUP BY< 字段 >，该子句告诉 MySQL 如何显示查询出来的数据，�
 ```sql
 # 查询 tb_students_info 表中的所有数据
 SELECT * FROM tb_students_info;
+
 SELECT id,name,dept_id,age,sex,height,login_date FROM tb_students_info;
+
 # 查询 tb_students_info 表中 name 列所有学生的姓名
 SELECT name FROM tb_students_info;
+
 # 从 tb_students_info 表中获取 id、name 和 height 三列
 SELECT id,name,height FROM tb_students_info;
+
 ```
 
 #### 去重(distinct)
@@ -523,7 +645,7 @@ SELECT name FROM tb_students_info WHERE name LIKE '%e%';
 SELECT name FROM tb_students_info WHERE name LIKE '____y';
 ```
 
-##### BETWEEN AND 作为条件的查询语句
+##### BETWEEN AND
 
 ```mysql
 # 在表 tb_students_info 中查询注册日期在 2021-12-01 之前的学生的信息
