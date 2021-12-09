@@ -8,22 +8,26 @@
 
 ### 数据库操作
 
-1. **启动数据库服务** `net start mysql` 
+1. **启动数据库服务** net start mysql 
 
-2. **关闭数据库服务** `net stop mysql`
+1. **登陆账户** mysql -u root -p
 
-3. **查看所有数据库 `SHOW DATABASES`**
+2. **关闭数据库服务** net stop mysql
 
-4. **创建数据库** `CREATE DATABASE "数据库名称"`
+3. **查看所有数据库 SHOW DATABASES;**
+
+5. **创建数据库** CREATE DATABASE "数据库名称"
 
    1. ```sql
       CREATE DATABASE [IF NOT EXISTS] <数据库名>
       [[DEFAULT] CHARACTER SET <字符集名>] 
       [[DEFAULT] COLLATE <校对规则名>];
       
+      utf8mb4
+      
       <数据库名>：创建数据库的名称。
       
-      IF NOT EXISTS：在创建数据库之前进行判断，只有该数据库目前尚不存在时才能执行操作。
+      IF NOT EXISTS：在创建数据库之前进行判断,只有该数据库目前尚不存在时才能执行操作。
       
       [DEFAULT] CHARACTER SET：指定数据库的字符集。指定字符集的目的是为了避免在数据库中存储的数据出现乱码的情况。不指定字符集，使用系统的默认字符集。
       
@@ -42,9 +46,9 @@
              DEFAULT COLLATE utf8mb4_general_ci;
       ````
 
-5. **查看数据库结构 `SHOW CREATE DATABASE test_db_char;`**
+5. **查看数据库结构 SHOW CREATE DATABASE test_db_char;**
 
-   1. 模糊匹配：`SHOW DATABASES LIKE '%db'`
+   1. 模糊匹配：SHOW DATABASES LIKE '%db'
 
    2. mysql自带数据库
 
@@ -62,7 +66,7 @@
          world：world 数据库是 MySQL 自动创建的数据库，该数据库中只包括 3 张数据表，分别保存城市，国家和国家使用的语言等内容。
          ```
 
-6. **选择数据库 `USER 数据库名称`**
+6. **选择数据库 USER 数据库名称**
 
 7. **修改数据库**
 
@@ -79,13 +83,13 @@
       CHARACTER SET 子句用于更改默认的数据库字符集。
       
       
-      //创建一个数据库 test_db
+      //修改一个数据库 test_db
       ALTER DATABASE test_db
              DEFAULT CHARACTER SET gb2312
              DEFAULT COLLATE gb2312_chinese_ci;
       ```
 
-8. **删除数据库 `drop database '数据库名称'`**
+8. **删除数据库 drop database '数据库名称'**
 
    1. ```sql
       DROP DATABASE [ IF EXISTS ] <数据库名>
@@ -104,7 +108,7 @@
       DROP DATABASE IF EXISTS test_db_del;
       ```
 
-9. **查看存储引擎**`SHOW ENGINES`
+9. **查看存储引擎**SHOW ENGINES
 
 ### 表操作
 
@@ -145,20 +149,20 @@
       3. Default：表示该列是否有默认值，如果有，值是多少。
       4. Extra：表示可以获取的与给定列有关的附加信息，如 AUTO_INCREMENT 等。
 
-2. **查看当前库的表**:` show tables`
+2. **查看当前库的表**: show tables
 
-3. **查看表结构**：` DESCRIBE <表名>;`
+3. **查看表结构**： DESCRIBE <表名>;
 
    1. 可以查看表的字段信息，包括字段名、字段数据类型、是否为主键、是否有默认值等
 
-4. **查看表的创建语句：**`SHOW CREATE TABLE tb_emp1\G；`
+4. **查看表的创建语句：**SHOW CREATE TABLE tb_emp1\G；
 
    1. ```java
-      Create Table: CREATE TABLE `tb_emp1` (
-        `id` int(11) DEFAULT NULL,
-        `name` varchar(25) DEFAULT NULL,
-        `deptId` int(11) DEFAULT NULL,
-        `salary` float DEFAULT NULL
+      Create Table: CREATE TABLE tb_emp1 (
+        id int(11) DEFAULT NULL,
+        name varchar(25) DEFAULT NULL,
+        deptId int(11) DEFAULT NULL,
+        salary float DEFAULT NULL
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8
       ```
 
@@ -272,26 +276,26 @@
 **tb_students_info**
 
 ```sql
-CREATE TABLE `tb_students_info`  (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键id\r\n',
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '姓名',
-  `dept_id` bigint(20) NOT NULL DEFAULT 0 COMMENT '部门id',
-  `age` smallint(6) NOT NULL DEFAULT 0 COMMENT '年龄',
-  `sex` bit(1) NOT NULL DEFAULT b'0' COMMENT '性别  0 男  1 女',
-  `height` smallint(6) NOT NULL DEFAULT 0 COMMENT '身高',
-  `login_date` datetime NULL DEFAULT NULL COMMENT '登陆时间',
-  PRIMARY KEY (`id`) USING BTREE
+CREATE TABLE tb_students_info  (
+  id bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键id\r\n',
+  name varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '姓名',
+  dept_id bigint(20) NOT NULL DEFAULT 0 COMMENT '部门id',
+  age smallint(6) NOT NULL DEFAULT 0 COMMENT '年龄',
+  sex bit(1) NOT NULL DEFAULT b'0' COMMENT '性别  0 男  1 女',
+  height smallint(6) NOT NULL DEFAULT 0 COMMENT '身高',
+  login_date datetime NULL DEFAULT NULL COMMENT '登陆时间',
+  PRIMARY KEY (id) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 ```
 
 **tb_departments**
 
 ```sql
-CREATE TABLE `tb_departments`  (
-  `dept_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '部门id',
-  `dept_type` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '部门类型',
-  `dept_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '部门名称',
-  PRIMARY KEY (`dept_id`) USING BTREE
+CREATE TABLE tb_departments  (
+  dept_id bigint(20) NOT NULL AUTO_INCREMENT COMMENT '部门id',
+  dept_type varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '部门类型',
+  dept_name varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '部门名称',
+  PRIMARY KEY (dept_id) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 ```
@@ -299,28 +303,28 @@ CREATE TABLE `tb_departments`  (
 **数据**
 
 ```sql
-INSERT INTO `tb_students_info` VALUES (1, 'Dany', 1, 25, b'1', 160, '2021-12-08 23:25:43');
-INSERT INTO `tb_students_info` VALUES (2, 'Green', 3, 23, b'0', 158, '2021-12-08 23:26:22');
-INSERT INTO `tb_students_info` VALUES (3, 'Henry', 2, 23, b'1', 185, '2021-12-08 23:27:08');
-INSERT INTO `tb_students_info` VALUES (4, 'Jane', 1, 22, b'1', 162, '2021-12-08 23:27:44');
-INSERT INTO `tb_students_info` VALUES (5, 'Jim', 6, 21, b'0', 175, '2021-12-08 23:27:47');
-INSERT INTO `tb_students_info` VALUES (6, 'John', 5, 25, b'1', 172, '2021-12-04 23:27:52');
-INSERT INTO `tb_students_info` VALUES (7, 'Lily', 1, 22, b'0', 165, '2021-11-30 23:27:57');
-INSERT INTO `tb_students_info` VALUES (8, 'Susan', 1, 20, b'1', 170, '2021-11-02 23:28:01');
-INSERT INTO `tb_students_info` VALUES (9, 'Thomas', 4, 35, b'0', 178, '2021-12-03 23:28:06');
-INSERT INTO `tb_students_info` VALUES (10, 'Tom', 3, 15, b'1', 165, '2021-12-26 23:28:10');
+INSERT INTO tb_students_info VALUES (1, 'Dany', 1, 25, b'1', 160, '2021-12-08 23:25:43');
+INSERT INTO tb_students_info VALUES (2, 'Green', 3, 23, b'0', 158, '2021-12-08 23:26:22');
+INSERT INTO tb_students_info VALUES (3, 'Henry', 2, 23, b'1', 185, '2021-12-08 23:27:08');
+INSERT INTO tb_students_info VALUES (4, 'Jane', 1, 22, b'1', 162, '2021-12-08 23:27:44');
+INSERT INTO tb_students_info VALUES (5, 'Jim', 6, 21, b'0', 175, '2021-12-08 23:27:47');
+INSERT INTO tb_students_info VALUES (6, 'John', 5, 25, b'1', 172, '2021-12-04 23:27:52');
+INSERT INTO tb_students_info VALUES (7, 'Lily', 1, 22, b'0', 165, '2021-11-30 23:27:57');
+INSERT INTO tb_students_info VALUES (8, 'Susan', 1, 20, b'1', 170, '2021-11-02 23:28:01');
+INSERT INTO tb_students_info VALUES (9, 'Thomas', 4, 35, b'0', 178, '2021-12-03 23:28:06');
+INSERT INTO tb_students_info VALUES (10, 'Tom', 3, 15, b'1', 165, '2021-12-26 23:28:10');
 ```
 
 **数据**
 
 ```sql
-INSERT INTO `tb_departments` VALUES (1, 'A', 'Computer');
-INSERT INTO `tb_departments` VALUES (2, 'B', 'JS');
-INSERT INTO `tb_departments` VALUES (3, 'A', 'JAVA');
-INSERT INTO `tb_departments` VALUES (4, 'C', 'PYTHON');
-INSERT INTO `tb_departments` VALUES (5, 'A', 'C++');
-INSERT INTO `tb_departments` VALUES (6, 'B', 'C#');
-INSERT INTO `tb_departments` VALUES (7, 'A', 'JQ');
+INSERT INTO tb_departments VALUES (1, 'A', 'Computer');
+INSERT INTO tb_departments VALUES (2, 'B', 'JS');
+INSERT INTO tb_departments VALUES (3, 'A', 'JAVA');
+INSERT INTO tb_departments VALUES (4, 'C', 'PYTHON');
+INSERT INTO tb_departments VALUES (5, 'A', 'C++');
+INSERT INTO tb_departments VALUES (6, 'B', 'C#');
+INSERT INTO tb_departments VALUES (7, 'A', 'JQ');
 ```
 
 
@@ -338,12 +342,12 @@ FROM <表 1>, <表 2>…
 [ORDER BY <order by definition>]
 [LIMIT[<offset>,] <row count>]
 ]
-`{*|<字段列名>}`包含星号通配符的字段列表，表示查询的字段，其中字段列至少包含一个字段名称，如果要查询多个字段，多个字段之间要用逗号隔开，最后一个字段后不要加逗号。
-`FROM <表 1>，<表 2>…`，表 1 和表 2 表示查询数据的来源，可以是单个或多个。
+{*|<字段列名>}包含星号通配符的字段列表，表示查询的字段，其中字段列至少包含一个字段名称，如果要查询多个字段，多个字段之间要用逗号隔开，最后一个字段后不要加逗号。
+FROM <表 1>，<表 2>…，表 1 和表 2 表示查询数据的来源，可以是单个或多个。
 WHERE 子句是可选项，如果选择该项，将限定查询行必须满足的查询条件。
-`GROUP BY< 字段 >`，该子句告诉 MySQL 如何显示查询出来的数据，并按照指定的字段分组。
-`[ORDER BY< 字段 >]`，该子句告诉 MySQL 按什么样的顺序显示查询出来的数据，可以进行的排序有升序（ASC）和降序（DESC）。
-`[LIMIT[<offset>，]<row count>]`，该子句告诉 MySQL 每次显示查询出来的数据条数。
+GROUP BY< 字段 >，该子句告诉 MySQL 如何显示查询出来的数据，并按照指定的字段分组。
+[ORDER BY< 字段 >]，该子句告诉 MySQL 按什么样的顺序显示查询出来的数据，可以进行的排序有升序（ASC）和降序（DESC）。
+[LIMIT[<offset>，]<row count>]，该子句告诉 MySQL 每次显示查询出来的数据条数。
 ```
 
 **查询语句**
@@ -424,7 +428,7 @@ ORDER BY {<列名> | <表达式> | <位置>} [ASC|DESC]
 
 **位置：**指定用于排序的列在 SELECT 语句结果集中的位置，通常是一个正整数。
 
-**ASC|DESC：**关键字 `ASC` 表示按升序分组，关键字 `DESC` 表示按降序分组，其中 `ASC` 为默认值。这两个关键字必须位于对应的列名、表达式、列的位置之后。
+**ASC|DESC：**关键字 ASC 表示按升序分组，关键字 DESC 表示按降序分组，其中 ASC 为默认值。这两个关键字必须位于对应的列名、表达式、列的位置之后。
 
 使用 ORDER BY 子句注意：
 
@@ -587,8 +591,8 @@ SELECT name,dept_name
 
 语法:
 
-- `<表达式>`：用于指定表达式。当表达式与子查询返回的结果集中的某个值相等时，返回 TRUE，否则返回 FALSE；若使用关键字 NOT，则返回的值正好相反。
-- `<子查询>`：用于指定子查询。这里的子查询只能返回一列数据。对于比较复杂的查询要求，可以使用 SELECT 语句实现子查询的多层嵌套。
+- <表达式>：用于指定表达式。当表达式与子查询返回的结果集中的某个值相等时，返回 TRUE，否则返回 FALSE；若使用关键字 NOT，则返回的值正好相反。
+- <子查询>：用于指定子查询。这里的子查询只能返回一列数据。对于比较复杂的查询要求，可以使用 SELECT 语句实现子查询的多层嵌套。
 
 **比较运算符子查询**
 
@@ -599,9 +603,9 @@ SELECT name,dept_name
 
 语法:
 
-- `<子查询>`：用于指定子查询。
-- `<表达式>`：用于指定要进行比较的表达式。
-- `ALL`、`SOME` 和 `ANY`：可选项。用于指定对比较运算的限制。其中，关键字 ALL 用于指定表达式需要与子查询结果集中的每个值都进行比较，当表达式与每个值都满足比较关系时，会返回 TRUE，否则返回 FALSE；关键字 SOME 和 ANY 是同义词，表示表达式只要与子查询结果集中的某个值满足比较关系，就返回 TRUE，否则返回 FALSE。
+- <子查询>：用于指定子查询。
+- <表达式>：用于指定要进行比较的表达式。
+- ALL、SOME 和 ANY：可选项。用于指定对比较运算的限制。其中，关键字 ALL 用于指定表达式需要与子查询结果集中的每个值都进行比较，当表达式与每个值都满足比较关系时，会返回 TRUE，否则返回 FALSE；关键字 SOME 和 ANY 是同义词，表示表达式只要与子查询结果集中的某个值满足比较关系，就返回 TRUE，否则返回 FALSE。
 
 **EXIST子查询**
 
@@ -658,10 +662,10 @@ SELECT * FROM tb_students_info
 GROUP BY { <列名> | <表达式> | <位置> } [ASC | DESC]
 
 ``` sql
-`<列名>`：指定用于分组的列。可以指定多个列，彼此间用逗号分隔。
-`<表达式>`：指定用于分组的表达式。通常与聚合函数一块使用，例如可将表达式 COUNT(*)AS' 人数 ' 作为 SELECT 选择列表清单的一项。
-`<位置>`：指定用于分组的选择列在 SELECT 语句结果集中的位置，通常是一个正整数。例如，GROUP BY 2 表示根据 SELECT 语句列清单上的第 2 列的值进行逻辑分组。
-`ASC|DESC`：关键字 ASC 表示按升序分组，关键字 DESC 表示按降序分组，其中 ASC 为默认值，注意这两个关键字必须位于对应的列名、表达式、列的位置之后。
+<列名>：指定用于分组的列。可以指定多个列，彼此间用逗号分隔。
+<表达式>：指定用于分组的表达式。通常与聚合函数一块使用，例如可将表达式 COUNT(*)AS' 人数 ' 作为 SELECT 选择列表清单的一项。
+<位置>：指定用于分组的选择列在 SELECT 语句结果集中的位置，通常是一个正整数。例如，GROUP BY 2 表示根据 SELECT 语句列清单上的第 2 列的值进行逻辑分组。
+ASC|DESC：关键字 ASC 表示按升序分组，关键字 DESC 表示按降序分组，其中 ASC 为默认值，注意这两个关键字必须位于对应的列名、表达式、列的位置之后。
 ```
 
 注意：GROUP BY 子句中的各选择列必须也是 SELECT 语句的选择列清单中的一项。
@@ -807,6 +811,10 @@ DELETE FROM <表名> WHERE
 DELETE FROM tb_departments WHERE dept_id=7
 ```
 
+### Java与Mysql数据类型比对
+
+![image-20211209101854787](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211209101854787.png)
+
 ## 3. 数据库的存储引擎
 
 **介绍：**
@@ -880,7 +888,7 @@ MySQL 提供了多种数值型数据类型，不同的数据类型提供不同�
 
 MySQL 主要提供的整数类型有 **TINYINT**、 **SMALLINT**、 **MEDIUMINT**、 **INT**、 **BIGINT**，其属性字段可以添加 AUTO_INCREMENT 自增约束条件。
 
-| 类型名称      | 无符号范围                                | 有符号范围              | 存储需求 | 默认长度 |
+| 类型名称      | 有符号范围                                | 无符号范围              | 存储需求 | 默认长度 |
 | :------------ | :---------------------------------------- | :---------------------- | -------- | -------- |
 | TINYINT       | -128〜127                                 | 0 〜255                 | 1个字节  | 4        |
 | SMALLINT      | -32768〜32767                             | 0〜65535                | 2个字节  | 6        |
@@ -892,7 +900,7 @@ MySQL 主要提供的整数类型有 **TINYINT**、 **SMALLINT**、 **MEDIUMINT*
 
 浮点类型有两种，分别是单精度浮点数（ **FLOAT**）和双精度浮点数（ **DOUBLE**）；定点类型只有一种，就是 **DECIMAL**。
 
-浮点类型和定点类型都可以用 `(M, D)`来表示，其中 `M`称为精度，表示总共的位数； `D`称为标度，表示小数的位数。
+浮点类型和定点类型都可以用 (M, D)来表示，其中 M称为精度，表示总共的位数； D称为标度，表示小数的位数。
 
 浮点数类型的取值范围为 M（1～255）和 D（1～30，且不能大于 M-2），分别表示显示宽度和小数位数。M 和 D 在 FLOAT 和DOUBLE 中是可选的，FLOAT 和 DOUBLE 类型将被保存为硬件所支持的最大精度。DECIMAL 的默认 D 值为 0、M 值为 10。
 
@@ -914,13 +922,13 @@ MySQL 中表示日期的数据类型： **YEAR**、 **TIME**、 **DATE**、 **DT
 
 每一个类型都有合法的取值范围，当指定确定不合法的值时，系统将“零”值插入数据库中。
 
-| 类型名称         | 说明     | 日期格式            | 日期范围                                          | 存储需求 |
-| :--------------- | -------- | :------------------ | :------------------------------------------------ | :------- |
-| YEAR             | 年       | YYYY                | 1901 ~ 2155                                       | 1 个字节 |
-| TIME             | 时间     | HH:MM:SS            | -838:59:59 ~ 838:59:59                            | 3 个字节 |
-| DATE             | 日期     | YYYY-MM-DD          | 1000-01-01 ~ 9999-12-3                            | 3 个字节 |
-| DATETIME（常用） | 日期时间 | YYYY-MM-DD HH:MM:SS | 1000-01-01 00:00:00 ~ 9999-12-31 23:59:59         | 8 个字节 |
-| TIMESTAMP        | 日期时间 | YYYY-MM-DD HH:MM:SS | 1980-01-01 00:00:01 UTC ~ 2040-01-19 03:14:07 UTC | 4 个字节 |
+| 类型名称             | 说明     | 日期格式            | 日期范围                                          | 存储需求 |
+| :------------------- | -------- | :------------------ | :------------------------------------------------ | :------- |
+| YEAR                 | 年       | YYYY                | 1901 ~ 2155                                       | 1 个字节 |
+| TIME                 | 时间     | HH:MM:SS            | -838:59:59 ~ 838:59:59                            | 3 个字节 |
+| DATE                 | 日期     | YYYY-MM-DD          | 1000-01-01 ~ 9999-12-3                            | 3 个字节 |
+| **DATETIME（常用）** | 日期时间 | YYYY-MM-DD HH:MM:SS | 1000-01-01 00:00:00 ~ 9999-12-31 23:59:59         | 8 个字节 |
+| TIMESTAMP            | 日期时间 | YYYY-MM-DD HH:MM:SS | 1980-01-01 00:00:01 UTC ~ 2040-01-19 03:14:07 UTC | 4 个字节 |
 
 TIMESTAMP 与 DATETIME 区别：
 
@@ -1064,4 +1072,970 @@ MySQL 支持 4 种运算符，分别是：
 | 13                 | ^                                                            |
 | 14                 | -(负号）、〜（位反转）                                       |
 | 15                 | !                                                            |
+
+## 6. 练习题
+
+#### 1、取得每个部门最高薪水的人员名称
+
+```sql
+# 第一步：取得每个部门最高薪水(按照部门编号分组，找出每一组最大值)
+
+select deptno,max(sal) as maxsal from emp group by deptno;
+
+# 第二步：将以上的查询结果当做一张临时表t，t和emp表连接，条件：t.deptno = e.deptno and t.maxsal = e.sal
+
+select 
+    e.ename, t.*
+from 
+    emp e
+join
+    (select deptno,max(sal) as maxsal from emp group by deptno) t
+on
+    t.deptno = e.deptno and t.maxsal = e.sal;
+```
+
+#### 2、哪些人的薪水在部门的平均薪水之上
+
+```sql
+# 第一步：找出每个部门的平均薪水
+select deptno,avg(sal) as avgsal from emp group by deptno;
+
+# 第二步：将以上查询结果当做t表，t和emp表连接,条件：部门编号相同，并且emp的sal大于t表的avgsal
+select 
+    t.*, e.ename, e.sal
+from
+    emp e
+join
+    (select deptno,avg(sal) as avgsal from emp group by deptno) t
+on
+    e.deptno = t.deptno and e.sal > t.avgsal;
+```
+
+#### 3、取得部门中（所有人的）平均的薪水等级
+
+平均的薪水等级：先计算每一个薪水的等级，然后找出薪水等级的平均值。
+
+平均薪水的等级：先计算平均薪水，然后找出每个平均薪水的等级值。
+
+```sql
+ # 第一步：找出每个人的薪水等级,emp e和salgrade s表连接。连接条件：e.sal between s.losal and s.hisal
+  select 
+        e.ename,e.sal,e.deptno,s.grade
+    from
+        emp e
+    join
+        salgrade s
+    on
+        e.sal between s.losal and s.hisal;
+ # 第二步：基于以上的结果继续按照deptno分组，求grade的平均值。
+  select 
+        e.deptno,avg(s.grade)
+    from
+        emp e
+    join
+        salgrade s
+    on
+        e.sal between s.losal and s.hisal
+    group by
+        e.deptno;
+```
+
+#### 4、不准用组函数（Max ），取得最高薪水
+
+```sql
+# 第一种：sal降序，limit 1
+select ename,sal from emp order by sal desc limit 1;
+
+# 第二种方案：
+select max(sal) from emp;
+
+# 第三种方案：表的自连接
+select sal from emp where sal not in(select distinct a.sal from emp a join emp b on a.sal < b.sal);
+```
+
+
+
+```sql
+
+ 5、取得平均薪水最高的部门的部门编号
+ 
+第一种方案：降序取第一个。
+ 
+    第一步：找出每个部门的平均薪水
+        select deptno,avg(sal) as avgsal from emp group by deptno;
+        +--------+-------------+
+        | deptno | avgsal      |
+        +--------+-------------+
+        |     10 | 2916.666667 |
+        |     20 | 2175.000000 |
+        |     30 | 1566.666667 |
+        +--------+-------------+
+    第二步：降序选第一个。
+        select deptno,avg(sal) as avgsal from emp group by deptno order by avgsal desc limit 1;
+        +--------+-------------+
+        | deptno | avgsal      |
+        +--------+-------------+
+        |     10 | 2916.666667 |
+        +--------+-------------+
+ 
+第二种方案：max
+ 
+    第一步：找出每个部门的平均薪水
+ 
+    select deptno,avg(sal) as avgsal from emp group by deptno;
+    +--------+-------------+
+    | deptno | avgsal      |
+    +--------+-------------+
+    |     10 | 2916.666667 |
+    |     20 | 2175.000000 |
+    |     30 | 1566.666667 |
+    +--------+-------------+
+ 
+    第二步：找出以上结果中avgsal最大的值。
+    select max(t.avgsal) from (select avg(sal) as avgsal from emp group by deptno) t;
+    +---------------+
+    | max(t.avgsal) |
+    +---------------+
+    |   2916.666667 |
+    +---------------+
+ 
+    第三步：
+    select 
+        deptno,avg(sal) as avgsal 
+    from 
+        emp 
+    group by 
+        deptno
+    having
+        avgsal = (select max(t.avgsal) from (select avg(sal) as avgsal from emp group by deptno) t);
+     
+    +--------+-------------+
+    | deptno | avgsal      |
+    +--------+-------------+
+    |     10 | 2916.666667 |
+    +--------+-------------+
+ 
+6、取得平均薪水最高的部门的部门名称
+ 
+select 
+    d.dname,avg(e.sal) as avgsal 
+from 
+    emp e
+join
+    dept d
+on
+    e.deptno = d.deptno
+group by 
+    d.dname
+order by 
+    avgsal desc 
+limit 
+    1;
+ 
++------------+-------------+
+| dname      | avgsal      |
++------------+-------------+
+| ACCOUNTING | 2916.666667 |
++------------+-------------+
+ 
+7、求平均薪水的等级最低的部门的部门名称
+ 
+平均薪水是800
+平均薪水是900
+那么他俩都是1级别。
+ 
+第一步：找出每个部门的平均薪水
+select deptno,avg(sal) as avgsal from emp group by deptno;
++--------+-------------+
+| deptno | avgsal      |
++--------+-------------+
+|     10 | 2916.666667 |
+|     20 | 2175.000000 |
+|     30 | 1566.666667 |
++--------+-------------+
+ 
+第二步：找出每个部门的平均薪水的等级
+以上t表和salgrade表连接，条件：t.avgsal between s.losal and s.hisal
+ 
+select 
+    t.*,s.grade
+from
+    (select d.dname,avg(sal) as avgsal from emp e join dept d on e.deptno = d.deptno group by d.dname) t
+join
+    salgrade s
+on
+    t.avgsal between s.losal and s.hisal;
+ 
++------------+-------------+-------+
+| dname      | avgsal      | grade |
++------------+-------------+-------+
+| SALES      | 1566.666667 |     3 |
+| ACCOUNTING | 2916.666667 |     4 |
+| RESEARCH   | 2175.000000 |     4 |
++------------+-------------+-------+
+ 
+select 
+    t.*,s.grade
+from
+    (select d.dname,avg(sal) as avgsal from emp e join dept d on e.deptno = d.deptno group by d.dname) t
+join
+    salgrade s
+on
+    t.avgsal between s.losal and s.hisal
+where
+    s.grade = (select grade from salgrade where (select avg(sal) as avgsal from emp group by deptno order by avgsal asc limit 1) between losal and hisal);
+ 
++-------+-------------+-------+
+| dname | avgsal      | grade |
++-------+-------------+-------+
+| SALES | 1566.666667 |     3 |
++-------+-------------+-------+
+ 
+抛开之前的，最低等级你怎么着？
+    平均薪水最低的对应的等级一定是最低的.
+    select avg(sal) as avgsal from emp group by deptno order by avgsal asc limit 1;
+    +-------------+
+    | avgsal      |
+    +-------------+
+    | 1566.666667 |
+    +-------------+
+ 
+    select grade from salgrade where (select avg(sal) as avgsal from emp group by deptno order by avgsal asc limit 1) between losal and hisal;
+    +-------+
+    | grade |
+    +-------+
+    |     3 |
+    +-------+
+ 
+8、取得比普通员工(员工代码没有在 mgr 字段上出现的) 的最高薪水还要高的领导人姓名
+ 
+    比“普通员工的最高薪水”还要高的一定是领导！
+        没毛病！！！！
+ 
+mysql> select distinct mgr from emp where mgr is not null;
++------+
+| mgr  |
++------+
+| 7902 |
+| 7698 |
+| 7839 |
+| 7566 |
+| 7788 |
+| 7782 |
++------+
+员工编号没有在以上范围内的都是普通员工。
+ 
+第一步：找出普通员工的最高薪水！
+not in在使用的时候，后面小括号中记得排除NULL。
+select max(sal) from emp where empno not in(select distinct mgr from emp where mgr is not null);
++----------+
+| max(sal) |
++----------+
+|  1600.00 |
++----------+
+ 
+第二步：找出高于1600的
+select ename,sal from emp where sal > (select max(sal) from emp where empno not in(select distinct mgr from emp where mgr is not null));
++-------+---------+
+| ename | sal     |
++-------+---------+
+| JONES | 2975.00 |
+| BLAKE | 2850.00 |
+| CLARK | 2450.00 |
+| SCOTT | 3000.00 |
+| KING  | 5000.00 |
+| FORD  | 3000.00 |
++-------+---------+
+ 
+9、取得薪水最高的前五名员工
+select ename,sal from emp order by sal desc limit 5;
++-------+---------+
+| ename | sal     |
++-------+---------+
+| KING  | 5000.00 |
+| SCOTT | 3000.00 |
+| FORD  | 3000.00 |
+| JONES | 2975.00 |
+| BLAKE | 2850.00 |
++-------+---------+
+ 
+10、取得薪水最高的第六到第十名员工
+select ename,sal from emp order by sal desc limit 5, 5;
++--------+---------+
+| ename  | sal     |
++--------+---------+
+| CLARK  | 2450.00 |
+| ALLEN  | 1600.00 |
+| TURNER | 1500.00 |
+| MILLER | 1300.00 |
+| MARTIN | 1250.00 |
++--------+---------+
+ 
+11、取得最后入职的 5 名员工
+日期也可以降序，升序。
+     
+    select ename,hiredate from emp order by hiredate desc limit 5;
+ 
+    +--------+------------+
+    | ename  | hiredate   |
+    +--------+------------+
+    | ADAMS  | 1987-05-23 |
+    | SCOTT  | 1987-04-19 |
+    | MILLER | 1982-01-23 |
+    | FORD   | 1981-12-03 |
+    | JAMES  | 1981-12-03 |
+    +--------+------------+
+ 
+12、取得每个薪水等级有多少员工
+分组count
+ 
+第一步：找出每个员工的薪水等级
+select 
+    e.ename,e.sal,s.grade 
+from 
+    emp e 
+join 
+    salgrade s 
+on 
+    e.sal between s.losal and s.hisal;
++--------+---------+-------+
+| ename  | sal     | grade |
++--------+---------+-------+
+| SMITH  |  800.00 |     1 |
+| ALLEN  | 1600.00 |     3 |
+| WARD   | 1250.00 |     2 |
+| JONES  | 2975.00 |     4 |
+| MARTIN | 1250.00 |     2 |
+| BLAKE  | 2850.00 |     4 |
+| CLARK  | 2450.00 |     4 |
+| SCOTT  | 3000.00 |     4 |
+| KING   | 5000.00 |     5 |
+| TURNER | 1500.00 |     3 |
+| ADAMS  | 1100.00 |     1 |
+| JAMES  |  950.00 |     1 |
+| FORD   | 3000.00 |     4 |
+| MILLER | 1300.00 |     2 |
++--------+---------+-------+
+ 
+第二步：继续按照grade分组统计数量
+select 
+    s.grade ,count(*)
+from 
+    emp e 
+join 
+    salgrade s 
+on 
+    e.sal between s.losal and s.hisal
+group by
+    s.grade;
+ 
++-------+----------+
+| grade | count(*) |
++-------+----------+
+|     1 |        3 |
+|     2 |        3 |
+|     3 |        2 |
+|     4 |        5 |
+|     5 |        1 |
++-------+----------+
+ 
+13、面试题：
+有 3 个表 S(学生表)，C（课程表），SC（学生选课表）
+S（SNO，SNAME）代表（学号，姓名）
+C（CNO，CNAME，CTEACHER）代表（课号，课名，教师）
+SC（SNO，CNO，SCGRADE）代表（学号，课号，成绩）
+问题：
+1，找出没选过“黎明”老师的所有学生姓名。
+2，列出 2 门以上（含2 门）不及格学生姓名及平均成绩。
+3，即学过 1 号课程又学过 2 号课所有学生的姓名。
+ 
+ 
+14、列出所有员工及领导的姓名
+select 
+    a.ename '员工', b.ename '领导'
+from
+    emp a
+left join
+    emp b
+on
+    a.mgr = b.empno;
+ 
++--------+-------+
+| 员工   | 领导    |
++--------+-------+
+| SMITH  | FORD  |
+| ALLEN  | BLAKE |
+| WARD   | BLAKE |
+| JONES  | KING  |
+| MARTIN | BLAKE |
+| BLAKE  | KING  |
+| CLARK  | KING  |
+| SCOTT  | JONES |
+| KING   | NULL  |
+| TURNER | BLAKE |
+| ADAMS  | SCOTT |
+| JAMES  | BLAKE |
+| FORD   | JONES |
+| MILLER | CLARK |
++--------+-------+
+ 
+15、列出受雇日期早于其直接上级的所有员工的编号,姓名,部门名称
+emp a 员工表
+emp b 领导表
+a.mgr = b.empno and a.hiredate < b.hiredate
+ 
+select 
+    a.ename '员工', a.hiredate, b.ename '领导', b.hiredate, d.dname
+from
+    emp a
+join
+    emp b
+on
+    a.mgr = b.empno
+join
+    dept d
+on
+    a.deptno = d.deptno
+where
+     a.hiredate < b.hiredate;
+ 
++-------+------------+-------+------------+------------+
+| 员工     | hiredate   | 领导    | hiredate   | dname      |
++-------+------------+-------+------------+------------+
+| CLARK | 1981-06-09 | KING  | 1981-11-17 | ACCOUNTING |
+| SMITH | 1980-12-17 | FORD  | 1981-12-03 | RESEARCH   |
+| JONES | 1981-04-02 | KING  | 1981-11-17 | RESEARCH   |
+| ALLEN | 1981-02-20 | BLAKE | 1981-05-01 | SALES      |
+| WARD  | 1981-02-22 | BLAKE | 1981-05-01 | SALES      |
+| BLAKE | 1981-05-01 | KING  | 1981-11-17 | SALES      |
++-------+------------+-------+------------+------------+
+ 
+16、 列出部门名称和这些部门的员工信息, 同时列出那些没有员工的部门
+ 
+select 
+    e.*,d.dname
+from
+    emp e
+right join
+    dept d
+on
+    e.deptno = d.deptno;
+ 
++-------+--------+-----------+------+------------+---------+---------+--------+------------+
+| EMPNO | ENAME  | JOB       | MGR  | HIREDATE   | SAL     | COMM    | DEPTNO | dname      |
++-------+--------+-----------+------+------------+---------+---------+--------+------------+
+|  7782 | CLARK  | MANAGER   | 7839 | 1981-06-09 | 2450.00 |    NULL |     10 | ACCOUNTING |
+|  7839 | KING   | PRESIDENT | NULL | 1981-11-17 | 5000.00 |    NULL |     10 | ACCOUNTING |
+|  7934 | MILLER | CLERK     | 7782 | 1982-01-23 | 1300.00 |    NULL |     10 | ACCOUNTING |
+|  7369 | SMITH  | CLERK     | 7902 | 1980-12-17 |  800.00 |    NULL |     20 | RESEARCH   |
+|  7566 | JONES  | MANAGER   | 7839 | 1981-04-02 | 2975.00 |    NULL |     20 | RESEARCH   |
+|  7788 | SCOTT  | ANALYST   | 7566 | 1987-04-19 | 3000.00 |    NULL |     20 | RESEARCH   |
+|  7876 | ADAMS  | CLERK     | 7788 | 1987-05-23 | 1100.00 |    NULL |     20 | RESEARCH   |
+|  7902 | FORD   | ANALYST   | 7566 | 1981-12-03 | 3000.00 |    NULL |     20 | RESEARCH   |
+|  7499 | ALLEN  | SALESMAN  | 7698 | 1981-02-20 | 1600.00 |  300.00 |     30 | SALES      |
+|  7521 | WARD   | SALESMAN  | 7698 | 1981-02-22 | 1250.00 |  500.00 |     30 | SALES      |
+|  7654 | MARTIN | SALESMAN  | 7698 | 1981-09-28 | 1250.00 | 1400.00 |     30 | SALES      |
+|  7698 | BLAKE  | MANAGER   | 7839 | 1981-05-01 | 2850.00 |    NULL |     30 | SALES      |
+|  7844 | TURNER | SALESMAN  | 7698 | 1981-09-08 | 1500.00 |    0.00 |     30 | SALES      |
+|  7900 | JAMES  | CLERK     | 7698 | 1981-12-03 |  950.00 |    NULL |     30 | SALES      |
+|  NULL | NULL   | NULL      | NULL | NULL       |    NULL |    NULL |   NULL | OPERATIONS |
++-------+--------+-----------+------+------------+---------+---------+--------+------------+
+ 
+17、列出至少有 5 个员工的所有部门
+按照部门编号分组，计数，筛选出 >= 5
+ 
+select 
+    deptno
+from
+    emp
+group by
+    deptno
+having
+    count(*) >= 5;
+ 
++--------+
+| deptno |
++--------+
+|     20 |
+|     30 |
++--------+
+ 
+18、列出薪金比"SMITH" 多的所有员工信息
+ 
+select ename,sal from emp where sal > (select sal from emp where ename = 'SMITH');
++--------+---------+
+| ename  | sal     |
++--------+---------+
+| ALLEN  | 1600.00 |
+| WARD   | 1250.00 |
+| JONES  | 2975.00 |
+| MARTIN | 1250.00 |
+| BLAKE  | 2850.00 |
+| CLARK  | 2450.00 |
+| SCOTT  | 3000.00 |
+| KING   | 5000.00 |
+| TURNER | 1500.00 |
+| ADAMS  | 1100.00 |
+| JAMES  |  950.00 |
+| FORD   | 3000.00 |
+| MILLER | 1300.00 |
++--------+---------+
+ 
+19、 列出所有"CLERK"( 办事员) 的姓名及其部门名称, 部门的人数
+select ename,job from emp where job = 'CLERK';
++--------+-------+
+| ename  | job   |
++--------+-------+
+| SMITH  | CLERK |
+| ADAMS  | CLERK |
+| JAMES  | CLERK |
+| MILLER | CLERK |
++--------+-------+
+ 
+select 
+    e.ename,e.job,d.dname
+from 
+    emp e
+join
+    dept d
+on
+    e.deptno = d.deptno
+where 
+    e.job = 'CLERK';
+ 
++--------+-------+------------+
+| ename  | job   | dname      |
++--------+-------+------------+
+| MILLER | CLERK | ACCOUNTING |
+| SMITH  | CLERK | RESEARCH   |
+| ADAMS  | CLERK | RESEARCH   |
+| JAMES  | CLERK | SALES      |
++--------+-------+------------+
+ 
+select 
+    e.ename,e.job,d.dname,d.deptno
+from 
+    emp e
+join
+    dept d
+on
+    e.deptno = d.deptno
+where 
+    e.job = 'CLERK';
+ 
++--------+-------+------------+--------+
+| ename  | job   | dname      | deptno |
++--------+-------+------------+--------+
+| MILLER | CLERK | ACCOUNTING |     10 |
+| SMITH  | CLERK | RESEARCH   |     20 |
+| ADAMS  | CLERK | RESEARCH   |     20 |
+| JAMES  | CLERK | SALES      |     30 |
++--------+-------+------------+--------+
+ 
+ 
+//每个部门的人数？
+select deptno, count(*) as deptcount from emp group by deptno;
++--------+-----------+
+| deptno | deptcount |
++--------+-----------+
+|     10 |         3 |
+|     20 |         5 |
+|     30 |         6 |
++--------+-----------+
+ 
+select 
+    t1.*,t2.deptcount
+from
+    (select 
+        e.ename,e.job,d.dname,d.deptno
+    from 
+        emp e
+    join
+        dept d
+    on
+        e.deptno = d.deptno
+    where 
+        e.job = 'CLERK') t1
+join
+    (select deptno, count(*) as deptcount from emp group by deptno) t2
+on
+    t1.deptno = t2.deptno;
+ 
++--------+-------+------------+--------+-----------+
+| ename  | job   | dname      | deptno | deptcount |
++--------+-------+------------+--------+-----------+
+| MILLER | CLERK | ACCOUNTING |     10 |         3 |
+| SMITH  | CLERK | RESEARCH   |     20 |         5 |
+| ADAMS  | CLERK | RESEARCH   |     20 |         5 |
+| JAMES  | CLERK | SALES      |     30 |         6 |
++--------+-------+------------+--------+-----------+
+ 
+20、列出最低薪金大于 1500 的各种工作及从事此工作的全部雇员人数
+按照工作岗位分组求最小值。
+select job,count(*) from emp group by job having min(sal) > 1500;
+ 
++-----------+----------+
+| job       | count(*) |
++-----------+----------+
+| ANALYST   |        2 |
+| MANAGER   |        3 |
+| PRESIDENT |        1 |
++-----------+----------+
+ 
+21、列出在部门"SALES"< 销售部> 工作的员工的姓名, 假定不知道销售部的部门编号.
+ 
+select ename from emp where deptno = (select deptno from dept where dname = 'SALES');
+ 
++--------+
+| ename  |
++--------+
+| ALLEN  |
+| WARD   |
+| MARTIN |
+| BLAKE  |
+| TURNER |
+| JAMES  |
++--------+
+ 
+22、列出薪金高于公司平均薪金的所有员工, 所在部门, 上级领导, 雇员的工资等级.
+ 
+select 
+    e.ename '员工',d.dname,l.ename '领导',s.grade
+from
+    emp e
+join
+    dept d
+on
+    e.deptno = d.deptno
+left join
+    emp l
+on
+    e.mgr = l.empno
+join
+    salgrade s
+on
+    e.sal between s.losal and s.hisal
+where
+    e.sal > (select avg(sal) from emp);
+ 
+ 
++-------+------------+-------+-------+
+| 员工     | dname      | 领导    | grade |
++-------+------------+-------+-------+
+| JONES | RESEARCH   | KING  |     4 |
+| BLAKE | SALES      | KING  |     4 |
+| CLARK | ACCOUNTING | KING  |     4 |
+| SCOTT | RESEARCH   | JONES |     4 |
+| KING  | ACCOUNTING | NULL  |     5 |
+| FORD  | RESEARCH   | JONES |     4 |
++-------+------------+-------+-------+
+ 
+23、 列出与"SCOTT" 从事相同工作的所有员工及部门名称
+select job from emp where ename = 'SCOTT';
++---------+
+| job     |
++---------+
+| ANALYST |
++---------+
+ 
+select 
+    e.ename,e.job,d.dname
+from
+    emp e
+join
+    dept d
+on
+    e.deptno = d.deptno
+where
+    e.job = (select job from emp where ename = 'SCOTT')
+and
+    e.ename <> 'SCOTT';
+ 
++-------+---------+----------+
+| ename | job     | dname    |
++-------+---------+----------+
+| FORD  | ANALYST | RESEARCH |
++-------+---------+----------+
+ 
+24、列出薪金等于部门 30 中员工的薪金的其他员工的姓名和薪金.
+select distinct sal from emp where deptno = 30;
++---------+
+| sal     |
++---------+
+| 1600.00 |
+| 1250.00 |
+| 2850.00 |
+| 1500.00 |
+|  950.00 |
++---------+
+ 
+select 
+    ename,sal 
+from 
+    emp 
+where 
+    sal in(select distinct sal from emp where deptno = 30) 
+and 
+    deptno <> 30;
+ 
+Empty set (0.00 sec)
+ 
+25、列出薪金高于在部门 30 工作的所有员工的薪金的员工姓名和薪金. 部门名称
+select max(sal) from emp where deptno = 30;
++----------+
+| max(sal) |
++----------+
+|  2850.00 |
++----------+
+ 
+select
+    e.ename,e.sal,d.dname
+from
+    emp e
+join
+    dept d
+on
+    e.deptno = d.deptno
+where
+    e.sal > (select max(sal) from emp where deptno = 30);
+ 
++-------+---------+------------+
+| ename | sal     | dname      |
++-------+---------+------------+
+| KING  | 5000.00 | ACCOUNTING |
+| JONES | 2975.00 | RESEARCH   |
+| SCOTT | 3000.00 | RESEARCH   |
+| FORD  | 3000.00 | RESEARCH   |
++-------+---------+------------+
+ 
+26、列出在每个部门工作的员工数量, 平均工资和平均服务期限
+ 
+没有员工的部门，部门人数是0
+ 
+select 
+    d.deptno, count(e.ename) ecount,ifnull(avg(e.sal),0) as avgsal, ifnull(avg(timestampdiff(YEAR, hiredate, now())), 0) as avgservicetime
+from
+    emp e
+right join
+    dept d
+on
+    e.deptno = d.deptno
+group by
+    d.deptno;
+ 
++--------+--------+-------------+----------------+
+| deptno | ecount | avgsal      | avgservicetime |
++--------+--------+-------------+----------------+
+|     10 |      3 | 2916.666667 |        38.0000 |
+|     20 |      5 | 2175.000000 |        35.8000 |
+|     30 |      6 | 1566.666667 |        38.3333 |
+|     40 |      0 |    0.000000 |         0.0000 |
++--------+--------+-------------+----------------+
+ 
+在mysql当中怎么计算两个日期的“年差”，差了多少年？
+    TimeStampDiff(间隔类型, 前一个日期, 后一个日期)
+     
+    timestampdiff(YEAR, hiredate, now())
+ 
+    间隔类型：
+        SECOND   秒，
+        MINUTE   分钟，
+        HOUR   小时，
+        DAY   天，
+        WEEK   星期
+        MONTH   月，
+        QUARTER   季度，
+        YEAR   年
+ 
+27、 列出所有员工的姓名、部门名称和工资。
+select 
+    e.ename,d.dname,e.sal
+from
+    emp e
+join 
+    dept d
+on
+    e.deptno = d.deptno;
+ 
++--------+------------+---------+
+| ename  | dname      | sal     |
++--------+------------+---------+
+| CLARK  | ACCOUNTING | 2450.00 |
+| KING   | ACCOUNTING | 5000.00 |
+| MILLER | ACCOUNTING | 1300.00 |
+| SMITH  | RESEARCH   |  800.00 |
+| JONES  | RESEARCH   | 2975.00 |
+| SCOTT  | RESEARCH   | 3000.00 |
+| ADAMS  | RESEARCH   | 1100.00 |
+| FORD   | RESEARCH   | 3000.00 |
+| ALLEN  | SALES      | 1600.00 |
+| WARD   | SALES      | 1250.00 |
+| MARTIN | SALES      | 1250.00 |
+| BLAKE  | SALES      | 2850.00 |
+| TURNER | SALES      | 1500.00 |
+| JAMES  | SALES      |  950.00 |
++--------+------------+---------+
+ 
+28、列出所有部门的详细信息和人数
+ 
+select 
+    d.deptno,d.dname,d.loc,count(e.ename)
+from
+    emp e
+right join
+    dept d
+on
+    e.deptno = d.deptno
+group by
+    d.deptno,d.dname,d.loc;
+ 
++--------+------------+----------+----------------+
+| deptno | dname      | loc      | count(e.ename) |
++--------+------------+----------+----------------+
+|     10 | ACCOUNTING | NEW YORK |              3 |
+|     20 | RESEARCH   | DALLAS   |              5 |
+|     30 | SALES      | CHICAGO  |              6 |
+|     40 | OPERATIONS | BOSTON   |              0 |
++--------+------------+----------+----------------+
+ 
+29、列出各种工作的最低工资及从事此工作的雇员姓名
+select 
+    job,min(sal) as minsal
+from
+    emp
+group by
+    job;
+ 
++-----------+----------+
+| job       | minsal        |
++-----------+----------+
+| ANALYST   |  3000.00 |
+| CLERK     |   800.00 |
+| MANAGER   |  2450.00 |
+| PRESIDENT |  5000.00 |
+| SALESMAN  |  1250.00 |
++-----------+----------+
+ 
+emp e和以上t连接
+ 
+select 
+    e.ename,t.*
+from
+    emp e
+join
+    (select 
+        job,min(sal) as minsal
+    from
+        emp
+    group by
+        job) t
+on
+    e.job = t.job and e.sal = t.minsal;
+ 
++--------+-----------+---------+
+| ename  | job       | minsal  |
++--------+-----------+---------+
+| SMITH  | CLERK     |  800.00 |
+| WARD   | SALESMAN  | 1250.00 |
+| MARTIN | SALESMAN  | 1250.00 |
+| CLARK  | MANAGER   | 2450.00 |
+| SCOTT  | ANALYST   | 3000.00 |
+| KING   | PRESIDENT | 5000.00 |
+| FORD   | ANALYST   | 3000.00 |
++--------+-----------+---------+
+ 
+30、列出各个部门的 MANAGER( 领导) 的最低薪金
+select 
+    deptno, min(sal)
+from
+    emp
+where
+    job = 'MANAGER'
+group by
+    deptno;
+ 
++--------+----------+
+| deptno | min(sal) |
++--------+----------+
+|     10 |  2450.00 |
+|     20 |  2975.00 |
+|     30 |  2850.00 |
++--------+----------+
+ 
+31、列出所有员工的 年工资, 按 年薪从低到高排序
+ 
+select 
+    ename,(sal + ifnull(comm,0)) * 12 as yearsal
+from
+    emp
+order by
+    yearsal asc;
+ 
++--------+----------+
+| ename  | yearsal  |
++--------+----------+
+| SMITH  |  9600.00 |
+| JAMES  | 11400.00 |
+| ADAMS  | 13200.00 |
+| MILLER | 15600.00 |
+| TURNER | 18000.00 |
+| WARD   | 21000.00 |
+| ALLEN  | 22800.00 |
+| CLARK  | 29400.00 |
+| MARTIN | 31800.00 |
+| BLAKE  | 34200.00 |
+| JONES  | 35700.00 |
+| FORD   | 36000.00 |
+| SCOTT  | 36000.00 |
+| KING   | 60000.00 |
++--------+----------+
+ 
+32、求出员工领导的薪水超过3000的员工名称与领导
+ 
+select 
+    a.ename '员工',b.ename '领导'
+from
+    emp a
+join
+    emp b
+on
+    a.mgr = b.empno
+where
+    b.sal > 3000;
+ 
++-------+------+
+| 员工  | 领导   |
++-------+------+
+| JONES | KING |
+| BLAKE | KING |
+| CLARK | KING |
++-------+------+
+ 
+33、求出部门名称中, 带'S'字符的部门员工的工资合计、部门人数
+ 
+select 
+    d.deptno,d.dname,d.loc,count(e.ename),ifnull(sum(e.sal),0) as sumsal
+from
+    emp e
+right join
+    dept d
+on
+    e.deptno = d.deptno
+where
+    d.dname like '%S%'
+group by
+    d.deptno,d.dname,d.loc;
+ 
++--------+------------+---------+----------------+----------+
+| deptno | dname      | loc     | count(e.ename) | sumsal   |
++--------+------------+---------+----------------+----------+
+|     20 | RESEARCH   | DALLAS  |              5 | 10875.00 |
+|     30 | SALES      | CHICAGO |              6 |  9400.00 |
+|     40 | OPERATIONS | BOSTON  |              0 |     0.00 |
++--------+------------+---------+----------------+----------+
+ 
+34、给任职日期超过 30 年的员工加薪 10%.
+ 
+update emp set sal = sal * 1.1 where timestampdiff(YEAR, hiredate, now()) > 30;
+```
 
