@@ -447,6 +447,67 @@ SELECT * FROM tb_students_info WHERE login_date BETWEEN ' 2021-10-30 23:27:57' A
 
 # 查询身高在160-170的数据，年龄大于25。
  SELECT * FROM tb_students_info WHERE height BETWEEN 160 AND 170 AND age<25;
+ 
+ 内外链接
+ # 等值链接
+   SELECT id,name,s.dept_id,d.dept_name FROM tb_students_info AS s , tb_departments AS d WHERE s.dept_id=d.dept_id;
+ 
+ # 使用内连接
+ SELECT id,name,tb_students_info.dept_id FROM tb_students_info INNER JOIN tb_departments ON tb_students_info.dept_id=tb_departments.dept_id;
+ # 改装
+SELECT id,name,s.dept_id FROM tb_students_info AS s INNER JOIN tb_departments AS d ON s.dept_id=d.dept_id;
+  
+# 使用左外链接
+ SELECT id,name,s.dept_id ,d.dept_name FROM tb_students_info AS s LEFT JOIN tb_departments AS d ON s.dept_id=d.dept_id;
+ 
+# 使用右外连接
+ SELECT id,name,s.dept_id ,d.dept_name FROM tb_students_info AS s RIGHT JOIN tb_departments AS d ON s.dept_id=d.dept_id;
+ 
+# 添加dept_id为10的部门，使用左连接和右链接查看
+INSERT INTO tb_departments VALUE(7,'','');
+ 
+# 添加dept_id为0的学生，使用左连接和右链接查看
+INSERT INTO tb_students_info VALUE
+(15,"Earry",0,15,b'0',170,'2021-12-08 23:27:47');
+INSERT INTO tb_students_info VALUE
+(16,"Earry",10,15,b'0',170,'2021-12-08 23:27:47');
+ 
+# 实践：查出所有学生及其部门，没有部门的学生只显示信息。使用左连接解决。
+
+子查询
+# 查询部门id为1,3,5的人员信息
+SELECT * FROM tb_students_info WHERE id = 1 OR id=3 or id = 5;
+SELECT * FROM tb_students_info WHERE id IN (1,3,5);
+
+
+# 在 tb_departments 表中查询 dept_type 为 A 的学院 ID，并根据学院 ID 查询该学院学生的名字
+SELECT 
+id,name,s.dept_id ,d.dept_name 
+FROM 
+tb_students_info s,tb_departments d 
+WHERE 
+s.dept_id=d.dept_id AND d.dept_type = 'A';
+
+SELECT 
+id,name,s.dept_id
+FROM tb_students_info s 
+WHERE 
+s.dept_id IN (
+    SELECT dept_id 
+    FROM 
+    tb_departments 
+    WHERE dept_type = 'A'
+);
+
+GROUP BY
+
+# 获取员工的id，name，dept_name。每个部门的人在一起。
+SELECT id,name,dept_name FROM tb_students_info s INNER JOIN tb_departments d ON  s.dept_id=d.dept_id GROUP BY d.dept_id;
+
+SELECT id,name,dept_name FROM tb_students_info s ,tb_departments d WHERE   s.dept_id=d.dept_id GROUP BY ddept_id; 
+
+
+
 ```
 
 #### 查询(select)
@@ -661,8 +722,6 @@ FROM <表名1> INNER JOIN <表名2> [ ON子句]
 
 在 [MySQL](http://www.voidme.com/mysql) FROM 子句中使用关键字 INNER JOIN 连接两张表，并使用 ON 子句来设置连接条件。
 
-
-
 在 FROM 子句中可以在多个表之间连续使用 INNER JOIN 或 JOIN，如此可以同时实现多个表的内连接。
 
 ``` mysql
@@ -671,7 +730,7 @@ SELECT id,name,age,dept_name FROM tb_students_info,tb_departments WHERE tb_stude
 
 # 在 tb_students_info 表和 tb_departments 表之间，使用 INNER JOIN 语法进行内连接查询
 SELECT id,name,age,dept_name FROM tb_students_info INNER JOIN tb_departments
-WHERE tb_students_info.dept_id=tb_departments.dept_id;
+ON tb_students_info.dept_id=tb_departments.dept_id;
 ```
 
 注意:使用 WHERE 子句定义连接条件比较简单明了，而 INNER JOIN 语法是 ANSI SQL 的标准规范，使用 INNER JOIN 连接语法能够确保不会忘记连接条件，而且 WHERE 子句在某些时候会影响查询的性能。
@@ -680,11 +739,14 @@ WHERE tb_students_info.dept_id=tb_departments.dept_id;
 
 等值连接：2个表会先进行笛卡尔乘积运算，生成一个新表格，占据在电脑内存里，当表的数据量很大时，很耗内存，这种方法效率比较低，尽量不用。
 
-内连接：2个表根据共同ID进行逐条匹配，不会出现笛卡尔乘积的现象，效率比较高，优先使用这种方法。
+内连接：
+
+1. 2个表根据共同ID进行逐条匹配，不会出现笛卡尔乘积的现象，效率比较高，优先使用这种方法。
+2. 对于`t1`表中的每一行，`INNER JOIN`子句将它与`t2`表的每一行进行比较，以检查它们是否都满足连接条件。当满足连接条件时，`INNER JOIN`将返回由`t1`和`t2`表中的列组成的新行。
 
 #### 外连接查询(outer join)
 
-[MySQL](http://www.voidme.com/mysql) 中 [内连接](http://www.voidme.com/mysql/mysql-inner-join)是在交叉连接的结果集上返回满足条件的记录；而外连接先将连接的表分为基表和参考表，再以基表为依据返回满足和不满足条件的记录。
+[MySQL](http://www.voidme.com/mysql) 中 [内连接](http://www.voidme.com/mysql/mysql-inner-join)是在交叉连接的结果集上返回满足条件的记录；而外连接先将连接的表分为**基表和参考表**，再以**基表为依据返回满足和不满足条件的记录。**
 
 外连接更加注重两张表之间的关系。按照连接表的顺序，可以分为左外连接和右外连接。
 
@@ -835,9 +897,54 @@ SELECT dept_id,GROUP_CONCAT(name) AS names
     HAVING COUNT(name)>1;
 ```
 
-#### 正则查询(regexp)
+#### 聚合函数
 
-``` sql
+Mysql聚合函数：AVG()函数，COUNT()函数，SUM()函数，MAX()函数，MIN()函数。
+
+##### AVG()
+
+AVG()函数计算一组值的平均值。 它计算过程中是忽略NULL值的。
+
+```sql
+# 计算平均身高
+SELECT AVG(height) avg_height FROM tb_students_info;
+```
+
+##### COUNT()
+
+COUNT()函数返回表中的行数。
+
+```sql
+# 计算总跳数
+SELECT COUNT(*) avg_height FROM tb_students_info;
+SELECT COUNT(height) avg_height FROM tb_students_info;
+```
+
+##### SUM()
+
+求和
+
+```sql
+# 身高总和
+ SELECT SUM(height) FROM tb_students_info;
+```
+
+##### MAX()
+
+求最大值
+
+```sql
+# 最高的身高
+ SELECT MAX(height) FROM tb_students_info;
+```
+
+##### MIN()
+
+求最小值
+
+```sql
+# 最低的身高
+ SELECT MAX(height) FROM tb_students_info;
 ```
 
 #### 插入数据(insert)
@@ -1228,7 +1335,731 @@ MySQL 支持 4 种运算符，分别是:
 | 14                 | -(负号）、〜（位反转）                                       |
 | 15                 | !                                                            |
 
-## 6. 练习题
+## 6. Mysql约束
+
+### 主键约束
+
+“主键（PRIMARY KEY）即主键约束，MySQL 主键约束是**一个列**或者**列的组合**，其值能**唯一地标识表中的每一行**，其中由多列组合的主键称为复合主键。这样的一列或多列称为表的主键，通过它可以强制表的实体完整性。
+
+主键应该遵守下面的规则：
+
+- 每个表只能定义一个主键。
+- 主键值必须唯一标识表中的每一行，且不能为 NULL，即表中不可能存在两行数据有相同的主键值。这是唯一性原则。
+- 一个列名只能在复合主键列表中出现一次。
+- 复合主键不能包含不必要的多余列。当把复合主键的某一列删除后，如果剩下的列构成的主键仍然满足唯一性原则，那么这个复合主键是不正确的。这是最小化原则。
+
+#### 1. 在创建表时设置主键约束
+
+**定义列的同时指定主键**
+
+<字段名> <数据类型> PRIMARY KEY [默认值]
+
+```sql
+# 在 test_db 数据库中创建 tb_emp 3 数据表，其主键为 id
+CREATE TABLE tb_emp3
+     (
+     id INT(11) PRIMARY KEY,
+     name VARCHAR(25),
+     deptId INT(11),
+     salary FLOAT
+     );
+```
+
+**定义完所有列之后，指定主键**
+
+[CONSTRAINT <约束名>] PRIMARY KEY [字段名]
+
+```sql
+# 在 test_db 数据库中创建 tb_emp 4 数据表，其主键为 id
+CREATE TABLE tb_emp4
+     (
+     id INT(11),
+     name VARCHAR(25),
+    -> deptId INT(11),
+    -> salary FLOAT,
+    -> PRIMARY KEY(id)
+    -> );
+```
+
+#### 2.在创建表时设置复合主键
+
+PRIMARY KEY [字段1，字段2，…,字段n]
+
+```sql
+# 创建数据表 tb_emp5，假设表中没有主键 id，为了唯一确定一个员工，可以把 name、deptId 联合起来作为主键
+CREATE TABLE tb_emp5
+    -> (
+    -> name VARCHAR(25),
+    -> deptId INT(11),
+    -> salary FLOAT,
+    -> PRIMARY KEY(id,deptId)
+    -> );
+```
+
+####  3.在修改表时添加主键约束
+
+ALTER TABLE <数据表名> ADD PRIMARY KEY(<列名>);
+
+```sql
+# 修改数据表 tb_emp2，将字段 id 设置为主键
+ALTER TABLE tb_emp2
+     ADD PRIMARY KEY(id);
+```
+
+### 外键约束
+
+外键约束（FOREIGN KEY）用来**在两个表的数据之间建立链接**，**它可以是一列或者多列**。**一个表可以有一个或多个外键**。
+
+外键对应的是参照完整性，一个表的外键可以为空值。若不为空值，则**每一个外键的值必须等于另一个表中主键的某个值**。
+
+**外键是表的一个字段，不是本表的主键，但对应另一个表的主键。**定义外键后，不允许删除另一个表中具有关联关系的行。
+
+外键的主要作用是保持数据的一致性、完整性。例如，部门表 tb_dept 的主键是 id，在员工表 tb_emp5 中有一个键 deptId 与这个 id 关联。
+
+- 主表（父表）：对于两个具有关联关系的表而言，相关联字段中主键所在的表就是主表。
+- 从表（子表）：对于两个具有关联关系的表而言，相关联字段中外键所在的表就是从表。
+
+**定义一个外键时，需要遵守下列规则：**
+
+- 父表必须已经存在于数据库中，或者是当前正在创建的表。如果是后一种情况，则父表与子表是同一个表，这样的表称为自参照表，这种结构称为自参照完整性。
+- 必须为父表定义主键。
+- 主键不能包含空值，但允许在外键中出现空值。也就是说，只要外键的每个非空值出现在指定的主键中，这个外键的内容就是正确的。
+- 在父表的表名后面指定列名或列名的组合。这个列或列的组合必须是父表的主键或候选键。
+- 外键中列的数目必须和父表的主键中列的数目相同。
+- 外键中列的数据类型必须和父表主键中对应列的数据类型相同。
+
+#### 1. 在创建表时设置外键约束
+
+[CONSTRAINT <外键名>] FOREIGN KEY 字段名 [，字段名2，…]
+REFERENCES <主表名> 主键列1 [，主键列2，…]
+
+外键名：为定义的外键约束的名称，一个表中不能有相同名称的外键； 
+
+字段名：表示子表需要添加外健约束的字段列； 
+
+主表名：即被子表外键所依赖的表的名称；
+
+主键列：表示主表中定义的主键列或者列组合。
+
+```sql
+# 在 test_db 数据库中创建一个部门表 tb_dept1 id 设置为主键
+CREATE TABLE tb_dept1
+     (
+     id INT(11) PRIMARY KEY,
+     name VARCHAR(22) NOT NULL,
+     location VARCHAR(50)
+     );
+# 创建数据表 tb_emp6，并在表 tb_emp6 上创建外键约束，让它的键 deptId 作为外键关联到表 tb_dept1 的主键 id
+CREATE TABLE tb_emp6
+    -> (
+    -> id INT(11) PRIMARY KEY,
+    -> name VARCHAR(25),
+    -> deptId INT(11),
+    -> salary FLOAT,
+    -> CONSTRAINT fk_emp_dept1
+    -> FOREIGN KEY(deptId) REFERENCES tb_dept1(id)
+    -> );
+```
+
+子表的外键必须关联父表的主键，且关联字段的数据类型必须匹配，如果类型不一样，则创建子表时会出现错误。
+
+#### 2. 在修改表时添加外键约束
+
+ALTER TABLE <数据表名> ADD CONSTRAINT <索引名>
+FOREIGN KEY(<列名>) REFERENCES <主表名> (<列名>);
+
+```sql
+# 修改数据表 tb_emp2，将字段 deptId 设置为外键，与数据表 tb_dept1 的主键 id 进行关联
+ALTER TABLE tb_emp2
+    -> ADD CONSTRAINT fk_tb_dept1
+    -> FOREIGN KEY(deptId)
+    -> REFERENCES tb_dept1(id);
+```
+
+#### 3. 删除外键约束
+
+ALTER TABLE <表名> DROP FOREIGN KEY <外键约束名>;
+
+```sql
+# 删除数据表 tb_emp2 中的外键约束 fk_tb_dept1
+ALTER TABLE tb_emp2
+     DROP FOREIGN KEY fk_tb_dept1;
+```
+
+### 唯一约束
+
+唯一约束（Unique Key）要求该列唯一，允许为空，但只能出现一个空值。唯一约束可以确保一列或者几列不出现重复值。
+
+#### UNIQUE 和 PRIMARY KEY 的区别：
+
+一个表可以有多个字段声明为 UNIQUE，但只能有一个 PRIMARY KEY 声明；声明为 PRIMAY KEY 的列不允许有空值，但是声明为 UNIQUE 的字段允许空值的存在。
+
+#### 1. 在创建表时设置唯一约束
+
+在定义完列之后直接使用 **UNIQUE** 关键字指定唯一约束，语法规则如下：
+
+<字段名> <数据类型> UNIQUE
+
+```sql
+# 创建数据表 tb_dept2，指定部门的名称唯一
+ CREATE TABLE tb_dept2
+    -> (
+    -> id INT(11) PRIMARY KEY,
+    -> name VARCHAR(22) UNIQUE,
+    -> location VARCHAR(50)
+    -> );
+```
+
+#### 2. 在修改表时添加唯一约束
+
+ALTER TABLE <数据表名> ADD CONSTRAINT <唯一约束名> UNIQUE(<列名>);
+
+```sql
+# 修改数据表 tb_dept1，指定部门的名称唯一;
+ALTER TABLE tb_dept1
+    -> ADD CONSTRAINT unique_name UNIQUE(name);
+```
+
+#### 3. 删除唯一约束
+
+ALTER TABLE <表名> DROP INDEX <唯一约束名>;
+
+```sql
+# 删除数据表 tb_dept1 中的唯一约束 unique_name
+ALTER TABLE tb_dept1
+    -> DROP INDEX unique_name;
+```
+
+### 检查约束
+
+检查约束（CHECK）可以通过 CREATE TABLE 或 ALTER TABLE 语句实现，根据用户实际的完整性要求来定义。它可以分别对列或表实施 CHECK 约束。
+
+检查约束使用 **CHECK** 关键字
+
+CHECK <表达式>
+
+<表达式>指的就是 SQL 表达式，用于指定需要检查的限定条件。
+
+若将 CHECK 约束子句置**于表中某个列的定义之后**，则这种约束也称为基于列的 **CHECK 约束**。
+
+在更新表数据的时候，系统会检查更新后的数据行是否满足 CHECK 约束中的限定条件。MySQL 可以使用简单的表达式来实现 CHECK 约束，也允许使用复杂的表达式作为限定条件，例如在限定条件中加入子查询。
+
+**注意：**
+
+若将 CHECK 约束子句置于**所有列的定义以及主键约束和外键定义之后**，则这种约束也称为基于表的 CHECK 约束。该约束可以同时对表中多个列设置限定条件。
+
+#### 1. 在创建表时设置检查约束
+
+CHECK(<检查约束>)
+
+```sql
+# 在 test_db 数据库中创建 tb_emp7 数据表，要求 salary 字段值大于 0 且小于 10000
+CREATE TABLE tb_emp7
+    -> (
+    -> id INT(11) PRIMARY KEY,
+    -> name VARCHAR(25),
+    -> deptId INT(11),
+    -> salary FLOAT,
+    -> CHECK(salary>0 AND salary<100),
+    -> FOREIGN KEY(deptId) REFERENCES tb_dept1(id)
+    -> );
+```
+
+#### 2. 在修改表时添加检查约束
+
+ALTER TABLE <表名>ADD CONSTRAINT <检查约束名> CHECK(<检查约束>)
+
+```sql
+# 修改 tb_dept7 数据表，要求 id 字段值大于 0
+ALTER TABLE tb_emp7
+    -> ADD CONSTRAINT check_id
+    -> CHECK(id>0);
+```
+
+#### 3. 删除检查约束
+
+ALTER TABLE <数据表名> DROP CONSTRAINT <检查约束名>;
+
+```sql
+# 删除 tb_dept7 数据表，要求 id 字段值大于 0
+ALTER TABLE tb_emp7
+    -> DROP  CONSTRAINT check_id;
+```
+
+### 默认约束
+
+“默认值（Default）”的完整称呼是“默认值约束（Default Constraint）”。
+
+例如女性同学较多，性别就可以默认为“女”。如果插入一条新的记录时没有为这个字段赋值，那么系统会自动为这个字段赋值为“女”。
+
+#### 在创建表时设置默认值约束
+
+创建表时可以使用 **DEFAULT** 关键字设置默认值约束，具体的语法规则如下：
+
+<字段名> <数据类型> DEFAULT <默认值>;
+
+```sql
+# 创建数据表 tb_dept3，指定部门位置默认为 Beijing
+CREATE TABLE tb_dept3
+    -> (
+    -> id INT(11) PRIMARY KEY,
+    -> name VARCHAR(22),
+    -> location VARCHAR(50) DEFAULT 'Beijing'
+    -> );
+```
+
+#### 在修改表时添加默认值约束
+
+修改表时添加默认值约束的语法规则如下：
+
+ALTER TABLE <数据表名>
+CHANGE COLUMN <字段名> <数据类型> DEFAULT <默认值>;
+
+```sql
+# 修改数据表 tb_dept3，将部门位置的默认值修改为 Shanghai
+ALTER TABLE tb_dept3
+    -> CHANGE COLUMN location
+    -> location VARCHAR(50) DEFAULT 'Shanghai';
+```
+
+#### 删除默认值约束
+
+修改表时删除默认值约束的语法规则如下：
+
+ALTER TABLE <数据表名>
+CHANGE COLUMN <字段名> <字段名> <数据类型> DEFAULT NULL;
+
+```sql
+# 修改数据表 tb_dept3，将部门位置的默认值约束删除
+ALTER TABLE tb_dept3
+     CHANGE COLUMN location
+     location VARCHAR(50) DEFAULT NULL;
+```
+
+### 非空约束
+
+非空约束（NOT NULL）可以通过 CREATE TABLE 或 ALTER TABLE 语句实现。在表中某个列的定义后加上关键字 NOT NULL 作为限定词，来约束该列的取值不能为空。
+
+非空约束（Not Null Constraint）指字段的值不能为空。对于使用了非空约束的字段，如果用户在添加数据时没有指定值，数据库系统就会报错。
+
+#### 1. 在创建表时设置非空约束
+
+创建表时可以使用 **NOT NULL** 关键字设置非空约束
+
+<字段名> <数据类型> NOT NULL;
+
+```sql
+# 创建数据表 tb_dept4，指定部门名称不能为空
+CREATE TABLE tb_dept4
+    -> (
+    -> id INT(11) PRIMARY KEY,
+    -> name VARCHAR(22) NOT NULL,
+    -> location VARCHAR(50)
+    -> );
+```
+
+#### 2. 在修改表时添加非空约束
+
+ALTER TABLE <数据表名>
+CHANGE COLUMN <字段名>
+<字段名> <数据类型> NOT NULL;
+
+```sql
+# 修改数据表 tb_dept4，指定部门位置不能为空
+ALTER TABLE tb_dept4
+    -> CHANGE COLUMN location
+    -> location VARCHAR(50) NOT NULL;
+```
+
+#### 3. 删除非空约束
+
+修改表时删除非空约束：
+
+ALTER TABLE <数据表名>
+CHANGE COLUMN <字段名> <字段名> <数据类型> NULL;
+
+```sql
+# 修改数据表 tb_dept4，将部门位置的非空约束删除
+ALTER TABLE tb_dept4
+    -> CHANGE COLUMN location
+    -> location VARCHAR(50) NULL;
+```
+
+### 查看表中的约束
+
+SHOW CREATE TABLE <数据表名>  \G;
+
+```sql
+# 创建数据表 tb_emp8 并指定 id 为主键约束，name 为唯一约束，deptId 为非空约束和外键约束，然后查看表中的约束
+CREATE TABLE tb_emp8
+    -> (
+    -> id INT(11) PRIMARY KEY,
+    -> name VARCHAR(22) UNIQUE,
+    -> deptId INT(11) NOT NULL,
+    -> salary FLOAT DEFAULT 0,
+    -> CHECK(salary>0),
+    -> FOREIGN KEY(deptId) REFERENCES tb_dept1(id)
+    -> );
+```
+
+## 7. 索引
+
+### 0. 学习资料
+
+[数据库索引，终于懂了 - 文章详情 (itpub.net)](https://z.itpub.net/article/detail/F1555CC47E78A806F2D7A590A4AA2DAB)
+
+### 1. 什么是索引
+
+**官方定义：**一种帮助MySQL提高查询效率的数据结构
+
+**优点：**
+
+1. 大大加快数据的查询速度
+
+**缺点：**
+
+1. 索引维护需要耗费数据库资源
+2. 索引需要占用磁盘空间
+3. 当对标的数据进行增删改的时候，因要维护索引，速度会受到影响
+
+### 2. 索引分类
+
+1. 主键索引
+
+2. 1. 设置为主键后数据库会自动建立索引，innodb为聚簇索引
+   2. 主键所有列的值不能为null
+
+3. 单值索引    
+
+4. 1. 又称为单列索引或普通索引
+   2. 即一个索引只包含单个列，一个表可以有多个单列索引
+   3. 如：  id（主键索引）  age(单值索引1) name（单值索引2）
+
+5. 唯一索引
+
+6. 1. 索引列的值必须唯一，但允许有空值（因为唯一，所以只能有一列为null值）
+
+7. 复合索引
+
+8. 1. 即一个索引包含多个列
+   2. id（主键索引）   （name，age）（复合索引）
+   3. 如果为name和age单独创建索引，搜索where name  and  age  可能索引失效。如果为二者建立一个复合索引，则可以走索引
+
+9. 全文索引（5.7之前，只能用于MYISAM引擎）（很少用到）
+
+10. 1. 全文索引类型为FULL TEXT	，在定义索引的列上支持值的全文查找，允许在这些索引列中插入重复值或者空值。全文索引可以在CHAR，VARCHAR，TEXT类型列上创建。MYSQL只有MYISAM存储引擎支持全文索引。
+    2. 在MySQL 5.6版本以前,只有MyISAM存储引擎支持全文引擎.在5.6版本中,InnoDB加入了对全文索引的支持,但是不支持中文全文索引.在5.7.6版本,MySQL内置了ngram全文解析器,用来支持亚洲语种的分词.
+
+### 3. 使用索引
+
+1. **查看索引**：SHOW INDEX FROM 表名
+
+2. **创建索引 **
+
+   1. **主键索引**
+
+      ```sql
+      # 创建表时创建
+      CREATE TABLE t_user (id VARCHAR(20) PRIMARY KEY ,NAME VARCHAR(20))
+      ```
+
+   2. **单值索引**
+
+      ```sql
+      # 1.建表时创建   不能为索引起名
+      CREATE TABLE t_user2(id VARCHAR(20) PRIMARY KEY,NAME VARCHAR(20),KEY(NAME),KEY(...))
+      # 2.建表之后创建
+      CREATE INDEX name_index ON t_user(NAME)
+      ```
+
+   3. **唯一索引**
+
+      ```sql
+      # 1.建表时创建   不能为索引起名
+      CREATE TABLE t_user3(id VARCHAR(20) PRIMARY KEY,NAME VARCHAR(20),age INT(10),UNIQUE(age))
+      
+      # 2.建表之后创建
+      CREATE UNIQUE INDEX name_index ON t_user3(NAME)
+      ```
+
+   4. **复合索引**
+
+      ```sql
+      # 1.建表时创建   不能为索引起名
+      CREATE TABLE t_user4(id VARCHAR(20) PRIMARY KEY,NAME VARCHAR(20),age INT(10),KEY(NAME,age))
+       # 2.建表之后创建
+      CREATE INDEX name_age_index ON t_user4(NAME,age)
+      ```
+
+3. **删除索引：**DROP INDEX name_index ON t_user
+
+### 4. 索引面试题
+
+#### 复合索引面试题目
+
+基于name，age，bir 三个字段建立复合索引
+
+问：
+
+1. name bir age  能否利用索引
+2. name age bir  能否利用索引
+3. age bir 能否利用索引
+4. bir age  name  能否利用索引
+5. age bir 能否利用索引
+
+#### 复合索引生效规则
+
+1. 最左前缀原则，查询时，第一个条件必须是复合索引最左侧定义的索引（即name，必须有name，并且为第一个条件）
+
+2. 1. 即  name，age，bir可以。
+   2. name age 可以
+   3. name 可以
+   4. name bir 可以
+
+3. mysql引擎为更好利用索引，在查询中会动态调整查询字段顺序以便利用索引
+
+4. 1. 带name的and查询均可命中索引
+
+#### 查看是否命中索引
+
+sql语句前添加explain
+
+```sql
+EXPLAIN SELECT * FROM sys_user WHERE username="admin" AND phone = "18888888888" AND email="201507802@qq.com"
+```
+
+![](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/%E7%B4%A2%E5%BC%95%E6%98%AF%E5%90%A6%E5%91%BD%E4%B8%AD%E6%9F%A5%E7%9C%8B.png)
+
+1. 根据type的结果来判断是否命中索引
+
+2. type结果值从好到坏依次是：
+
+3. 1. system > const > eq_ref > ref > fulltext > ref_or_null > index_merge > unique_subquery > index_subquery > range > index > ALL一般来说，得保证查询至少达到range级别，最好能达到ref，否则就可能会出现性能问题。
+
+4. possible_keys：sql所用到的索引
+
+5. key：显示MySQL实际决定使用的键（索引）。如果没有选择索引，键是NULL
+
+6. rows: 显示MySQL认为它执行查询时必须检查的行数。
+
+7. partitions：分区https://www.jianshu.com/p/b17b62057499
+
+### 5. 索引的底层原理
+
+主键乱序插入一批数据
+
+![image-20211209214912899](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211209214912899.png)
+
+为了提高查询效率，mysql会自动帮我们按照主键的顺序进行排序。
+
+优点：按顺序查找元素，比乱序查找元素速度更快
+
+不足：数据量特别大时，效率还不是很高
+
+扩展：数组复杂度O（1），根据索引直接获取值。而链表复杂度为O（n）,有几个元素就得查几次。
+
+#### **优化**
+
+排序后，虽然能提升查询效率，但是当数据量特别大的时候，还是需要一个挨着一个去查，Innodb引擎对此进行了分页（即一页存储几个节点，存储大小为16kb），之后再在页的基础上建立页目录。（页目录只存索引可指针。也是16kb）
+
+![image-20211209215054180](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211209215054180.png)
+
+**计算：**
+
+id  int(4)  name varchar(20) age(4)      指针p(暂定8)
+
+页：
+
+一条数据：4+20+4+8=36字节
+
+16kb*1024/36=455
+
+页目录“：
+
+一条记录：4+8=12
+
+16kb*1024/12=1365
+
+两层结构总量：
+
+1365*455=621,075
+
+三层结构总量：
+
+1365 * 1365 * 455=847,767,375
+
+#### **B+Tree与BTree**
+
+区别：B+树只有叶子节点存储数据，页目录不存储数据。B树所有目录和节点都存储数据。同样的数据量，B树可能更深。
+
+```text
+B+Tree是在B-Tree(B树)基础上的一种优化，使其更适合实现外存储索引结构，InnoDB存储引擎就是用B+Tree实现其索引结构。
+
+B-Tree每个节点中不仅包含数据的key值，还有data值。而每一个页的存储空间是有限的，如果data数据较大时将会导致每个节点(即一个页）能存储的key的数星很小，当存储的数据量很大时同样会导致B-Tree的深度较大，增大查询时的磁盘l/O次数，进而影响查询效率。在B+Tee中，所有数据记录节点都是按照键值大小顺序存放在同一层的叶子节点上，而非叶子节点上只存储key值信息，这样可以大大加大每个节点存储的key值数量降低B+Tree的高度。
+```
+
+注意：最顶层是常驻内存，查询时不需要读写IO，所以当有两层B+tree时，只需要读写一次磁盘IO。（注意：只有主键索引时，才会走常驻内存。如果是非主键索引，会先读写磁盘查询符合当前条件记录的主键，再去页目录找对应的主键。）
+
+```text
+B+Tree相对于B-Tree有几点不同:
+
+1.非叶子节点只存储键值信息。
+
+2.所有叶子节点之间都有一个链指针。
+3.数据记录都存放在叶子节点中。
+
+InnoDB存储引擎中页的大小为16KB，一般表的主键类型为INT(占用4个字节）或BIGINT(占用8个字节)，指针类型也一般为4或8个字节，也就是说一个页(B+Tree中的一个节点)中大概存储16KB(8B+8B)=1K个键值（因为是估值，为方便计算，这里的K取值为[10]^3)。也就是说一个深度为3的B+Tree索引可以维护10^3* 10^3* 10^3=10亿条记录。
+
+实际情况中每个节点可能不能填充满，因此在数据库中，B+Tree的高度一般都在2~4层。mysql的innoDB存储引擎在设计时是将根节点常驻内存的，也就是说查找某—键值的行记录时最多只需要1~3次磁盘I/O操作。
+```
+
+#### **总结**
+
+索引过程
+
+1. 根据主键索引排序，排序时以链表相连
+2. 将排完序后的链表分页，每页存储大小为16kb。页里面存储 主键+值+下一节点指针
+3. 创建页目录，大小也为16kb，存储主键+当前主键的指针。
+4. 三层的B+树，存储的数据量在8-10亿条
+5. 三层B+树，根据主键去查会经过两次磁盘IO，如果经过非主键索引去查，要经过三次磁盘IO
+
+### 6. 聚簇索引和非聚簇索引
+
+#### 介绍
+
+**聚簇索引**
+
+将数据存储与索引放到了一起，索引结构的叶子节点保存了行数据
+
+​                 ![img](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/JzonUNen3H9xN74Lz0K4Tw.png)        
+
+**聚簇索引不一定是主键索引，主键索引一定是聚簇索引。**
+
+
+
+**非聚簇索引**
+
+将数据与索引分开存储，索引结构的叶子节点指向了数据对应的位置
+
+**注意：**
+
+在Innodb中，在聚簇索引之上创建的索引称之为辅助索引，非聚簇索引都是辅助索引，像复合索引，前缀索引，唯一索引。辅助索引叶子节点存储的不再是行的物理值，而是主键值，辅助索引访问数据库总是需要二次查找。
+
+#### 聚簇索引存储结构
+
+假如我们为name列创建了索引，此时会生成以name为基准的辅助索引树。树的页目录中存储主键以及其指向的地址。当我们查询时，他会先在辅助索引树上获取到相应的主键，再到聚簇索引树上查找对应的值。
+
+![image-20211209220543046](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211209220543046.png)
+
+**问题：**
+
+为什么辅助索引上存的是主键的索引，而非地址？有了地址不是可以直接访问到对应的数据吗？
+
+当存地址时，如果我们进行数据的增删改，那么主键对应的地址是会相应进行变化的，这样再次查询时，会浪费更多的性能。
+
+#### Innodb和MYISAM中的区别
+
+**InnoDB**
+
+1. InnoDB使用的是聚簇索引，将主键组织到一棵B+树中，而行数据就储存在叶子节点上，若使用"where id =14"这样的条件查找主键，则按照B+树的检索算法即可查找到对应的叶节点，之后获得行数据。
+2. 若对Name列进行条件搜索，则需要两个步骤∶第一步在辅助索引B+树中检索Name，到达其叶子节点获取对应的主键。第二步使用主键在主索引|B+树种再执行一次B+树检索操作，最终到达叶子节点即可获取整行数据。(重点在于通过其他键需要建立辅助索引)
+3. 聚簇索引默认是主键，如果表中没有定义主键，InnoDB会选择一个唯一且非空的索引代替。如果没有这样的索引，InnoDB会隐式定义一个主键(类似oracle中的Rowld)来作为聚簇索引。如果已经设置了主键为聚簇索引又希望再单独设置聚簇索引，必须先删除主键，然后添加我们想要的聚簇索引，最后恢复设置主键即可。
+
+![image-20211209221015862](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211209221015862.png)
+
+**MYISAM**
+
+MyISAM使用的是非聚簇索引，非聚簇索引的两棵B+树看上去没什么不同，节点的结构完全一致只是存储的内容不同而已，主键索引B+树的节点存储了主键;辅助键索引B+树存储了辅助键。表数据存储在独立的地方，这两颗B+树的叶子节点都使用一个地址指向真正的装数据，对于表数据来说，这两个键没有任何差别。由于索引树是独立的，通过辅助键检索无需访问主键的索引树。
+
+![image-20211209220929371](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211209220929371.png)
+
+#### 使用聚簇索引的优势
+
+```text
+问题:每次使用辅助索引检索都要经过两次B+树查找，看上去聚簇索引的效率明显要低于非聚簇索引，这不是多此一举吗?聚簇索引的优势在哪?
+
+1.由于行数据和聚簇索引的叶十子节点存储在一起，同一页中会有多条行数据，访问同一数据页不同行记录时，已经把页加载到了Buffer中(缓存器),再次访问时，会在内存中完成访问，不必访问磁盘。这样主键和行数据是一起被载入内存的，找到叶子节点就可以立刻将行数据返回了，如果按照主键id来组织数据，获得数据更快。
+                                                                  
+2. 辅助索引的叶子节点，存储主键值，而不是数据的存放地址。好处是当行数据放生变化时，索引树的节点也需要分裂变化﹔或者是我们需要查找的的数据，在上一次IO读写的缓存中没有，需要发生一次新的IO操作时，可以避免对辅助索引的维护工作，只需要维护聚簇索引树锁好了。另一个好处是，因为辅助索引存放的是主键值，减少了辅时索引占用的存储空间大小。
+```
+
+#### 聚簇索引注意事项
+
+```text
+问题：聚簇索引需要注意什么?
+
+1.当使用主键为聚簇索引时，主键最好不要使用uid，因为uuid的值太过离散，不适合排序且可能出线新抓增加记录的uid，会插入在索引树中间的位置，导致索引树调整复杂度变大，消耗更多的时间和资源。
+
+2.建议使用int类型的自增，方便排序并且默认会在索引树的末尾增加主键值，对索引树的结构影响最小。而且，键值占用的存储空间越大，辅的索引中保存的主键值
+也会跟着变大，占用存储空间,也会影响到Io操作读取到的数据量。
+```
+
+#### 为什么主键使用自增id
+
+```
+问题：为什么主键通常建议使用自增id
+
+聚簇索引的改数据的物理存放顺序与索引顺序是一致的，即:只要索引是相邻的，那么对应的数据一定也是相邻地存放在磁盘上的。如果主键不是自增id，那么可以想象，它会干些什么，不断地调整数据的物理地址、分页，当然也有其他一些措施来减少这些操作，但却无法彻底避免。但，如果是自增的，那就简单了，它只需要一页一页地写，索引结构相对紧凑，磁盘碎片少，效率也高。
+```
+
+## 8. 范式
+
+范式程度越高，数据粒度越小。性能上也会降低。
+
+### 建表原则
+
+符合一范式的基础上，建立二范式。三范式根据实际要求，不一定必须符合
+
+### 第一范式
+
+要求：每个属性都不可以再分
+![在这里插入图片描述](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/20200314100507946.png)
+
+例子：
+![在这里插入图片描述](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/20200314100516334.png)
+存在问题：
+1、 数据沉余：如姓名，系名，系主任，重复了很多次
+2、 插入异常：如果我新建一个计算机系，系主任是小张，学生还没入学，那么id，姓名，课名等字段无法设置
+3、 删除异常：假如小明毕业，删除小明的信息，那么小明所在系也会被删除。
+4、 修改异常：如果小明转专业，那么我得把小明的系名和系主任都改了，并且得多次修改，因为小明出现了三次
+### 第二范式
+要求：在一范式的基础上，消除了非主属性对码的依赖。
+码：在一个表中，可以决定一个元素的属性集合（id和课名一旦确定，那么所有的属性都可以确定）
+![在这里插入图片描述](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/20200314100527121.png)
+主属性：码就是主属性
+非主属性：除主属性之外的属性
+函数依赖：y=f(x);x的值决定y，y依赖x。如：1、id确定之后，姓名，系别，系主任都可以确定了。2、系名确定了，系主任就确定。
+完全函数依赖：x1，x2等决定y。如：id和课名可以决定分数。那么分数就是完全依赖于id和课名。
+部分函数依赖：y依赖于x，但是y不完全依赖于x。如用id和课名去决定姓名。姓名由id就直接确定了，所以姓名不完全依赖与id和课名这两个字段
+
+**判断是否为二范式**
+
+数据表中是否存在非主属性对码的部分函数依赖。若存在，则数据表最高只符合一范式，若不存在，则符合二范式。
+步骤;
+1. 找出数据表中所有的码（id,课名）;
+2. 根据第一步所得到的码，找出所有的主属性。id和课名
+3. 数据表中，除去所有的主属性，剩下的就是非主属性。
+4. 查看是否存在非主属性对码的部分函数依赖。
+例子：
+![在这里插入图片描述](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/20200314100538915.png)
+存在问题：
+1. 数据沉余：***解决***
+2. 插入异常：如果我新建一个计算机系，系主任是小张，学生还没入学，那么id，姓名，课名等字段无法设置
+3. 删除异常：假如小明毕业，删除小明的信息，那么小明所在系也会被删除。
+4. 修改异常：如果小明转专业，那么我得把小明的系名和系主任都改了，并且得多次修改，因为小明出现了三次。***解决***
+
+### 第三范式
+在二范式的基础上，消除了非主属性对码的传递函数依赖。
+![在这里插入图片描述](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/20200314100553309.png)
+传递函数依赖：y依赖于x，z又依赖于y，那么z依赖于x。如：系别依赖于学号，系主任依赖于系别，那么系主任也依赖于学号。
+例子：
+![在这里插入图片描述](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/20200314100610908.png)
+
+问题：
+1. 插入异常：如果我新建一个计算机系，系主任是小张，学生还没入学，那么id，姓名，课名等字段无法设置 ***解决***
+2. 删除异常：假如小明毕业，删除小明的信息，那么小明所在系也会被删除。 ***解决***
+
+## 附：练习题
 
 #### 建表语句
 
