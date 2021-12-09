@@ -789,19 +789,23 @@ INSERT INTO tb_courses_new
      FROM tb_courses;
 ```
 
-
-
 #### 修改数据(update)
 
+UPDATE <表名> SET <列名> <值> 条件 
+
 ``` sql
+# 将部门id为2的部门名称改为B
+UPDATE tb_departments set dept_name = "B" where dept_id = 2
 ```
 
 #### MySQL删除数据(delete)
 
+DELETE FROM <表名> WHERE 
+
 ``` sql
+# 删除部门id为7的部门
+DELETE FROM tb_departments WHERE dept_id=7
 ```
-
-
 
 ## 3. 数据库的存储引擎
 
