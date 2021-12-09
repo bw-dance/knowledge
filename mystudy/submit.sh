@@ -6,6 +6,7 @@ then                                #若参数正确执行代码
     message=$1
     git commit -m "${message}"
     git push gitee HEAD:develop
+	git push github HEAD:develop
 else                                #参数错误则输出Usage
     echo '[usage]'
     echo 'gitPush [COMMIT MESSAGE]'
