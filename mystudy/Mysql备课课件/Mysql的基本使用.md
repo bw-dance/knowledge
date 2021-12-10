@@ -2,7 +2,7 @@
 
 ## 1. Mysql的安装
 
-[(97条消息) mysql8.0.25安装配置教程(windows 64位)最详细！！！！_@WWWxp的博客-CSDN博客_mysql安装配置教程8.0.25](https://blog.csdn.net/weixin_43579015/article/details/117228159?utm_source=app&app_version=4.19.1&code=app_1562916241&uLinkId=usr1mkqgl919blen)
+[(97条消息) mysql8.0.25安装配置教程(windows 64位)最详细！！！！_@WWWxp的博客-CSDN博客_mysql安装配置教程8.0.25](https://blog.csdn.net/weixin_43579015/article/details/117228159?utm_source=app&app_versiON=4.19.1&code=app_1562916241&uLinkId=usr1mkqgl919blen)
 
 ## 2. Mysql基本操作
 
@@ -53,15 +53,15 @@
    2. mysql自带数据库
 
       1. ```txt
-         information_schema:主要存储了系统中的一些数据库对象信息，比如用户表信息、列信息、权限信息、字符集信息和分区信息等。
+         informatiON_schema:主要存储了系统中的一些数据库对象信息，比如用户表信息、列信息、权限信息、字符集信息和分区信息等。
              
-         mysql:MySQL 的核心数据库，类似于 SQL Server 中的 master 表，主要负责存储数据库用户、用户访问权限等 MySQL 自己需要使用的控制和管理信息。常用的比如在 mysql 数据库的 user 表中修改 root 用户密码。
+         mysql:MySQL 的核心数据库，类似于 SQL Server 中的 mASter 表，主要负责存储数据库用户、用户访问权限等 MySQL 自己需要使用的控制和管理信息。常用的比如在 mysql 数据库的 user 表中修改 root 用户密码。
              
          performance_schema:主要用于收集数据库服务器性能参数。
              
          sakila:MySQL 提供的样例数据库，该数据库共有 16 张表，这些数据表都是比较常见的，在设计数据库时，可以参照这些样例数据表来快速完成所需的数据表。
              
-         sys:MySQL 5.7 安装完成后会多一个 sys 数据库。sys 数据库主要提供了一些视图，数据都来自于 performation_schema，主要是让开发者和使用者更方便地查看性能问题。
+         sys:MySQL 5.7 安装完成后会多一个 sys 数据库。sys 数据库主要提供了一些视图，数据都来自于 performatiON_schema，主要是让开发者和使用者更方便地查看性能问题。
              
          world:world 数据库是 MySQL 自动创建的数据库，该数据库中只包括 3 张数据表，分别保存城市，国家和国家使用的语言等内容。
          ```
@@ -89,7 +89,7 @@
              DEFAULT COLLATE gb2312_chinese_ci;
       ```
 
-9. **删除数据库 drop database '数据库名称'**
+9. **删除数据库 drop databASe '数据库名称'**
 
    1. ```text
       DROP DATABASE [ IF EXISTS ] <数据库名>
@@ -128,7 +128,7 @@
       
       在当前数据库中创建表时，可以省略 db-name。如果使用加引号的识别名，则应对数据库和表名称分别加引号。例如，'mydb'.'mytbl' 是合法的，但 'mydb.mytbl' 不合法。
        
-      <表定义选项>:表创建定义，由列名（col_name）、列的定义（column_definition）以及可能的空值说明、完整性约束或表索引组成。
+      <表定义选项>:表创建定义，由列名（col_name）、列的定义（column_definitiON）以及可能的空值说明、完整性约束或表索引组成。
       默认的情况是，表被创建到当前的数据库中。若表已存在、没有当前数据库或者数据库不存在，则会出现错误。
       ```
 
@@ -313,7 +313,7 @@ INSERT INTO tb_students_info VALUES (5, 'Jim', 6, 21, b'0', 175, '2021-12-08 23:
 INSERT INTO tb_students_info VALUES (6, 'John', 5, 25, b'1', 172, '2021-12-04 23:27:52');
 INSERT INTO tb_students_info VALUES (7, 'Lily', 1, 22, b'0', 165, '2021-11-30 23:27:57');
 INSERT INTO tb_students_info VALUES (8, 'Susan', 1, 20, b'1', 170, '2021-11-02 23:28:01');
-INSERT INTO tb_students_info VALUES (9, 'Thomas', 4, 35, b'0', 178, '2021-12-03 23:28:06');
+INSERT INTO tb_students_info VALUES (9, 'ThomAS', 4, 35, b'0', 178, '2021-12-03 23:28:06');
 INSERT INTO tb_students_info VALUES (10, 'Tom', 3, 15, b'1', 165, '2021-12-26 23:28:10');
 ```
 
@@ -525,7 +525,7 @@ SELECT dept_id,SUM(age)/COUNT(age) FROM tb_students_info GROUP BY dept_id;
 # 求每个部门的平均身高，并展示出 部门名称和平均身高。
 SELECT dept_name,AVG(height) FROM tb_students_info  s INNER JOIN tb_departments d ON  s.dept_id = d.dept_id GROUP BY dept_name;
 
-SELECT dept_name,SUM(height)/COUNT(height) as AVG_HEIGHT FROM tb_students_info  s INNER JOIN tb_departments d ON  s.dept_id = d.dept_id GROUP BY dept_name;
+SELECT dept_name,SUM(height)/COUNT(height) AS AVG_HEIGHT FROM tb_students_info  s INNER JOIN tb_departments d ON  s.dept_id = d.dept_id GROUP BY dept_name;
 
 
 
@@ -586,7 +586,7 @@ AND s.height=sd.height;
 # 最高身高在170-180之间的部门信息
 
 SELECT d.dept_id,dept_name,MAX(height)
-as max_height FROM 
+AS MAX_height FROM 
 tb_students_info s 
 INNER JOIN 
 tb_departments d
@@ -596,7 +596,7 @@ GROUP BY d.dept_name,d.dept_id;
 
  我们要的是部门所有人平均身高在170-175之间的部门信息。而不是部门人员身高在170-175之间人员的平均身高信息。
 SELECT d.dept_id,dept_name,AVG(height)
-as max_height FROM 
+AS MAX_height FROM 
 tb_students_info s 
 INNER JOIN 
 tb_departments d
@@ -605,13 +605,13 @@ GROUP BY d.dept_name,d.dept_id;
 
 正确写法：
 SELECT d.dept_id,dept_name,AVG(height) 
-as max_height FROM 
+AS MAX_height FROM 
 tb_students_info s 
 INNER JOIN 
 tb_departments d
 ON s.dept_id=d.dept_id 
 GROUP BY d.dept_name,d.dept_id
-HAVING max_height BETWEEN 170 AND 175;
+HAVING MAX_height BETWEEN 170 AND 175;
 
 # 更新操作 更新id=1的学生的年龄为30
 UPDATE tb_students_info SET age=30 WHERE id =1 ;
@@ -622,7 +622,7 @@ UPDATE tb_students_info SET age=30 WHERE id =1 ;
 
 ```
 
-#### 查询(select)
+#### 查询(SELECT)
 
 ```txt
 SELECT
@@ -630,17 +630,17 @@ SELECT
 [
 FROM <表 1>, <表 2>…
 [WHERE <表达式>
-[GROUP BY <group by definition>
-[HAVING <expression> [{<operator> <expression>}…]]
-[ORDER BY <order by definition>]
-[LIMIT[<offset>,] <row count>]
+[GROUP BY <GROUP BY definitiON>
+[HAVING <expressiON> [{<operator> <expressiON>}…]]
+[ORDER BY <ORDER BY definitiON>]
+[LIMIT[<offSET>,] <row count>]
 ]
 {*|<字段列名>}包含星号通配符的字段列表，表示查询的字段，其中字段列至少包含一个字段名称，如果要查询多个字段，多个字段之间要用逗号隔开，最后一个字段后不要加逗号。
 FROM <表 1>，<表 2>…，表 1 和表 2 表示查询数据的来源，可以是单个或多个。
 WHERE 子句是可选项，如果选择该项，将限定查询行必须满足的查询条件。
 GROUP BY< 字段 >，该子句告诉 MySQL 如何显示查询出来的数据，并按照指定的字段分组。
 [ORDER BY< 字段 >]，该子句告诉 MySQL 按什么样的顺序显示查询出来的数据，可以进行的排序有升序（ASC）和降序（DESC）。
-[LIMIT[<offset>，]<row count>]，该子句告诉 MySQL 每次显示查询出来的数据条数。
+[LIMIT[<offSET>，]<row count>]，该子句告诉 MySQL 每次显示查询出来的数据条数。
 ```
 
 **查询语句**
@@ -672,7 +672,7 @@ SELECT age FROM tb_students_info;
 SELECT  DISTINCT age FROM tb_students_info;
 ```
 
-#### 别名(as)
+#### 别名(AS)
 
 **表的别名**
 
@@ -715,7 +715,7 @@ SELECT * FROM tb_students_info LIMIT 4;
 SELECT * FROM tb_students_info LIMIT 3,5;
 ```
 
-#### 排序(order by)
+#### 排序(ORDER BY)
 
 ORDER BY {<列名> | <表达式> | <位置>} [ASC|DESC]
 
@@ -745,7 +745,7 @@ SELECT name,height FROM tb_students_info ORDER BY height,name;
 
 默认情况下，查询数据按字母升序进行排序（A～Z），但数据的排序并不仅限于此，还可以使用 ORDER BY 对查询结果进行降序排序（Z～A），这可以通过关键字 DESC 实现。可以对多列进行不同的顺序排序。
 
-#### 条件查询(where)
+#### 条件查询(WHERE)
 
 WHERE <查询条件> {<判定运算1>，<判定运算2>，…}
 
@@ -959,7 +959,7 @@ SELECT * FROM tb_students_info
      WHERE dept_id=7);
 ```
 
-#### 分组查询(group by)
+#### 分组查询(GROUP BY)
 
 使用 GROUP BY 子句，将结果集中的数据行根据选择列的值进行逻辑分组，以便能汇总表内容的子集，实现对每个组而不是对整个结果集进行整合。
 
@@ -1117,10 +1117,10 @@ INSERT INTO tb_courses
      
 # 注意:插入的时候，数值要与列名的相对应
 
-# 在 tb_courses 表中插入一条新记录，course_id 值为 2，course_name 值为“Database”，course_grade 值为 3，info值为“MySQL”。
+# 在 tb_courses 表中插入一条新记录，course_id 值为 2，course_name 值为“DatabASe”，course_grade 值为 3，info值为“MySQL”。
 INSERT INTO tb_courses
      (course_name,course_info,course_id,course_grade)
-     VALUES('Database','MySQL',2,3);
+     VALUES('DatabASe','MySQL',2,3);
 
 # 不指定列表名，但是值的顺序要和表结构一致
      
@@ -1135,7 +1135,7 @@ INSERT INTO tb_courses
 
 INSERT INTO tb_courses
      (course_name,course_grade,course_info)
-     VALUES('System',3,'Operation System');
+     VALUES('System',3,'OperatiON System');
 ```
 
 ##### 复制
@@ -1233,7 +1233,7 @@ MySQL 提供了多个不同的存储引擎，包括处理事务安全表的引�
 
 | 功能             | MylSAM | MEMORY | InnoDB | Archive |
 | :--------------- | :----- | :----- | :----- | :------ |
-| 存储限制         | 256TB  | RAM    | 64TB   | None    |
+| 存储限制         | 256TB  | RAM    | 64TB   | NONe    |
 | **支持事务**     | No     | No     | Yes    | No      |
 | **支持全文索引** | Yes    | No     | No     | No      |
 | **支持树索引**   | Yes    | Yes    | Yes    | No      |
@@ -1575,7 +1575,7 @@ CREATE TABLE tb_dept1
      (
      id INT(11) PRIMARY KEY,
      name VARCHAR(22) NOT NULL,
-     location VARCHAR(50)
+     locatiON VARCHAR(50)
      );
 # 创建数据表 tb_emp6，并在表 tb_emp6 上创建外键约束，让它的键 deptId 作为外键关联到表 tb_dept1 的主键 id
 CREATE TABLE tb_emp6
@@ -1634,7 +1634,7 @@ ALTER TABLE tb_emp2
      (
      id INT(11) PRIMARY KEY,
      name VARCHAR(22) UNIQUE,
-     location VARCHAR(50)
+     locatiON VARCHAR(50)
      );
 ```
 
@@ -1716,7 +1716,7 @@ ALTER TABLE tb_emp7
 
 ### 默认约束
 
-“默认值（Default）”的完整称呼是“默认值约束（Default Constraint）”。
+“默认值（Default）”的完整称呼是“默认值约束（Default CONstraint）”。
 
 例如女性同学较多，性别就可以默认为“女”。如果插入一条新的记录时没有为这个字段赋值，那么系统会自动为这个字段赋值为“女”。
 
@@ -1732,7 +1732,7 @@ CREATE TABLE tb_dept3
      (
      id INT(11) PRIMARY KEY,
      name VARCHAR(22),
-     location VARCHAR(50) DEFAULT 'Beijing'
+     locatiON VARCHAR(50) DEFAULT 'Beijing'
      );
 ```
 
@@ -1746,8 +1746,8 @@ CHANGE COLUMN <字段名> <数据类型> DEFAULT <默认值>;
 ```sql
 # 修改数据表 tb_dept3，将部门位置的默认值修改为 Shanghai
 ALTER TABLE tb_dept3
-     CHANGE COLUMN location
-     location VARCHAR(50) DEFAULT 'Shanghai';
+     CHANGE COLUMN locatiON
+     locatiON VARCHAR(50) DEFAULT 'Shanghai';
 ```
 
 #### 删除默认值约束
@@ -1760,15 +1760,15 @@ CHANGE COLUMN <字段名> <字段名> <数据类型> DEFAULT NULL;
 ```sql
 # 修改数据表 tb_dept3，将部门位置的默认值约束删除
 ALTER TABLE tb_dept3
-     CHANGE COLUMN location
-     location VARCHAR(50) DEFAULT NULL;
+     CHANGE COLUMN locatiON
+     locatiON VARCHAR(50) DEFAULT NULL;
 ```
 
 ### 非空约束
 
 非空约束（NOT NULL）可以通过 CREATE TABLE 或 ALTER TABLE 语句实现。在表中某个列的定义后加上关键字 NOT NULL 作为限定词，来约束该列的取值不能为空。
 
-非空约束（Not Null Constraint）指字段的值不能为空。对于使用了非空约束的字段，如果用户在添加数据时没有指定值，数据库系统就会报错。
+非空约束（Not Null CONstraint）指字段的值不能为空。对于使用了非空约束的字段，如果用户在添加数据时没有指定值，数据库系统就会报错。
 
 #### 1. 在创建表时设置非空约束
 
@@ -1782,7 +1782,7 @@ CREATE TABLE tb_dept4
      (
      id INT(11) PRIMARY KEY,
      name VARCHAR(22) NOT NULL,
-     location VARCHAR(50)
+     locatiON VARCHAR(50)
      );
 ```
 
@@ -1795,8 +1795,8 @@ CHANGE COLUMN <字段名>
 ```sql
 # 修改数据表 tb_dept4，指定部门位置不能为空
 ALTER TABLE tb_dept4
-     CHANGE COLUMN location
-     location VARCHAR(50) NOT NULL;
+     CHANGE COLUMN locatiON
+     locatiON VARCHAR(50) NOT NULL;
 ```
 
 #### 3. 删除非空约束
@@ -1809,8 +1809,8 @@ CHANGE COLUMN <字段名> <字段名> <数据类型> NULL;
 ```sql
 # 修改数据表 tb_dept4，将部门位置的非空约束删除
 ALTER TABLE tb_dept4
-     CHANGE COLUMN location
-     location VARCHAR(50) NULL;
+     CHANGE COLUMN locatiON
+     locatiON VARCHAR(50) NULL;
 ```
 
 ### 查看表中的约束
@@ -1871,7 +1871,7 @@ CREATE TABLE tb_emp8
 
 8. 1. 即一个索引包含多个列
    2. id（主键索引）   （name，age）（复合索引）
-   3. 如果为name和age单独创建索引，搜索where name  and  age  可能索引失效。如果为二者建立一个复合索引，则可以走索引
+   3. 如果为name和age单独创建索引，搜索WHERE name  AND  age  可能索引失效。如果为二者建立一个复合索引，则可以走索引
 
 9. 全文索引（5.7之前，只能用于MYISAM引擎）（很少用到）
 
@@ -1946,14 +1946,14 @@ CREATE TABLE tb_emp8
 
 3. mysql引擎为更好利用索引，在查询中会动态调整查询字段顺序以便利用索引
 
-4. 1. 带name的and查询均可命中索引
+4. 1. 带name的AND查询均可命中索引
 
 #### 查看是否命中索引
 
 sql语句前添加explain
 
 ```sql
-EXPLAIN SELECT * FROM sys_user WHERE username="admin" AND phone = "18888888888" AND email="201507802@qq.com"
+EXPLAIN SELECT * FROM sys_user WHERE username="admin" AND phONe = "18888888888" AND email="201507802@qq.com"
 ```
 
 ![](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/%E7%B4%A2%E5%BC%95%E6%98%AF%E5%90%A6%E5%91%BD%E4%B8%AD%E6%9F%A5%E7%9C%8B.png)
@@ -1962,7 +1962,7 @@ EXPLAIN SELECT * FROM sys_user WHERE username="admin" AND phone = "18888888888" 
 
 2. type结果值从好到坏依次是：
 
-3. 1. system > const > eq_ref > ref > fulltext > ref_or_null > index_merge > unique_subquery > index_subquery > range > index > ALL一般来说，得保证查询至少达到range级别，最好能达到ref，否则就可能会出现性能问题。
+3. 1. system > cONst > eq_ref > ref > fulltext > ref_or_null > index_merge > unique_subquery > index_subquery > range > index > ALL一般来说，得保证查询至少达到range级别，最好能达到ref，否则就可能会出现性能问题。
 
 4. possible_keys：sql所用到的索引
 
@@ -1970,7 +1970,7 @@ EXPLAIN SELECT * FROM sys_user WHERE username="admin" AND phone = "18888888888" 
 
 6. rows: 显示MySQL认为它执行查询时必须检查的行数。
 
-7. partitions：分区https://www.jianshu.com/p/b17b62057499
+7. partitiONs：分区https://www.jianshu.com/p/b17b62057499
 
 ### 5. 索引的底层原理
 
@@ -2059,7 +2059,7 @@ InnoDB存储引擎中页的大小为16KB，一般表的主键类型为INT(占用
 
 将数据存储与索引放到了一起，索引结构的叶子节点保存了行数据
 
-​                 ![img](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/JzonUNen3H9xN74Lz0K4Tw.png)        
+​                 ![img](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/JzONUNen3H9xN74Lz0K4Tw.png)        
 
 **聚簇索引不一定是主键索引，主键索引一定是聚簇索引。**
 
@@ -2089,7 +2089,7 @@ InnoDB存储引擎中页的大小为16KB，一般表的主键类型为INT(占用
 
 **InnoDB**
 
-1. InnoDB使用的是聚簇索引，将主键组织到一棵B+树中，而行数据就储存在叶子节点上，若使用"where id =14"这样的条件查找主键，则按照B+树的检索算法即可查找到对应的叶节点，之后获得行数据。
+1. InnoDB使用的是聚簇索引，将主键组织到一棵B+树中，而行数据就储存在叶子节点上，若使用"WHERE id =14"这样的条件查找主键，则按照B+树的检索算法即可查找到对应的叶节点，之后获得行数据。
 2. 若对Name列进行条件搜索，则需要两个步骤∶第一步在辅助索引B+树中检索Name，到达其叶子节点获取对应的主键。第二步使用主键在主索引|B+树种再执行一次B+树检索操作，最终到达叶子节点即可获取整行数据。(重点在于通过其他键需要建立辅助索引)
 3. 聚簇索引默认是主键，如果表中没有定义主键，InnoDB会选择一个唯一且非空的索引代替。如果没有这样的索引，InnoDB会隐式定义一个主键(类似oracle中的Rowld)来作为聚簇索引。如果已经设置了主键为聚簇索引又希望再单独设置聚簇索引，必须先删除主键，然后添加我们想要的聚簇索引，最后恢复设置主键即可。
 
@@ -2186,198 +2186,4 @@ MyISAM使用的是非聚簇索引，非聚簇索引的两棵B+树看上去没什
 问题：
 1. 插入异常：如果我新建一个计算机系，系主任是小张，学生还没入学，那么id，姓名，课名等字段无法设置 ***解决***
 2. 删除异常：假如小明毕业，删除小明的信息，那么小明所在系也会被删除。 ***解决***
-
-## 附：练习题
-
-#### 建表语句
-
-```sql
-CREATE TABLE DEPT
-       (DEPTNO int(2) not null ,
-    DNAME VARCHAR(14) ,
-    LOC VARCHAR(13),
-    primary key (DEPTNO)
-    );
-CREATE TABLE EMP
-       (EMPNO int(4)  not null ,
-    ENAME VARCHAR(10),
-    JOB VARCHAR(9),
-    MGR INT(4),
-    HIREDATE DATE  DEFAULT NULL,
-    SAL DOUBLE(7,2),
-    COMM DOUBLE(7,2),
-    primary key (EMPNO),
-    DEPTNO INT(2) 
-    )
-    ;
- 
-CREATE TABLE SALGRADE
-      ( GRADE INT,
-    LOSAL INT,
-    HISAL INT );
-		
-		
-		
- 
- 
- INSERT INTO DEPT ( DEPTNO, DNAME, LOC ) VALUES ( 
-10, 'ACCOUNTING', 'NEW YORK'); 
-INSERT INTO DEPT ( DEPTNO, DNAME, LOC ) VALUES ( 
-20, 'RESEARCH', 'DALLAS'); 
-INSERT INTO DEPT ( DEPTNO, DNAME, LOC ) VALUES ( 
-30, 'SALES', 'CHICAGO'); 
-INSERT INTO DEPT ( DEPTNO, DNAME, LOC ) VALUES ( 
-40, 'OPERATIONS', 'BOSTON'); 
-commit;
-  
-INSERT INTO EMP ( EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM,
-DEPTNO ) VALUES ( 
-7369, 'SMITH', 'CLERK', 7902,  '1980-12-17'
-, 800, NULL, 20); 
-INSERT INTO EMP ( EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM,
-DEPTNO ) VALUES ( 
-7499, 'ALLEN', 'SALESMAN', 7698,  '1981-02-20'
-, 1600, 300, 30); 
-INSERT INTO EMP ( EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM,
-DEPTNO ) VALUES ( 
-7521, 'WARD', 'SALESMAN', 7698,  '1981-02-22'
-, 1250, 500, 30); 
-INSERT INTO EMP ( EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM,
-DEPTNO ) VALUES ( 
-7566, 'JONES', 'MANAGER', 7839,  '1981-04-02'
-, 2975, NULL, 20); 
-INSERT INTO EMP ( EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM,
-DEPTNO ) VALUES ( 
-7654, 'MARTIN', 'SALESMAN', 7698,  '1981-09-28'
-, 1250, 1400, 30); 
-INSERT INTO EMP ( EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM,
-DEPTNO ) VALUES ( 
-7698, 'BLAKE', 'MANAGER', 7839,  '1981-05-01'
-, 2850, NULL, 30); 
-INSERT INTO EMP ( EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM,
-DEPTNO ) VALUES ( 
-7782, 'CLARK', 'MANAGER', 7839,  '1981-06-09'
-, 2450, NULL, 10); 
-INSERT INTO EMP ( EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM,
-DEPTNO ) VALUES ( 
-7788, 'SCOTT', 'ANALYST', 7566,  '1987-04-19'
-, 3000, NULL, 20); 
-INSERT INTO EMP ( EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM,
-DEPTNO ) VALUES ( 
-7839, 'KING', 'PRESIDENT', NULL,  '1981-11-17'
-, 5000, NULL, 10); 
-INSERT INTO EMP ( EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM,
-DEPTNO ) VALUES ( 
-7844, 'TURNER', 'SALESMAN', 7698,  '1981-09-08'
-, 1500, 0, 30); 
-INSERT INTO EMP ( EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM,
-DEPTNO ) VALUES ( 
-7876, 'ADAMS', 'CLERK', 7788,  '1987-05-23'
-, 1100, NULL, 20); 
-INSERT INTO EMP ( EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM,
-DEPTNO ) VALUES ( 
-7900, 'JAMES', 'CLERK', 7698,  '1981-12-03'
-, 950, NULL, 30); 
-INSERT INTO EMP ( EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM,
-DEPTNO ) VALUES ( 
-7902, 'FORD', 'ANALYST', 7566,  '1981-12-03'
-, 3000, NULL, 20); 
-INSERT INTO EMP ( EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM,
-DEPTNO ) VALUES ( 
-7934, 'MILLER', 'CLERK', 7782,  '1982-01-23'
-, 1300, NULL, 10); 
-commit;
-  
-INSERT INTO SALGRADE ( GRADE, LOSAL, HISAL ) VALUES ( 
-1, 700, 1200); 
-INSERT INTO SALGRADE ( GRADE, LOSAL, HISAL ) VALUES ( 
-2, 1201, 1400); 
-INSERT INTO SALGRADE ( GRADE, LOSAL, HISAL ) VALUES ( 
-3, 1401, 2000); 
-INSERT INTO SALGRADE ( GRADE, LOSAL, HISAL ) VALUES ( 
-4, 2001, 3000); 
-INSERT INTO SALGRADE ( GRADE, LOSAL, HISAL ) VALUES ( 
-5, 3001, 9999); 
-commit;
-```
-
-
-
-#### 1、取得每个部门最高薪水的人员名称
-
-```sql
-# 第一步:取得每个部门最高薪水(按照部门编号分组，找出每一组最大值)
-
-select deptno,max(sal) as maxsal from emp group by deptno;
-
-# 第二步:将以上的查询结果当做一张临时表t，t和emp表连接，条件:t.deptno = e.deptno and t.maxsal = e.sal
-
-select 
-    e.ename, t.*
-from 
-    emp e
-join
-    (select deptno,max(sal) as maxsal from emp group by deptno) t
-on
-    t.deptno = e.deptno and t.maxsal = e.sal;
-```
-
-#### 2、哪些人的薪水在部门的平均薪水之上
-
-```sql
-# 第一步:找出每个部门的平均薪水
-select deptno,avg(sal) as avgsal from emp group by deptno;
-
-# 第二步:将以上查询结果当做t表，t和emp表连接,条件:部门编号相同，并且emp的sal大于t表的avgsal
-select 
-    t.*, e.ename, e.sal
-from
-    emp e
-join
-    (select deptno,avg(sal) as avgsal from emp group by deptno) t
-on
-    e.deptno = t.deptno and e.sal > t.avgsal;
-```
-
-#### 3、取得部门中（所有人的）平均的薪水等级
-
-平均的薪水等级:先计算每一个薪水的等级，然后找出薪水等级的平均值。
-
-平均薪水的等级:先计算平均薪水，然后找出每个平均薪水的等级值。
-
-```sql
- # 第一步:找出每个人的薪水等级,emp e和salgrade s表连接。连接条件:e.sal between s.losal and s.hisal
-  select 
-        e.ename,e.sal,e.deptno,s.grade
-    from
-        emp e
-    join
-        salgrade s
-    on
-        e.sal between s.losal and s.hisal;
- # 第二步:基于以上的结果继续按照deptno分组，求grade的平均值。
-  select 
-        e.deptno,avg(s.grade)
-    from
-        emp e
-    join
-        salgrade s
-    on
-        e.sal between s.losal and s.hisal
-    group by
-        e.deptno;
-```
-
-#### 4、不准用组函数（Max ），取得最高薪水
-
-```sql
-# 第一种:sal降序，limit 1
-select ename,sal from emp order by sal desc limit 1;
-
-# 第二种方案:
-select max(sal) from emp;
-
-# 第三种方案:表的自连接
-select sal from emp where sal not in(select distinct a.sal from emp a join emp b on a.sal < b.sal);
-```
 
