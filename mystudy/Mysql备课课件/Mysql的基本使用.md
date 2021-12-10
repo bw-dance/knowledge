@@ -500,12 +500,124 @@ s.dept_id IN (
 );
 
 GROUP BY
+# 问题写法：
+SELECT id,name,dept_name FROM tb_students_info s ,tb_departments d WHERE   s.dept_id = d.dept_id  GROUP BY dept_name;
+
 
 # 获取员工的id，name，dept_name。每个部门的人在一起。
-SELECT id,name,dept_name FROM tb_students_info s INNER JOIN tb_departments d ON  s.dept_id=d.dept_id GROUP BY d.dept_id;
+SELECT id,name,dept_name FROM tb_students_info s ,tb_departments d WHERE s.dept_id = d.dept_id  GROUP BY dept_name,id,name;
 
-SELECT id,name,dept_name FROM tb_students_info s ,tb_departments d WHERE   s.dept_id=d.dept_id GROUP BY ddept_id; 
+AVG
 
+# 获取每个部门的平均身高
+SELECT s.dept_id,d.dept_name,AVG(s.height) FROM tb_students_info s INNER JOIN tb_departments d
+ON s.dept_id=d.dept_id GROUP BY s.dept_id,d.dept_name;
+
+
+# 求公司所有人的平均年龄
+SELECT AVG(age) FROM tb_students_info;
+# 求每个部门人的平均年龄
+SELECT dept_id,AVG(age) FROM tb_students_info GROUP BY dept_id;
+
+SELECT dept_id,SUM(age)/COUNT(age) FROM tb_students_info GROUP BY dept_id;
+
+
+# 求每个部门的平均身高，并展示出 部门名称和平均身高。
+SELECT dept_name,AVG(height) FROM tb_students_info  s INNER JOIN tb_departments d ON  s.dept_id = d.dept_id GROUP BY dept_name;
+
+SELECT dept_name,SUM(height)/COUNT(height) as AVG_HEIGHT FROM tb_students_info  s INNER JOIN tb_departments d ON  s.dept_id = d.dept_id GROUP BY dept_name;
+
+
+
+COUNT
+
+# 求公司人数
+ SELECT COUNT(*) FROM tb_students_info;
+# 求每个部门的人数
+SELECT dept_name,COUNT(id) FROM tb_students_info  s INNER JOIN tb_departments d ON  s.dept_id = d.dept_id GROUP BY dept_name;
+# 求身高小于175的人数
+SELECT COUNT(height) FROM tb_students_info WHERE height<=175;
+# 求每个部门身高小于175的人数
+SELECT dept_name,COUNT(id) 
+FROM 
+tb_students_info s,tb_departments d
+WHERE
+s.dept_id = d.dept_id AND s.height<175 
+GROUP BY dept_name;
+
+SELECT dept_name,COUNT(id) 
+FROM 
+tb_students_info s 
+INNER JOIN 
+tb_departments d
+ON s.dept_id=d.dept_id WHERE s.height<175
+GROUP BY dept_name;
+
+SELECT dept_name,COUNT(id) 
+FROM 
+tb_students_info s 
+INNER JOIN 
+tb_departments d
+ON s.dept_id=d.dept_id AND s.height<175
+GROUP BY dept_name;
+
+# 求各个部门，身高最高的人员的信息
+SELECT d.dept_id,dept_name,MAX(height)
+FROM 
+tb_students_info s 
+INNER JOIN 
+tb_departments d
+ON s.dept_id=d.dept_id 
+GROUP BY d.dept_name,d.dept_id;
+
+SELECT id,name,age,s.dept_id,s.height 
+FROM tb_students_info s 
+RIGHT JOIN
+(SELECT d.dept_id,dept_name,MAX(height) height
+FROM 
+tb_students_info s 
+INNER JOIN 
+tb_departments d
+ON s.dept_id=d.dept_id 
+GROUP BY d.dept_name,d.dept_id) sd
+ON s.dept_id = sd.dept_id 
+AND s.height=sd.height;
+
+# 最高身高在170-180之间的部门信息
+
+SELECT d.dept_id,dept_name,MAX(height)
+as max_height FROM 
+tb_students_info s 
+INNER JOIN 
+tb_departments d
+ON s.dept_id=d.dept_id  AND height BETWEEN 170 AND 180
+GROUP BY d.dept_name,d.dept_id;
+写法有问题
+
+ 我们要的是部门所有人平均身高在170-175之间的部门信息。而不是部门人员身高在170-175之间人员的平均身高信息。
+SELECT d.dept_id,dept_name,AVG(height)
+as max_height FROM 
+tb_students_info s 
+INNER JOIN 
+tb_departments d
+ON s.dept_id=d.dept_id  AND height BETWEEN 170 AND 175
+GROUP BY d.dept_name,d.dept_id;
+
+正确写法：
+SELECT d.dept_id,dept_name,AVG(height) 
+as max_height FROM 
+tb_students_info s 
+INNER JOIN 
+tb_departments d
+ON s.dept_id=d.dept_id 
+GROUP BY d.dept_name,d.dept_id
+HAVING max_height BETWEEN 170 AND 175;
+
+# 更新操作 更新id=1的学生的年龄为30
+UPDATE tb_students_info SET age=30 WHERE id =1 ;
+
+# 删除操作  删除id = 1 的学生信息
+ DELETE FROM tb_students_info WHERE id = 1 ;
 
 
 ```
@@ -901,6 +1013,13 @@ SELECT dept_id,GROUP_CONCAT(name) AS names
 
 Mysql聚合函数：AVG()函数，COUNT()函数，SUM()函数，MAX()函数，MIN()函数。
 
+**特点：**
+
+1. 除了 COUNT 以外，聚合函数忽略空值。
+2. 聚合函数经常与 SELECT 语句的 GROUP BY 子句一同使用。
+3. 所有聚合函数都具有确定性。任何时候用一组给定的输入值调用它们时，都返回相同的值。
+4. 标量函数：只能对单个的数字或值进行计算。主要包括字符函数、日期/时间函数、数值函数和转换函数这四类。
+
 ##### AVG()
 
 AVG()函数计算一组值的平均值。 它计算过程中是忽略NULL值的。
@@ -908,6 +1027,9 @@ AVG()函数计算一组值的平均值。 它计算过程中是忽略NULL值的�
 ```sql
 # 计算平均身高
 SELECT AVG(height) avg_height FROM tb_students_info;
+
+# 求每个部门的平均身高
+ SELECT AVG(height) avg_height,dept_id FROM tb_students_info GROUP BY dept_id;
 ```
 
 ##### COUNT()
@@ -936,6 +1058,9 @@ SELECT COUNT(height) avg_height FROM tb_students_info;
 ```sql
 # 最高的身高
  SELECT MAX(height) FROM tb_students_info;
+ 
+ # 求每个部门的最高身高
+  SELECT MAX(height) avg_height,dept_id FROM tb_students_info GROUP BY dept_id;
 ```
 
 ##### MIN()
@@ -945,6 +1070,9 @@ SELECT COUNT(height) avg_height FROM tb_students_info;
 ```sql
 # 最低的身高
  SELECT MAX(height) FROM tb_students_info;
+ 
+# 求每个部门的最低身高
+SELECT MAX(height) avg_height,dept_id FROM tb_students_info GROUP BY dept_id;
 ```
 
 #### 插入数据(insert)
@@ -1375,10 +1503,10 @@ CREATE TABLE tb_emp4
      (
      id INT(11),
      name VARCHAR(25),
-    -> deptId INT(11),
-    -> salary FLOAT,
-    -> PRIMARY KEY(id)
-    -> );
+     deptId INT(11),
+     salary FLOAT,
+     PRIMARY KEY(id)
+     );
 ```
 
 #### 2.在创建表时设置复合主键
@@ -1388,12 +1516,12 @@ PRIMARY KEY [字段1，字段2，…,字段n]
 ```sql
 # 创建数据表 tb_emp5，假设表中没有主键 id，为了唯一确定一个员工，可以把 name、deptId 联合起来作为主键
 CREATE TABLE tb_emp5
-    -> (
-    -> name VARCHAR(25),
-    -> deptId INT(11),
-    -> salary FLOAT,
-    -> PRIMARY KEY(id,deptId)
-    -> );
+     (
+     name VARCHAR(25),
+     deptId INT(11),
+     salary FLOAT,
+     PRIMARY KEY(id,deptId)
+     );
 ```
 
 ####  3.在修改表时添加主键约束
@@ -1451,14 +1579,14 @@ CREATE TABLE tb_dept1
      );
 # 创建数据表 tb_emp6，并在表 tb_emp6 上创建外键约束，让它的键 deptId 作为外键关联到表 tb_dept1 的主键 id
 CREATE TABLE tb_emp6
-    -> (
-    -> id INT(11) PRIMARY KEY,
-    -> name VARCHAR(25),
-    -> deptId INT(11),
-    -> salary FLOAT,
-    -> CONSTRAINT fk_emp_dept1
-    -> FOREIGN KEY(deptId) REFERENCES tb_dept1(id)
-    -> );
+     (
+     id INT(11) PRIMARY KEY,
+     name VARCHAR(25),
+     deptId INT(11),
+     salary FLOAT,
+     CONSTRAINT fk_emp_dept1
+     FOREIGN KEY(deptId) REFERENCES tb_dept1(id)
+     );
 ```
 
 子表的外键必须关联父表的主键，且关联字段的数据类型必须匹配，如果类型不一样，则创建子表时会出现错误。
@@ -1471,9 +1599,9 @@ FOREIGN KEY(<列名>) REFERENCES <主表名> (<列名>);
 ```sql
 # 修改数据表 tb_emp2，将字段 deptId 设置为外键，与数据表 tb_dept1 的主键 id 进行关联
 ALTER TABLE tb_emp2
-    -> ADD CONSTRAINT fk_tb_dept1
-    -> FOREIGN KEY(deptId)
-    -> REFERENCES tb_dept1(id);
+     ADD CONSTRAINT fk_tb_dept1
+     FOREIGN KEY(deptId)
+     REFERENCES tb_dept1(id);
 ```
 
 #### 3. 删除外键约束
@@ -1503,11 +1631,11 @@ ALTER TABLE tb_emp2
 ```sql
 # 创建数据表 tb_dept2，指定部门的名称唯一
  CREATE TABLE tb_dept2
-    -> (
-    -> id INT(11) PRIMARY KEY,
-    -> name VARCHAR(22) UNIQUE,
-    -> location VARCHAR(50)
-    -> );
+     (
+     id INT(11) PRIMARY KEY,
+     name VARCHAR(22) UNIQUE,
+     location VARCHAR(50)
+     );
 ```
 
 #### 2. 在修改表时添加唯一约束
@@ -1517,7 +1645,7 @@ ALTER TABLE <数据表名> ADD CONSTRAINT <唯一约束名> UNIQUE(<列名>);
 ```sql
 # 修改数据表 tb_dept1，指定部门的名称唯一;
 ALTER TABLE tb_dept1
-    -> ADD CONSTRAINT unique_name UNIQUE(name);
+     ADD CONSTRAINT unique_name UNIQUE(name);
 ```
 
 #### 3. 删除唯一约束
@@ -1527,7 +1655,7 @@ ALTER TABLE <表名> DROP INDEX <唯一约束名>;
 ```sql
 # 删除数据表 tb_dept1 中的唯一约束 unique_name
 ALTER TABLE tb_dept1
-    -> DROP INDEX unique_name;
+     DROP INDEX unique_name;
 ```
 
 ### 检查约束
@@ -1555,14 +1683,14 @@ CHECK(<检查约束>)
 ```sql
 # 在 test_db 数据库中创建 tb_emp7 数据表，要求 salary 字段值大于 0 且小于 10000
 CREATE TABLE tb_emp7
-    -> (
-    -> id INT(11) PRIMARY KEY,
-    -> name VARCHAR(25),
-    -> deptId INT(11),
-    -> salary FLOAT,
-    -> CHECK(salary>0 AND salary<100),
-    -> FOREIGN KEY(deptId) REFERENCES tb_dept1(id)
-    -> );
+     (
+     id INT(11) PRIMARY KEY,
+     name VARCHAR(25),
+     deptId INT(11),
+     salary FLOAT,
+     CHECK(salary>0 AND salary<100),
+     FOREIGN KEY(deptId) REFERENCES tb_dept1(id)
+     );
 ```
 
 #### 2. 在修改表时添加检查约束
@@ -1572,8 +1700,8 @@ ALTER TABLE <表名>ADD CONSTRAINT <检查约束名> CHECK(<检查约束>)
 ```sql
 # 修改 tb_dept7 数据表，要求 id 字段值大于 0
 ALTER TABLE tb_emp7
-    -> ADD CONSTRAINT check_id
-    -> CHECK(id>0);
+     ADD CONSTRAINT check_id
+     CHECK(id>0);
 ```
 
 #### 3. 删除检查约束
@@ -1583,7 +1711,7 @@ ALTER TABLE <数据表名> DROP CONSTRAINT <检查约束名>;
 ```sql
 # 删除 tb_dept7 数据表，要求 id 字段值大于 0
 ALTER TABLE tb_emp7
-    -> DROP  CONSTRAINT check_id;
+     DROP  CONSTRAINT check_id;
 ```
 
 ### 默认约束
@@ -1601,11 +1729,11 @@ ALTER TABLE tb_emp7
 ```sql
 # 创建数据表 tb_dept3，指定部门位置默认为 Beijing
 CREATE TABLE tb_dept3
-    -> (
-    -> id INT(11) PRIMARY KEY,
-    -> name VARCHAR(22),
-    -> location VARCHAR(50) DEFAULT 'Beijing'
-    -> );
+     (
+     id INT(11) PRIMARY KEY,
+     name VARCHAR(22),
+     location VARCHAR(50) DEFAULT 'Beijing'
+     );
 ```
 
 #### 在修改表时添加默认值约束
@@ -1618,8 +1746,8 @@ CHANGE COLUMN <字段名> <数据类型> DEFAULT <默认值>;
 ```sql
 # 修改数据表 tb_dept3，将部门位置的默认值修改为 Shanghai
 ALTER TABLE tb_dept3
-    -> CHANGE COLUMN location
-    -> location VARCHAR(50) DEFAULT 'Shanghai';
+     CHANGE COLUMN location
+     location VARCHAR(50) DEFAULT 'Shanghai';
 ```
 
 #### 删除默认值约束
@@ -1651,11 +1779,11 @@ ALTER TABLE tb_dept3
 ```sql
 # 创建数据表 tb_dept4，指定部门名称不能为空
 CREATE TABLE tb_dept4
-    -> (
-    -> id INT(11) PRIMARY KEY,
-    -> name VARCHAR(22) NOT NULL,
-    -> location VARCHAR(50)
-    -> );
+     (
+     id INT(11) PRIMARY KEY,
+     name VARCHAR(22) NOT NULL,
+     location VARCHAR(50)
+     );
 ```
 
 #### 2. 在修改表时添加非空约束
@@ -1667,8 +1795,8 @@ CHANGE COLUMN <字段名>
 ```sql
 # 修改数据表 tb_dept4，指定部门位置不能为空
 ALTER TABLE tb_dept4
-    -> CHANGE COLUMN location
-    -> location VARCHAR(50) NOT NULL;
+     CHANGE COLUMN location
+     location VARCHAR(50) NOT NULL;
 ```
 
 #### 3. 删除非空约束
@@ -1681,8 +1809,8 @@ CHANGE COLUMN <字段名> <字段名> <数据类型> NULL;
 ```sql
 # 修改数据表 tb_dept4，将部门位置的非空约束删除
 ALTER TABLE tb_dept4
-    -> CHANGE COLUMN location
-    -> location VARCHAR(50) NULL;
+     CHANGE COLUMN location
+     location VARCHAR(50) NULL;
 ```
 
 ### 查看表中的约束
@@ -1692,14 +1820,14 @@ SHOW CREATE TABLE <数据表名>  \G;
 ```sql
 # 创建数据表 tb_emp8 并指定 id 为主键约束，name 为唯一约束，deptId 为非空约束和外键约束，然后查看表中的约束
 CREATE TABLE tb_emp8
-    -> (
-    -> id INT(11) PRIMARY KEY,
-    -> name VARCHAR(22) UNIQUE,
-    -> deptId INT(11) NOT NULL,
-    -> salary FLOAT DEFAULT 0,
-    -> CHECK(salary>0),
-    -> FOREIGN KEY(deptId) REFERENCES tb_dept1(id)
-    -> );
+     (
+     id INT(11) PRIMARY KEY,
+     name VARCHAR(22) UNIQUE,
+     deptId INT(11) NOT NULL,
+     salary FLOAT DEFAULT 0,
+     CHECK(salary>0),
+     FOREIGN KEY(deptId) REFERENCES tb_dept1(id)
+     );
 ```
 
 ## 7. 索引
