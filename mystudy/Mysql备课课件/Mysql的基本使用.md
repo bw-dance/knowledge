@@ -2211,4 +2211,5 @@ MyISAM使用的是非聚簇索引，非聚簇索引的两棵B+树看上去没什
 
 ![image-20211210200713214](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211210200713214.png)
 
-![image-20211210201017200](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211210201017200.png)
+![image-20211211090417465](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211211090417465.png)
+
