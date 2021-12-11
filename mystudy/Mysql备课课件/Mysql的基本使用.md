@@ -2211,5 +2211,43 @@ MyISAM使用的是非聚簇索引，非聚簇索引的两棵B+树看上去没什
 
 ![image-20211210200713214](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211210200713214.png)
 
-![image-20211211090417465](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211211090417465.png)
+![image-20211211100637555](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211211100637555.png)
+
+**建表语句**
+
+```sql
+CREATE TABLE `tb_student` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键id，唯一标识一名学生。',
+  `name` varchar(255) NOT NULL DEFAULT '' COMMENT '学生姓名',
+  `stu_card` varchar(255) NOT NULL DEFAULT '' COMMENT '学生学号',
+  `sex` bit(1) NOT NULL DEFAULT b'0' COMMENT '学生性别。0:男，1：女',
+  `enter_year` date DEFAULT NULL COMMENT '入学年份',
+  `institute_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '学院id',
+  PRIMARY KEY (`id`)
+) 
+
+CREATE TABLE `tb_institute` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '系id',
+  `name` varchar(255) NOT NULL DEFAULT '' COMMENT '系名称',
+  `director` varchar(255) NOT NULL DEFAULT '' COMMENT '系主任',
+  PRIMARY KEY (`id`)
+)
+
+CREATE TABLE `tb_lession` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '课程id',
+  `name` varchar(255) NOT NULL DEFAULT '' COMMENT '课程名',
+  `lession_card` varchar(255) NOT NULL DEFAULT '' COMMENT '课程编号',
+  `limit` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '限制人数',
+  `credit` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '课程学分',
+  PRIMARY KEY (`id`)
+)
+
+CREATE TABLE `tb_student_lession` (
+  `stu_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '学生id',
+  `les_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '课程id',
+  `score` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '分数'
+)
+
+
+```
 
