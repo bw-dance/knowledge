@@ -618,8 +618,6 @@ UPDATE tb_students_info SET age=30 WHERE id =1 ;
 
 # 删除操作  删除id = 1 的学生信息
  DELETE FROM tb_students_info WHERE id = 1 ;
-
-
 ```
 
 #### 查询(SELECT)
@@ -1467,7 +1465,7 @@ MySQL 支持 4 种运算符，分别是:
 
 ### 主键约束
 
-“主键（PRIMARY KEY）即主键约束，MySQL 主键约束是**一个列**或者**列的组合**，其值能**唯一地标识表中的每一行**，其中由多列组合的主键称为复合主键。这样的一列或多列称为表的主键，通过它可以强制表的实体完整性。
+“主键（PRIMARY KEY）即主键约束，MySQL 主键约束是**一个列**或者**列的组合**，其值能**唯一地标识表中的每一行**，**主键不能重复。**其中由多列组合的主键称为复合主键。这样的一列或多列称为表的主键，通过它可以强制表的实体完整性。
 
 主键应该遵守下面的规则：
 
@@ -1534,6 +1532,12 @@ ALTER TABLE tb_emp2
      ADD PRIMARY KEY(id);
 ```
 
+#### 4. 删除主键
+
+ALTER  TABLE  <数据表名>DROP  PRIMARY  KEY;
+
+[mysql如何删除主键？-mysql教程-PHP中文网](https://www.php.cn/mysql-tutorials-418313.html)
+
 ### 外键约束
 
 外键约束（FOREIGN KEY）用来**在两个表的数据之间建立链接**，**它可以是一列或者多列**。**一个表可以有一个或多个外键**。
@@ -1555,6 +1559,12 @@ ALTER TABLE tb_emp2
 - 在父表的表名后面指定列名或列名的组合。这个列或列的组合必须是父表的主键或候选键。
 - 外键中列的数目必须和父表的主键中列的数目相同。
 - 外键中列的数据类型必须和父表主键中对应列的数据类型相同。
+
+#### 外键策略
+
+[MySQL 外键关联策略 - chy_18883701161 - 博客园 (cnblogs.com)](https://www.cnblogs.com/chy18883701161/p/12603585.html)
+
+![image-20211210152750428](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211210152750428.png)
 
 #### 1. 在创建表时设置外键约束
 
@@ -1848,35 +1858,27 @@ CREATE TABLE tb_emp8
 
 1. 索引维护需要耗费数据库资源
 2. 索引需要占用磁盘空间
-3. 当对标的数据进行增删改的时候，因要维护索引，速度会受到影响
+3. 当对表的数据进行增删改的时候，因要维护索引，速度会受到影响
 
 ### 2. 索引分类
 
 1. 主键索引
-
-2. 1. 设置为主键后数据库会自动建立索引，innodb为聚簇索引
+   1. 设置为主键后数据库会自动建立索引，innodb为聚簇索引
    2. 主键所有列的值不能为null
 
-3. 单值索引    
+2. 单值索引 ：又称为单列索引或普通索引
+   1. 即一个索引只包含单个列，一个表可以有多个单列索引
+   2. 如：  id（主键索引）  age(单值索引1)  name（单值索引2）
+3. 唯一索引
+   1. 索引列的值必须唯一，但允许有空值（因为唯一，所以只能有一列为null值）
 
-4. 1. 又称为单列索引或普通索引
-   2. 即一个索引只包含单个列，一个表可以有多个单列索引
-   3. 如：  id（主键索引）  age(单值索引1) name（单值索引2）
+4. 复合索引：即一个索引包含多个列
+   1. id（主键索引）   （name，age）（复合索引）
+   2. 如果为name和age单独创建索引，搜索WHERE name  AND  age  可能索引失效。如果为二者建立一个复合索引，则可以走索引。
+5. 全文索引（5.7之前，只能用于MYISAM引擎）（很少用到）
+   1. 全文索引类型为FULL TEXT，在定义索引的列上支持值的全文查找，允许在这些索引列中插入重复值或者空值。全文索引可以在CHAR，VARCHAR，TEXT类型列上创建。MYSQL只有MYISAM存储引擎支持全文索引。
+   2. 在MySQL 5.6版本以前,只有MyISAM存储引擎支持全文引擎.在5.6版本中,InnoDB加入了对全文索引的支持,但是不支持中文全文索引.在5.7.6版本,MySQL内置了ngram全文解析器,用来支持亚洲语种的分词.
 
-5. 唯一索引
-
-6. 1. 索引列的值必须唯一，但允许有空值（因为唯一，所以只能有一列为null值）
-
-7. 复合索引
-
-8. 1. 即一个索引包含多个列
-   2. id（主键索引）   （name，age）（复合索引）
-   3. 如果为name和age单独创建索引，搜索WHERE name  AND  age  可能索引失效。如果为二者建立一个复合索引，则可以走索引
-
-9. 全文索引（5.7之前，只能用于MYISAM引擎）（很少用到）
-
-10. 1. 全文索引类型为FULL TEXT	，在定义索引的列上支持值的全文查找，允许在这些索引列中插入重复值或者空值。全文索引可以在CHAR，VARCHAR，TEXT类型列上创建。MYSQL只有MYISAM存储引擎支持全文索引。
-    2. 在MySQL 5.6版本以前,只有MyISAM存储引擎支持全文引擎.在5.6版本中,InnoDB加入了对全文索引的支持,但是不支持中文全文索引.在5.7.6版本,MySQL内置了ngram全文解析器,用来支持亚洲语种的分词.
 
 ### 3. 使用索引
 
@@ -1938,15 +1940,13 @@ CREATE TABLE tb_emp8
 #### 复合索引生效规则
 
 1. 最左前缀原则，查询时，第一个条件必须是复合索引最左侧定义的索引（即name，必须有name，并且为第一个条件）
-
 2. 1. 即  name，age，bir可以。
    2. name age 可以
    3. name 可以
    4. name bir 可以
-
 3. mysql引擎为更好利用索引，在查询中会动态调整查询字段顺序以便利用索引
+   1. 带name的AND查询均可命中索引
 
-4. 1. 带name的AND查询均可命中索引
 
 #### 查看是否命中索引
 
@@ -1962,7 +1962,7 @@ EXPLAIN SELECT * FROM sys_user WHERE username="admin" AND phONe = "18888888888" 
 
 2. type结果值从好到坏依次是：
 
-3. 1. system > cONst > eq_ref > ref > fulltext > ref_or_null > index_merge > unique_subquery > index_subquery > range > index > ALL一般来说，得保证查询至少达到range级别，最好能达到ref，否则就可能会出现性能问题。
+3. 1. system > const > eq_ref > ref > fulltext > ref_or_null > index_merge > unique_subquery > index_subquery > range > index > ALL一般来说，得保证查询至少达到range级别，最好能达到ref，否则就可能会出现性能问题。
 
 4. possible_keys：sql所用到的索引
 
@@ -2141,19 +2141,21 @@ MyISAM使用的是非聚簇索引，非聚簇索引的两棵B+树看上去没什
 ### 第一范式
 
 要求：每个属性都不可以再分
-![在这里插入图片描述](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/20200314100507946.png)
+
+![image-20211210161546003](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211210161546003.png)
 
 例子：
-![在这里插入图片描述](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/20200314100516334.png)
+![](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211210161616854.png)
 存在问题：
 1、 数据沉余：如姓名，系名，系主任，重复了很多次
 2、 插入异常：如果我新建一个计算机系，系主任是小张，学生还没入学，那么id，姓名，课名等字段无法设置
 3、 删除异常：假如小明毕业，删除小明的信息，那么小明所在系也会被删除。
 4、 修改异常：如果小明转专业，那么我得把小明的系名和系主任都改了，并且得多次修改，因为小明出现了三次
+
 ### 第二范式
 要求：在一范式的基础上，消除了非主属性对码的依赖。
 码：在一个表中，可以决定一个元素的属性集合（id和课名一旦确定，那么所有的属性都可以确定）
-![在这里插入图片描述](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/20200314100527121.png)
+![image-20211210161709517](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211210161709517.png)
 主属性：码就是主属性
 非主属性：除主属性之外的属性
 函数依赖：y=f(x);x的值决定y，y依赖x。如：1、id确定之后，姓名，系别，系主任都可以确定了。2、系名确定了，系主任就确定。
@@ -2168,9 +2170,9 @@ MyISAM使用的是非聚簇索引，非聚簇索引的两棵B+树看上去没什
 2. 根据第一步所得到的码，找出所有的主属性。id和课名
 3. 数据表中，除去所有的主属性，剩下的就是非主属性。
 4. 查看是否存在非主属性对码的部分函数依赖。
-例子：
-![在这里插入图片描述](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/20200314100538915.png)
-存在问题：
+    例子：![image-20211210161736378](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211210161736378.png)
+    存在问题：
+
 1. 数据沉余：***解决***
 2. 插入异常：如果我新建一个计算机系，系主任是小张，学生还没入学，那么id，姓名，课名等字段无法设置
 3. 删除异常：假如小明毕业，删除小明的信息，那么小明所在系也会被删除。
@@ -2178,12 +2180,35 @@ MyISAM使用的是非聚簇索引，非聚簇索引的两棵B+树看上去没什
 
 ### 第三范式
 在二范式的基础上，消除了非主属性对码的传递函数依赖。
-![在这里插入图片描述](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/20200314100553309.png)
+
+![image-20211210161832266](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211210161832266.png)
+
 传递函数依赖：y依赖于x，z又依赖于y，那么z依赖于x。如：系别依赖于学号，系主任依赖于系别，那么系主任也依赖于学号。
 例子：
-![在这里插入图片描述](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/20200314100610908.png)
+
+![image-20211210161800979](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211210161800979.png)
+
+
 
 问题：
+
 1. 插入异常：如果我新建一个计算机系，系主任是小张，学生还没入学，那么id，姓名，课名等字段无法设置 ***解决***
 2. 删除异常：假如小明毕业，删除小明的信息，那么小明所在系也会被删除。 ***解决***
 
+## 9. 关系
+
+### 一对一
+
+![image-20211210200700529](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211210200700529.png)
+
+
+
+### 一对多
+
+![image-20211210200705814](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211210200705814.png)
+
+### 多对多
+
+![image-20211210200713214](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211210200713214.png)
+
+![image-20211210201017200](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211210201017200.png)
