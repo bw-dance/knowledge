@@ -70,7 +70,7 @@ CREATE TABLE emp
     )
     ;
  
-CREATE TABLE salgrate
+CREATE TABLE salgrade
     ( gradr INT,
     losal INT,
     hisal INT );
