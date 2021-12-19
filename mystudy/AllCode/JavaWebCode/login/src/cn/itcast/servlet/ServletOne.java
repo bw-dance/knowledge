@@ -53,7 +53,6 @@ public class ServletOne extends HttpServlet {
             //建立共享资源，因为之后的页面要显示用户的名字
             request.setAttribute("username",user.getUsername());
             request.getRequestDispatcher("ServletThree").forward(request,response);
-
         }
 
     }

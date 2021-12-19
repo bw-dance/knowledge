@@ -11,10 +11,10 @@ import java.io.IOException;
 public class ServletTwo extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=utf-8");
-         response.getWriter().write("您不是我们的用户");
+        response.getWriter().write("您不是我们的用户");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-this.doPost(request,response);
+        this.doPost(request, response);
     }
 }
