@@ -13,7 +13,7 @@
         <url-pattern>/demo1</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
-        <welcome-file>/WEB-INF/forward01.jsp</welcome-file>
+        <welcome-file>/request/forward.jsp</welcome-file>
     </welcome-file-list>
 <!--    添加数据-->
 <!--    <servlet_lession>-->
