@@ -46,7 +46,6 @@ public class RequestDemo1 extends HttpServlet {
         //获取请求消息体，即请求参数
         //1.获取字符流
         BufferedReader bf =req.getReader();
-        System.out.println(bf.readLine());
         //2.获取数据
         String line= null;
         //line=参数，如果为空，这说明没有数据了
