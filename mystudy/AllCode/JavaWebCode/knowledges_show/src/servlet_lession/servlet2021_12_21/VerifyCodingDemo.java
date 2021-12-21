@@ -1,4 +1,4 @@
-package servlet_ready_lession.servlet2021_12_21.response;
+package servlet_lession.servlet2021_12_21;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
@@ -43,10 +43,10 @@ public class VerifyCodingDemo extends HttpServlet {
         //2.4画干扰线
         graphics.setColor(Color.black);
         for (int i = 0; i < 10; i++) {
-            int x1 = random.nextInt(100);
-            int x2 = random.nextInt(100);
-            int y1 = random.nextInt(50);
-            int y2 = random.nextInt(50);
+            int x1 = random.nextInt(width);
+            int x2 = random.nextInt(width);
+            int y1 = random.nextInt(height);
+            int y2 = random.nextInt(height);
             graphics.drawLine(x1,y1,x2,y2);
         }
         //3.将图片输入到页面展示
