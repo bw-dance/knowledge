@@ -1,4 +1,4 @@
-package servlet_ready_lession.servlet2021_12_21.servletcontext;
+package servlet_lession.servlet2021_12_21.servletcontext;
 
 
 import javax.servlet.ServletException;
@@ -22,7 +22,8 @@ public class ServletContextDemo1 extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ServletContext servletContext = request.getServletContext();
         ServletContext servletContext1 = this.getServletContext();
-        System.out.println(servletContext == servletContext1);
+        System.out.println(request==this);//false
+        System.out.println(servletContext == servletContext1);//true
         System.out.println(servletContext);
         String file = "a.jpg";
         String mimeType = servletContext.getMimeType(file);

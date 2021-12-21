@@ -1,4 +1,4 @@
-package servlet_lession.servlet2021_12_21;
+package servlet_lession.servlet2021_12_21.response;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletException;

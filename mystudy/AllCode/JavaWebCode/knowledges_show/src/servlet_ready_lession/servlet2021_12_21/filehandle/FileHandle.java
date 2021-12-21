@@ -37,10 +37,10 @@ public class FileHandle extends HttpServlet {
         String mimeType = servletContext.getMimeType(fileName);
         response.setHeader("content-type", mimeType);
         //3.1.1解决中文文件名问题
+
+
         //获取user-agent请求头
         String agent = request.getHeader("user-agent");
-
-
         //3.2设置响应头的打开方式
         response.setHeader("content-disposition", "attachment;filename=" +  DownLoadUtils.getFileName(agent, fileName));//filename设置的为下载提示框的名字
 
