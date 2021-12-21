@@ -1,4 +1,4 @@
-package servlet_ready_lession.servlet2021_12_21.response;
+package servlet_lession.servlet2021_12_21;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,12 +21,12 @@ public class ResponseDemo2 extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //解决乱码
         //方式一：
-//        resp.setContentType("text/html;charset=utf-8");
+        resp.setContentType("text/html;charset=utf-8");
         //方式二：
         //1.1获取流对象之前，把流的默认编码“ISO-8859-1”设置为：utf-8
-        //resp.setCharacterEncoding("utf-8");
+//        resp.setCharacterEncoding("utf-8");
         //1.2告诉浏览器，服务器发送的数据的编码，建议浏览器使用此编码
-       // resp.setHeader("content-type","text/html;charset=utf-8");
+//        resp.setHeader("content-type","text/html;charset=utf-8");
         //获取字符输出流
         PrintWriter writer = resp.getWriter();
         //输出数据

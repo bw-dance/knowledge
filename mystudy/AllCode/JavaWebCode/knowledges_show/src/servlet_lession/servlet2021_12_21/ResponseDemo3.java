@@ -1,4 +1,4 @@
-package servlet_ready_lession.servlet2021_12_21.response;
+package servlet_lession.servlet2021_12_21;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;

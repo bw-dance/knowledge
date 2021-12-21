@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Map;
@@ -50,7 +51,7 @@ public class RequestDemo1 extends HttpServlet {
         String line= null;
         //line=参数，如果为空，这说明没有数据了
         while ((line=bf.readLine())!=null){
-            System.out.println(line);
+            System.out.println(URLDecoder.decode(line,"utf-8"));
         }
 
     }

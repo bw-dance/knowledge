@@ -13,16 +13,16 @@ import javax.servlet.http.HttpServletResponse;
  * @Created by DELL
  */
 @WebServlet("/cookie/demo2")
-public class CookieDemo2  extends HttpServlet {
+public class CookieDemo2 extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
         //3.ªÒ»°cookie
         Cookie[] cookies = request.getCookies();
-        if(cookies!=null){
-            for (Cookie c:cookies) {
+        if (cookies != null) {
+            for (Cookie c : cookies) {
                 String name = c.getName();
-                String value  =c.getValue();
-                System.out.println(name+":"+value);   //msg:hello
+                String value = c.getValue();
+                System.out.println(name + ":" + value);   //msg:hello
             }
         }
     }

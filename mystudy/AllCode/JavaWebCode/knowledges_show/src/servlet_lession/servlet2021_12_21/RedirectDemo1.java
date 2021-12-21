@@ -1,4 +1,4 @@
-package servlet_ready_lession.servlet2021_12_21.response;
+package servlet_lession.servlet2021_12_21;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,24 +9,28 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 /**
- * @Classname ResponseDemo1
+ * @Classname redirect1
  * @Description TODO
- * @Date 2021/12/20 21:31
+ * @Date 2021/12/20 21:38
  * @Created by DELL
  */
-@WebServlet("/reqs/demo1")
-public class ResponseDemo1 extends HttpServlet {
-
+@WebServlet("/redirect/demo1")
+public class RedirectDemo1 extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String message = "hello response";
-        PrintWriter out = resp.getWriter();
-        out.println("<html><body>");
-        out.println("<h1>" + message + "</h1>");
-        out.println("</body></html>");
+        req.setAttribute("message", "tom");
+        //方式一
+        //1.1设置状态码
+//        resp.setStatus(302);
+//        //1.2设置响应头location
+//        resp.setHeader("location", "/servlet/redirect/demo2");
+        //方式二(简单，优先使用)注意：转发需要加虚拟路径
+        resp.sendRedirect(req.getContextPath()+"/redirect/demo2");
+        //重定向到github
+//        resp.sendRedirect("https://github.com/");
     }
 }

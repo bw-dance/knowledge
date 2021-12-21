@@ -1,4 +1,4 @@
-package servlet_ready_lession.servlet2021_12_21.response;
+package servlet_lession.servlet2021_12_21;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -29,7 +29,7 @@ public class RedirectDemo2 extends HttpServlet {
         String message = "hello i am demo2";
         PrintWriter out = resp.getWriter();
         out.println("<html><body>");
-        out.println("<h1>" + message + "</h1>");
+        out.println("<h1>" + msg + "</h1>");
         out.println("</body></html>");
     }
 }
