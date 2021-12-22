@@ -1,4 +1,4 @@
-package servlet_ready_lession.servlet2021_12_21.cookie;
+package servlet_lession.servlet2021_12_21.cookie;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -20,7 +20,7 @@ public class CookieDemo3 extends HttpServlet {
         Cookie c1 = new Cookie("msg","hello");
         Cookie c2 = new Cookie("asd","hsdlo");
         Cookie c3 = new Cookie("csa","heffo");
-//2.·¢ËÍcookie
+        //2.·¢ËÍcookie
         response.addCookie(c1);
         response.addCookie(c2);
         response.addCookie(c3);

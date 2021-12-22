@@ -1,10 +1,8 @@
 package servlet;
 
-import com.mysql.cj.util.StringUtils;
 import entity.Student;
 import service.IStudentService;
 import service.impl.StudentServiceImpl;
-
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,7 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 
@@ -36,18 +33,18 @@ public class Login extends HttpServlet {
         String password = request.getParameter("password");
         if ("".equals(username) || "".equals(password) || username == null || password == null) {
             request.setAttribute("message", "fail");
-            request.getRequestDispatcher("/login/fail.jsp").forward(request, response);
+            request.getRequestDispatcher("/login/login.jsp").forward(request, response);
             return;
         }
         //3.查询数据库
         Student student = studentService.login(username, password);
         if (student == null) {
             request.setAttribute("message", "fail");
-            request.getRequestDispatcher("/login/fail.jsp").forward(request, response);
+            request.getRequestDispatcher("/login/login.jsp").forward(request, response);
         } else {
             //获取所有学生
-            List<Student> allStundents = studentService.getAllStundents();
-            request.setAttribute("message", allStundents);
+            List<Student> allStudents = studentService.getAllStundents();
+            request.setAttribute("message", allStudents);
 //            //获取当前学生
 //            request.setAttribute("message", student);
             request.getRequestDispatcher("/login/homepage.jsp").forward(request, response);

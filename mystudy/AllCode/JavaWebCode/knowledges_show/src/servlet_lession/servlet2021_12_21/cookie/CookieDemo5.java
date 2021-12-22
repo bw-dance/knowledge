@@ -1,25 +1,25 @@
-package servlet_ready_lession.servlet2021_12_21.cookie;
+package servlet_lession.servlet2021_12_21.cookie;
 
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
 
 /**
- * @Classname CookieDemo1
+ * @Classname CookieDemo4
  * @Description TODO
- * @Date 2021/12/20 23:51
+ * @Date 2021/12/21 8:56
  * @Created by DELL
  */
-@WebServlet("/cookie/demo1")
-public class CookieDemo1 extends HttpServlet {
+@WebServlet("/cookie/demo5")
+public class CookieDemo5 extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
-        //1.创建cookie对象
-        Cookie c = new Cookie("msg", "hello");
-        //2.发送cookie
-        response.addCookie(c);
+        Cookie cookie = new Cookie("name","TOM");
+        cookie.setMaxAge(60*60);
+        System.out.println(cookie.getPath());
+        response.addCookie(cookie);
     }
 }

@@ -1,18 +1,16 @@
 package servlet;
 
-import com.mysql.cj.util.StringUtils;
 import entity.Student;
 import service.IStudentService;
 import service.impl.StudentServiceImpl;
-
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 
@@ -23,7 +21,7 @@ import java.util.List;
  * @Created by DELL
  */
 @WebServlet("/login")
-public class Login extends HttpServlet {
+public class LoginSession extends HttpServlet {
     private static final IStudentService studentService = new StudentServiceImpl();
 
     @Override
@@ -31,6 +29,13 @@ public class Login extends HttpServlet {
         //1.设置编码
         request.setCharacterEncoding("utf-8");
         response.setContentType("text/html;charset=utf-8");
+        HttpSession session = request.getSession();
+        Student user = (Student) session.getAttribute("user");
+        if (user != null) {
+            request.setAttribute("message", user);
+            request.getRequestDispatcher("/login/homepage.jsp").forward(request, response);
+            return;
+        }
         //2.获取请求参数
         String username = request.getParameter("username");
         String password = request.getParameter("password");
@@ -45,11 +50,9 @@ public class Login extends HttpServlet {
             request.setAttribute("message", "fail");
             request.getRequestDispatcher("/login/fail.jsp").forward(request, response);
         } else {
-            //获取所有学生
-            List<Student> allStundents = studentService.getAllStundents();
-            request.setAttribute("message", allStundents);
+            session.setAttribute("user", user);
 //            //获取当前学生
-//            request.setAttribute("message", student);
+            request.setAttribute("message", student);
             request.getRequestDispatcher("/login/homepage.jsp").forward(request, response);
         }
     }

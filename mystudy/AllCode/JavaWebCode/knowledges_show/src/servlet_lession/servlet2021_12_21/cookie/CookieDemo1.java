@@ -1,5 +1,6 @@
-package servlet_ready_lession.servlet2021_12_21.cookie;
+package servlet_lession.servlet2021_12_21.cookie;
 
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
@@ -7,15 +8,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * @Classname CookieDemo4
+ * @Classname CookieDemo1
  * @Description TODO
- * @Date 2021/12/21 8:56
+ * @Date 2021/12/20 23:51
  * @Created by DELL
  */
-@WebServlet("/cookie/demo4")
-public class CookieDemo4 extends HttpServlet {
+@WebServlet("/cookie/demo1")
+public class CookieDemo1 extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
-        //什么都没写，但是request的请求头里面保存着之前cookie返回的数据
+        //1.创建cookie对象
+        Cookie c = new Cookie("msg", "hello");
+        //2.发送cookie
+        response.addCookie(c);
     }
 }

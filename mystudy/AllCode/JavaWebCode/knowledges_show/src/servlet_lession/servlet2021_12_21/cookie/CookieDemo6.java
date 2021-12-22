@@ -1,4 +1,4 @@
-package servlet_ready_lession.servlet2021_12_21.cookie;
+package servlet_lession.servlet2021_12_21.cookie;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
