@@ -19,7 +19,7 @@ public class CookieDemo5 extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
         Cookie cookie = new Cookie("name","TOM");
         cookie.setMaxAge(60*60);
-        System.out.println(cookie.getPath());
+//        System.out.println(cookie.getPath());
         response.addCookie(cookie);
     }
 }

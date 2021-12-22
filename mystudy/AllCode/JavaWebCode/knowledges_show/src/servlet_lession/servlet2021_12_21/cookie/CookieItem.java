@@ -1,4 +1,4 @@
-package servlet_ready_lession.servlet2021_12_21.cookie;
+package servlet_lession.servlet2021_12_21.cookie;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,16 +21,6 @@ import java.util.Date;
 @WebServlet("/cookie/visit")
 public class CookieItem extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-  /*
-  * 在服务器中的Servlet判断是否有-一个名为lastTime的cookie
-    1.有:不是第一次访问
-    1.响应数据:欢迎回来，您上次访问时间为:2018年6月10日11:50:20
-    2.写回Cookie: lastTime=2018年6月10日 11:50:01
-    2.没有:是第一次访问
-    1.响应数据:您好，欢迎您首次访问
-    2.写回Cookie: lastTime=2018年6月10日 11:50:01
-  *
-  * */
         //设置响应消息体的编码格式
         response.setContentType("text/html;charset=utf-8");
         //1、判断是否有cookie  先获取所有的cookie、
@@ -79,9 +69,6 @@ public class CookieItem extends HttpServlet {
                     //找到名字为lastname的cookie之后，就不要循环了
                     break;
                 }
-
-
-
             }
         }
         if(cookies==null||cookies.length==0||flag==false){

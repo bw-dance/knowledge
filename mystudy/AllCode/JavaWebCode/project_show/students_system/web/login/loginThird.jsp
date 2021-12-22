@@ -12,12 +12,12 @@
     <link rel="stylesheet" href="/students_system/css/login.css">
 </head>
 <body>
-<form action="/student_system/login" method="post">
+<form action="/students_system/loginThird" method="post">
     用户名：<input type="text" name="username">
     密码：<input type="text" name="password">
-    <input type="submit" value="登陆">
+    <input class="sub-but" type="submit" value="登陆">
+    <br>
+    ${message}
 </form>
-</body>
-</html>
 </body>
 </html>

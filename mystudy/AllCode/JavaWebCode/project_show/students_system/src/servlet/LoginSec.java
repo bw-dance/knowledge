@@ -40,14 +40,14 @@ public class LoginSec extends HttpServlet {
         String password = request.getParameter("password");
         if ("".equals(username) || "".equals(password) || username == null || password == null) {
             request.setAttribute("message", "失败:用户名和密码不能为null");
-            request.getRequestDispatcher("/login/login.jsp").forward(request, response);
+            request.getRequestDispatcher("/login/loginSec.jsp").forward(request, response);
             return;
         }
         //3.查询数据库
         Student student = studentService.login(username, password);
         if (student == null) {
             request.setAttribute("message", "失败:用户不存在");
-            request.getRequestDispatcher("/login/login.jsp").forward(request, response);
+            request.getRequestDispatcher("/login/loginSec.jsp").forward(request, response);
         } else {
             session.setAttribute("user",student);
             response.sendRedirect("/students_system/all");

@@ -17,33 +17,36 @@ import java.io.IOException;
  * @Date 2021/12/21 22:51
  * @Created by DELL
  */
-@WebFilter("/loginSec")
+@WebFilter("/*")
 public class FilterDemo extends HttpFilter {
     @Override
     protected void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
         req.setCharacterEncoding("utf-8");
         res.setContentType("text/html;charset=utf-8");
         String[] urls = {
-                "/login","/loginSec","/login.jsp","/fail.jsp","/css/*"
+              "/login/loginSec.jsp",
+                "/login/loginThird.jsp",
+                "/login/login.jsp",
+                "/login/fail.jsp",
+                "/css/*",
+                "/loginThird"
         };
         String url = req.getRequestURL().toString();
         for (int i = 0; i < urls.length; i++) {
             if (urls[i].contains(url)){
                 chain.doFilter(req,res);
-            }else {
-                req.setAttribute("message", "ÇëÖØÐÂµÇÂ½");
-                req.getRequestDispatcher("/login/login.jsp").forward(req, res);
                 return;
             }
         }
         HttpSession session = req.getSession();
         Student user = (Student) session.getAttribute("user");
         if (user != null) {
+            System.out.println("µÇÂ½Î´¹ýÆÚ£¬ÃâµÇÂ½");
             chain.doFilter(req,res);
         }else {
+            System.out.println("µÇÂ½¹ýÆÚ£¬ÇëÖØÐÂµÇÂ½");
             req.setAttribute("message", "ÇëÖØÐÂµÇÂ½");
-            req.getRequestDispatcher("/login/login.jsp").forward(req, res);
-            return;
+            req.getRequestDispatcher("/login/loginThird.jsp").forward(req, res);
         }
 
     }
