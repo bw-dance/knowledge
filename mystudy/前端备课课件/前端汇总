@@ -3,3 +3,1871 @@ https://blog.csdn.net/weixin_45145726/article/details/109379258
 https://blog.csdn.net/dorabimon/article/details/107605887
 
 https://www.cnblogs.com/th11/p/14987808.html
+
+# HTML和CSS
+
+## 基础认知+HTML标签
+
+### 基础认知
+
+网页组成：文字、图片、音频、视频、超链接
+
+程序员写的代码是通过什么软件转换成网页的？浏览器
+
+浏览器：是网页显示、运行的平台，是前端开发必备利器
+
+#### 五大浏览器
+
+ IE浏览器、火狐浏览器（Firefox）、谷歌浏览器（Chrome）、Safari浏览器、欧朋浏览器（Opera）
+
+**渲染引擎**
+
+渲染引擎（浏览器内核）：浏览器中专门对代码进行解析渲染的部分
+
+浏览器出品的公司不同，内在的渲染引擎也是不同的：
+
+![image-20211222201826483](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211222201826483.png)
+
+注意点：
+
+1. 渲染引擎不同，导致解析相同代码时的 速度、性能、效果也不同的
+2. 谷歌浏览器的渲染引擎速度快、性能高、效果好（推荐）
+
+#### Web标准
+
+Web标准：让不同的浏览器按照相同的标准显示结果，让展示的效果统一！
+
+原因：
+
+1. 不同浏览器的渲染引擎不同，对于相同代码解析的效果会存在差异。
+
+2. 如果用户想看一个网页，结果用不同浏览器打开效果不同，用户体验极差！
+
+![image-20211222202051150](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211222202051150.png)
+
+**Web标准中分成三个构成：**
+
+![image-20211222202114214](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211222202114214.png)
+
+Web标准要求页面实现：结构、表现、行为三层分离
+
+![image-20211222202355056](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211222202355056.png)
+
+#### HTML
+
+HTML（Hyper Text Markup Language）中文译为：超文本标记语言
+
+功能：专门用于网页开发的语言，主要通过HTML标签对网页中的文本、图片、音频、视频等内容进行描述
+
+```html
+<strong>字体加粗</strong>
+```
+
+**HTML页面固定结构**
+
+网页类似于一篇文章：
+
+1. 每一页文章内容是有固定的结构的，如：开头、正文、落款等......
+2. 网页中也是存在固定的结构的，如：整体、头部、标题、主体
+3. 网页中的固定结构是要通过特点的 HTML标签 进行描述的
+
+![image-20211222202754819](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211222202754819.png)
+
+**HTML骨架结构**
+
+1. html标签：网页的整体
+2. head标签：网页的头部
+3. body标签：网页的身体
+4. title标签：网页的标题
+
+**开发工具**
+
+VS Code
+
+必装插件：
+
+1. open in browser
+
+**HTML标签的结构**
+
+1. 标签由<、>、/、英文单词或字母组成。并且把标签中<>包括起来的英文单词或字母称为标签名
+
+2. 常见标签由两部分组成，我们称之为：双标签。前部分叫开始标签，后部分叫结束标签，两部分之间包裹内容
+3. 少数标签由一部分组成，我们称之为：单标签。自成一体，无法包裹内容。
+
+![image-20211222203109234](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211222203109234.png)
+
+**HTML标签与标签之间的关系**
+
+1. 父子关系（嵌套关系）
+
+   1. ```html
+      <head>
+      	<title>
+          
+          </title>
+      </head>
+      ```
+
+2. 兄弟关系（并列关系）
+
+   1. ```html
+      <head>
+          
+      </head>
+      <body>
+          
+      </body>
+      ```
+
+### HTML标签
+
+#### 1. 排版标签
+
+##### a. 标题标签
+
+语义：1~6级标题，重要程度依次递减
+
+特点：
+
+1. 文字都有加粗
+2. 文字都有变大，并且从h1 → h6文字逐渐减小
+3. 独占一行
+
+注意点：h1标签对于网页尤为重要，开发中有特定的使用场景，如：新闻的标题、网页的logo部分
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- ctrl + D -->
+    <h1>1级标题</h1>
+    <h2>2级标题</h2>
+    <h3>3级标题</h3>
+    <h4>4级标题</h4>
+    <h5>5级标题</h5>
+    <h6>6级标题</h6>
+</body>
+</html>
+```
+
+##### b. 段落标签
+
+场景：在新闻和文章的页面中，用于分段显示
+语义：段落
+特点：
+
+1. 段落之间存在间隙
+2. 独占一行
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>这是文章标题</h1>
+    <hr>
+    <p>阿卡贝拉（意大利：Acappella )即无伴奏合唱。 <br>  其起源可追溯至中世纪的教会音乐，当时的教会音乐只以人声清唱，并不应用乐器。音频示例： 阿卡贝拉《千与千寻》阿卡贝拉（意大利：Acappella )即无伴奏合唱。其起源可追溯至中世纪的教会音乐，当时的教会音乐只以人声清唱，并不应用乐器。音频示例： 阿卡贝拉《千与千寻》阿卡贝拉（意大利：Acappella )即无伴奏合唱。其起源可追溯至中世纪的教会音乐，当时的教会音乐只以人声清唱，并不应用乐器。音频示例： 阿卡贝拉《千与千寻》阿卡贝拉（意大利：Acappella )即无伴奏合唱。其起源可追溯至中世纪的教会音乐，当时的教会音乐只以人声清唱，并不应用乐器。音频示例： 阿卡贝拉《千与千寻》阿卡贝拉（意大利：Acappella )即无伴奏合唱。其起源可追溯至中世纪的教会音乐，当时的教会音乐只以人声清唱，并不应用乐器。音频示例： 阿卡贝拉《千与千寻》阿卡贝拉（意大利：Acappella )即无伴奏合唱。其起源可追溯至中世纪的教会音乐，当时的教会音乐只以人声清唱，并不应用乐器。音频示例： 阿卡贝拉《千与千寻》</p>
+    <p>“翻唱”是指将已经发表并由他人演唱的歌曲根据自己的风格重新演唱，包括重新填词，编曲。现在已有不少明星，都在翻唱他人的歌，不断在翻唱中突破自己，给大家带来不一样的风格。视频示例： 有一种悲伤（翻唱）-《A Kind of Sorrow》</p>
+</body>
+</html>
+```
+
+##### c. 换行标签
+
+场景：让文字强制换行显示
+语义：换行  <br>
+特点：
+
+1. 单标签
+2. 让文字强制换行
+
+##### d. 水平线标签
+
+场景：分割不同主题内容的水平线
+语义：主题的分割转换   <hr>
+特点：
+
+1. 单标签
+2. 在页面中显示一条水平线
+
+#### 2. 文本格式化标签
+
+场景：需要让文字加粗、下划线、倾斜、删除线等效果
+
+代码：
+
+![image-20211222204328553](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211222204328553.png)
+
+语义：突出重要性的强调语境
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <b>加粗</b>
+    <strong>加粗</strong>
+    <u>下划线</u>
+    <ins>下划线</ins>
+    <i>倾斜</i>
+    <em>倾斜</em>
+    <s>删除线</s>
+    <del>删除线</del>
+</body>
+</html>
+```
+
+#### 3. 媒体标签
+
+##### a.  图片标签
+
+场景：在网页中显示图片
+特点：
+
+1. 单标签
+2. img标签需要展示对应的效果，需要借助标签的属性进行设置！
+
+属性：
+
+![image-20211222205020653](C:\Users\DELL\AppData\Roaming\Typora\typora-user-images\image-20211222205020653.png)
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- alt : 替换文本, 当图片不显示的时候显示的文字 -->
+    <!-- width和height属性只需要给出一个值, 另一个等比例缩放 -- 好处就是图片不变形 -->
+    <img src="cat.gif" alt="这是一只猫" title="这是title文字, 鼠标悬停的时候显示" width="200" height="800">
+
+</body>
+</html>
+```
+
+标签的完整结构图：
+
+![image-20211222204605060](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211222204605060.png)
+
+属性注意点：
+
+1. 标签的属性写在开始标签内部
+2. 标签上可以同时存在多个属性
+3. 属性之间以空格隔开
+4. 标签名与属性之间必须以空格隔开
+5. 属性之间没有顺序之分
+
+属性介绍：
+
+1. src：目标图片的路径
+   1. 当前网页和目标图片在同一个文件夹中，路径直接写目标图片的名字即可（包括后缀名）
+   2. 可以使用相对路径和绝对路径
+2. alt: 替换文本
+   1. 当图片加载失败时，才显示alt的文本
+   2. 当图片加载成功时，不会显示alt的文本
+3. title:提示文本
+   1. 当鼠标悬停时，才显示的文本
+   2. title属性不仅仅可以用于图片标签，还可以用于其他标签
+4. width和height:宽度和高度（数字）
+   1. 如果只设置width或height中的一个，另一个没设置的会自动等比例缩放（此时图片不会变形）
+   2. 如果同时设置了width和height两个，若设置不当此时图片可能会变形
+
+##### b.  路径
+
+场景：页面需要加载图片，需要先找到对应的图片
+路径可分为：
+
+1. 绝对路径（了解）
+
+   1. 指目录下的绝对位置，可直接到达目标位置，通常从盘符开始的路径
+   2. 例如：
+      1. 盘符开头：D:\day01\images\1.jpg
+      2. 完整的网络地址：[https://cn.bing.com/images/search?q=图片&form=IQFRBA&id=FAD1F40CD98810BC384B79F9306DA63BB2291830&first=1&disoverlay=1](https://cn.bing.com/images/search?q=图片&form=IQFRBA&id=FAD1F40CD98810BC384B79F9306DA63BB2291830&first=1&disoverlay=1)（了解）
+
+2. 相对路径（常用）
+
+   1. 从当前文件开始出发找目标文件的过程
+
+      1. 当前文件：当前的html网页
+      2. 目标文件：要找到的图片
+
+   2. 相对路径分类
+
+      1. 同级目录:当前文件和目标文件在同一目录中(直接写：目标文件名字！)
+
+         ```html
+         方法一：<img src="目标图片.gif">
+         方法二：<img src="./目标图片.gif">
+         ```
+
+      2. 下级目录:目标文件在下级目录中(直接写：文件夹名/目标文件名字！)
+
+         ```html
+         <img src="images/目标图片.gif">
+
+      3. 上级目录:目标文件在上级目录中(直接下：../目标文件名字)
+
+         ```html
+         <img src="../目标图片.gif">
+         ```
+
+##### c.  音频标签
+
+场景：在页面中插入音频
+
+常见属性：
+
+![image-20211222205821258](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211222205821258.png)
+
+注意：
+
+音频标签目前支持三种格式：MP3、Wav、Ogg
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <audio src="./music.mp3" controls autoplay loop></audio>
+</body>
+</html>
+```
+
+##### d. 视频标签
+
+场景：在页面中插入视频
+
+常见属性：
+
+![image-20211222205919228](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211222205919228.png)
+
+注意点：
+视频标签目前支持三种格式：MP4 、WebM 、Ogg
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 谷歌浏览器可以让视频自动播放, 但是必须是静音状态muted -->
+    <video src="./video.mp4" controls autoplay muted loop></video>
+</body>
+</html>
+```
+
+#### 4. 链接标签
+
+场景：点击之后，从一个页面跳转到另一个页面
+称呼： a标签、超链接、锚链接
+特点：
+
+1. 双标签，内部可以包裹内容
+2. 如果需要a标签点击之后去指定页面，需要设置a标签的href属性
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- href : 跳转地址 -->
+    <a href="https://www.baidu.com/" target="_blank">跳转到百度</a>
+
+    <br>
+
+    <a href="./01-标题标签.html">点我呀, 点了就去01-标题标签</a>
+
+    <!-- 当开发网站初期, 我们还不知道跳转地址的时候, href的值书写#(空链接) -->
+
+    <br>
+    <a href="#">空链接, 不知道跳到哪里去</a>
+</body>
+</html>
+```
+
+属性：
+
+1. href：点击之后跳转去哪一个网页（目标网页的路径）
+   1. 值
+      1. 外部链接：网络连接
+      2. 内部链接：相对路径下的.html
+      3. #:空链接
+         1. 点击之后回到网页顶部
+         2. 开发中不确定该链接最终跳转位置，用空链接占个位置
+   2. 显示
+      1. a标签默认文字有下划线
+      2. a标签从未点击过，默认文字显示蓝色
+      3. a标签点击过之后，文字显示为紫色（清除浏览器历史记录可恢复蓝色）
+
+2. target：目标网页的打开形式
+   1. 值
+      1. _self:默认值，当前窗口中跳转（覆盖原网页）
+      2. _blank:在新窗口中跳转(保留原网页)
+
+#### 5.列表标签
+
+场景：在网页中按照行展示关联性的内容，如：新闻列表、排行榜、账单等
+
+特点：按照行的方式，整齐显示内容
+
+种类：无序列表、有序列表、自定义列表
+
+##### a. 无序列表(常用)
+
+场景：在网页中表示一组无顺序之分的列表，如：新闻列表。
+
+![image-20211222211859344](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211222211859344.png)
+
+标签组成：
+
+![image-20211222210845971](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211222210845971.png)
+
+显示特点：列表的每一项前默认显示圆点标识
+
+注意点：
+
+1.  ul标签中只允许包含li标签
+2. li标签可以包含任意内容
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <ul>
+        <li>榴莲</li>
+        <li>香蕉</li>
+        <li>苹果</li>
+    </ul>
+</body>
+</html>
+```
+
+##### b. 有序列表
+
+场景：在网页中表示一组有顺序之分的列表，如：排行榜。
+
+![image-20211222211852020](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211222211852020.png)
+
+标签组成：
+
+![image-20211222211034795](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211222211034795.png)
+
+显示特点：列表的每一项前默认显示序号标识
+
+注意点：
+
+1. ol标签中只允许包含li标签
+2. li标签可以包含任意内容
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <ol>
+        <li>小哥哥:100</li>
+        <li>小姐姐: 80</li>
+    </ol>
+</body>
+</html>
+```
+
+##### c. 自定义列表
+场景：在网页的底部导航中通常会使用自定义列表实现。
+
+![image-20211222211842452](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211222211842452.png)
+
+标签组成：
+
+![image-20211222211144980](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211222211144980.png)
+
+显示特点：
+
+1. dd前会默认显示缩进效果
+
+注意点：
+
+1. dl标签中只允许包含dt/dd标签
+2. dt/dd标签可以包含任意内容
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <dl>
+        <dt>帮助中心</dt>
+        <dd>账户管理</dd>
+        <dd>购物指南</dd>
+    </dl>
+
+</body>
+</html>
+```
+
+#### 6.表格标签
+
+场景：在网页中以行+列的单元格的方式整齐展示和数据，如：学生成绩表
+
+![image-20211222211826956](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211222211826956.png)
+
+##### a. 基本标签
+
+![image-20211222211257785](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211222211257785.png)
+
+注意点：
+
+标签的嵌套关系：table >  tr > td
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- table 包含 tr, tr包含td -->
+    <table border="1" width="600" height="400">
+        <tr>
+            <td>姓名</td>
+            <td>成绩</td>
+            <td>评语</td>
+        </tr>
+        <tr>
+            <td>小哥哥</td>
+            <td>100分</td>
+            <td>孩砸, 真棒啊</td>
+        </tr>
+        <tr>
+            <td>郭德纲</td>
+            <td>150分</td>
+            <td>没有郭德纲相声早黄了, 有了郭德纲, 相声更黄了</td>
+        </tr>
+    </table>
+</body>
+</html>
+```
+
+##### b. 表格相关属性
+
+场景：设置表格基本展示效果
+
+常见相关属性：
+
+![image-20211222211354452](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211222211354452.png)
+
+注意点：实际开发时针对于样式效果推荐用CSS设置
+
+##### c. 表格标题和表头单元格标签
+
+场景：在表格中表示整体大标题和一列小标题
+
+![image-20211222211758405](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211222211758405.png)
+
+其他标签：
+
+![image-20211222211519735](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211222211519735.png)
+
+注意点：
+
+1. caption标签书写在table标签内部
+2. th标签书写在tr标签内部（用于替换td标签）
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table border="1">
+        <caption><strong>学生成绩单</strong></caption>
+        <tr>
+            <!-- <td></td> -->
+            <th>姓名</th>
+            <th>成绩</th>
+            <th>评语</th>
+        </tr>
+        <tr>
+            <td>小哥哥</td>
+            <td>100分</td>
+            <td>真棒, 第一名</td>
+        </tr>
+        <tr>
+            <td>小姐姐</td>
+            <td>99分</td>
+            <td>真棒, 第二名</td>
+        </tr>
+        <tr>
+            <td>总结</td>
+            <td>郎才女貌</td>
+            <td>真棒, 相亲成功</td>
+        </tr>
+    </table>
+</body>
+</html>
+```
+
+##### d. 表格的结构标签（了解）
+
+场景：让表格的内容结构分组，突出表格的不同部分（头部、主体、底部），使语义更加清晰
+
+![image-20211222211747932](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211222211747932.png)
+
+结构标签：
+
+![image-20211222211724132](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211222211724132.png)
+
+注意点：
+
+1. 表格结构标签内部用于包裹tr标签
+2. 表格的结构标签可以省略
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table border="1">
+        <caption><strong>学生成绩单</strong></caption>
+        <thead>
+            <tr>
+                <!-- <td></td> -->
+                <th>姓名</th>
+                <th>成绩</th>
+                <th>评语</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>小哥哥</td>
+                <td>100分</td>
+                <td>真棒, 第一名</td>
+            </tr>
+            <tr>
+                <td>小姐姐</td>
+                <td>99分</td>
+                <td>真棒, 第二名</td>
+            </tr>    
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>总结</td>
+                <td>郎才女貌</td>
+                <td>真棒, 相亲成功</td>
+            </tr>
+        </tfoot>
+    </table>
+</body>
+</html>
+```
+
+##### e. 合并单元格
+
+场景：将水平或垂直多个单元格合并成一个单元格
+
+![image-20211222211942137](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211222211942137.png)
+
+合并单元格步骤：
+
+1. 明确合并哪几个单元格
+2. 通过左上原则，确定保留谁删除谁
+   • 上下合并→只保留最上的，删除其他
+   • 左右合并→只保留最左的，删除其他
+3. 给保留的单元格设置：跨行合并（rowspan）或者跨列合并（colspan）
+
+![image-20211222212014245](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211222212014245.png)
+
+注意：
+
+只有同一个结构标签中的单元格才能合并，不能跨结构标签合并（不能跨：thead、tbody、tfoot）
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table border="1">
+        <caption><strong>学生成绩单</strong></caption>
+        <thead>
+            <tr>
+                <!-- <td></td> -->
+                <th>姓名</th>
+                <th>成绩</th>
+                <th>评语</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>小哥哥</td>
+                <td rowspan="2">100分</td>
+                <td>真棒, 第一名</td>
+            </tr>
+            <tr>
+                <td>小姐姐</td>
+                <td>真棒, 第二名</td>
+            </tr>    
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>总结</td>
+                <td colspan="2">郎才女貌</td>
+            </tr>
+        </tfoot>
+    </table>
+</body>
+</html>
+```
+
+#### 7.表单标签
+
+1. input系列标签
+
+2. button按钮标签
+3. select下拉菜单标签
+4. textarea文本域标签
+5. label标签
+
+##### a. input标签
+
+场景：在网页中显示收集用户信息的表单效果，如：登录页、注册页
+
+![image-20211222214611613](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211222214611613.png)
+
+input标签可以通过type属性值的不同，展示不同效果
+
+type属性值：
+
+![image-20211222212714306](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211222212714306.png)
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="">
+  <!-- 写什么就显示什么 -->
+  文本框: <input type="text" placeholder="请输入用户名">
+  <br>
+
+  <br>
+  <!-- 书写的内容都会变成点点显示 -->
+  密码框: <input type="password" placeholder="请输入密码">
+
+  <br>
+  <br>
+  单选框: 男：<input type="radio" name="sex" checked>
+  女：<input type="radio" name="sex" >
+
+  <br>
+  <br>
+
+  多选框: <input type="checkbox" name="hoby">敲代码
+  <input type="checkbox" name="hoby">熬夜
+  <input type="checkbox" name="hoby">掉头发
+  <br>
+  <br>
+
+  上传文件: <input type="file" multiple>
+ <br>
+  
+  <br>
+ 
+  提交按钮：<input type="submit" value="Submit">
+  <br>
+  
+  <br>
+重置按钮：<input type="reset" value="Reset">
+<br>
+  
+<br>
+普通按钮：<input type="button" value="Button">
+<br>
+  
+<br>
+    </form>
+  
+</body>
+</html>
+```
+
+##### b. button按钮标签
+
+场景：在网页中显示用户点击的按钮
+
+type属性值（同input的按钮系列）：
+
+![image-20211222214032956](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211222214032956.png)
+
+注意点:
+
+1. 谷歌浏览器中button默认是提交按钮
+2. button标签是双标签，更便于包裹其他内容：文字、图片等
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button>我是按钮</button>
+    <button type="submit">提交按钮</button>
+    <button type="reset">重置按钮</button>
+    <button type="button">普通按钮, 没有任何功能</button>
+</body>
+</html>
+```
+
+##### c. select下拉菜单标签
+
+场景：在网页中提供多个选择项的下拉菜单表单控件
+
+标签组成：
+
+1. select标签：下拉菜单的整体
+2. option标签：下拉菜单的每一项
+
+常见属性：
+
+1. selected：下拉菜单的默认选中
+   三、表单标签
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <select>
+        <option>北京</option>
+        <option>上海</option>
+        <option>广州</option>
+        <option selected>深圳</option>
+    </select>
+    
+</body>
+</html>
+```
+
+##### d. textarea文本域标签
+
+场景：在网页中提供可输入多行文本的表单控件
+
+常见属性：
+
+1. cols：规定了文本域内可见宽度
+2. rows：规定了文本域内可见行数
+
+注意点：
+
+1. 右下角可以拖拽改变大小
+2. 实际开发时针对于样式效果推荐用CSS设置
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <textarea cols="60" rows="30"></textarea>
+</body>
+</html>
+```
+
+##### e. label标签
+
+场景：常用于绑定内容与表单标签的关系
+
+使用方法一：
+
+1. 使用label标签把内容（如：文本）包裹起来
+2. 在表单标签上添加id属性
+3. 在label标签的for属性中设置对应的id属性值
+
+使用方法二：
+
+1. 直接使用label标签把内容（如：文本）和表单标签一起包裹起来
+2. 需要把label标签的for属性删除即可
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    性别: 
+    <input type="radio" name="sex" id="nan"> <label for="nan">男</label>
+    <label><input type="radio" name="sex"> 女</label>
+</body>
+</html>
+```
+
+#### 8.语义化标签
+
+##### a. 无语义化：div 和 span
+
+场景：实际开发网页时会大量频繁的使用到div和span这两个没语义的布局标签
+
+div标签：一行只显示一个（独占一行）
+
+span标签：一行可以显示多个
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    普通文字
+    <div>这是div标签</div>
+    <div>这是div标签</div>
+
+    <span>这是span标签</span>
+    <span>这是span标签</span>
+</body>
+</html>
+```
+
+##### b. 有语义化
+
+在HTML5新版本中，推出了一些有语义的布局标签供开发者使用
+
+![image-20211222214938112](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211222214938112.png)
+
+![image-20211222214945122](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211222214945122.png)
+
+注意点：
+
+1. 以上标签显示特点和div一致，但是比div多了不同的语义
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <header>网页头部</header>
+    <nav>网页导航</nav>
+    <footer>网页底部</footer>
+    <aside>侧边栏</aside>
+    <section>网页区块</section>
+    <article>文章</article>
+</body>
+</html>
+```
+
+#### 9.字符实体
+
+场景：在网页中展示特殊符号效果时，需要使用字符实体替代
+
+常见字符实体：
+
+![image-20211222215107001](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211222215107001.png)
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 网页不认识多个空格, 只认识一个 -->
+    这是HTML文档, 现在要学&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;习字符实体.
+</body>
+</html>
+```
+
+## 基础认知+CSS样式
+
+### 基础认知
+
+#### 介绍
+
+CSS：层叠样式表（Cascading style sheets）
+CSS作用：给页面中的HTML标签设置样式
+
+**CSS 语法规则**
+
+css写在style标签中，style标签一般写在head标签里面，title标签下面
+
+**体验**
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* css注释 */
+        /* 这里写的都是css */
+        /* 选择器 {css属性} */
+        /* 选择器: 查找标签 */
+        p {
+            /* 文字颜色变红色 */
+            color: red;
+            /* 字变大 px:像素 */
+            font-size: 30px;
+            /* 背景颜色 */
+            background-color: green;
+            /* width  height; */
+            width: 400px;
+            height: 400px;
+        }
+    </style>
+</head>
+<body>
+    <p>hello world</p>
+</body>
+</html>
+```
+
+**常见属性**
+
+![image-20211222220050483](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211222220050483.png)
+
+注意点：
+
+1. CSS 标点符号都是英文状态下的
+2. 每一个样式键值对写完之后，最后需要写分号
+
+#### CSS引入方式
+
+1. 内嵌式：CSS 写在style标签中
+   1. 提示：style标签虽然可以写在页面任意位置，但是通常约定写在 head 标签中
+2. 外联式：CSS 写在一个单独的.css文件中
+   1. 提示：需要通过link标签在网页中引入
+3. 行内式：CSS 写在标签的style属性中
+   1. 提示：基础班不推荐使用，之后会配合js使用
+
+<img src="https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211222220245700.png" alt="image-20211222220245700" style="zoom:80%;" />
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div {
+             background-color: pink;
+        }
+      </style>
+    <!-- 关系: 样式表 -->
+    <link rel="stylesheet" href="./my.css">
+   
+</head>
+<body>
+    <!-- css到底能写在哪里 -->
+    <p>这是p标签</p>
+    <div style="color: green; font-size: 30px;">这是div标签</div>
+    <div>这个div是什么颜色</div>
+</body>
+</html>
+```
+
+my.css
+
+```css
+/* 选择器 {} */
+p {
+    color: red;
+}
+```
+
+### 基础选择器
+
+选择器的作用：选择页面中对应的标签，方便后续设置样式
+
+1. 标签选择器：标签名 { css属性名：属性值； }
+2. 类选择器：.类名 { css属性名：属性值； }
+3. id选择器：#id属性值 { css属性名：属性值； }
+4. 通配符选择器：* { css属性名：属性值； }
+
+#### 1. 标签选择器
+
+结构：标签名 { css属性名：属性值； }
+
+作用：通过标签名，找到页面中所有这类标签，设置样式
+
+注意点：
+
+1. 标签选择器选择的是一类标签，而不是单独某一个
+2. 标签选择器无论嵌套关系有多深，都能找到对应的标签
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* 选择器 {} */
+        /* 标签选择器 就是 以标签名命名的选择器 */
+        p {
+            color: red;
+        }
+
+        /* 标签选择器 选中所有的这个标签都生效css */
+    </style>
+</head>
+<body>
+    <p>pppppppp</p>
+    <p>这个p是什么颜色呢</p>
+    <p>2222</p>
+</body>
+</html>
+```
+
+#### 2. 类选择器
+
+结构：.类名 { css属性名：属性值； }
+作用：通过类名，找到页面中所有带有这个类名的标签，设置样式
+注意点：
+
+1. 所有标签上都有class属性，class属性的属性值称为类名（类似于名字）
+2. 类名可以由数字、字母、下划线、中划线组成，但不能以数字或者中划线开头
+3. 一个标签可以同时有多个类名，类名之间以空格隔开
+4. 类名可以重复，一个类选择器可以同时选中多个标签
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .red {
+            color: red;
+        }
+
+        .size {
+            font-size: 66px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 类: 定义 和 使用才能生效 -->
+    <p>111</p>
+    <!-- 一个标签可以使用多个类名 , 需要空格隔开即可 -->
+    <p class="red size">222</p>
+    <div class="red">这个标签文字也要变红</div>
+</body>
+</html>
+```
+
+#### 3. id选择器
+
+结构：#id属性值 { css属性名：属性值； }
+
+作用：通过id属性值，找到页面中带有这个id属性值的标签，设置样式
+
+ 注意点：
+
+1. 所有标签上都有id属性
+2. id属性值类似于身份证号码，在一个页面中是唯一的，不可重复的！
+3. 一个标签上只能有一个id属性值
+4. 一个id选择器只能选中一个标签
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* 定义id选择器 */
+        #blue {
+            color: skyblue;
+        }
+    </style>
+</head>
+<body>
+    <div id="blue">这个div文字是蓝色的</div>
+    <p id="blue">111</p>
+</body>
+</html>
+```
+
+#### 4. 通配符选择器
+
+结构：* { css属性名：属性值； }
+
+作用：找到页面中所有的标签，设置样式
+
+注意点：
+
+1. 开发中使用极少，只会在极特殊情况下才会用到
+2. 在小页面中可能会用于去除标签默认的margin和padding
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div>div</div>
+    <p>pppp</p>
+    <h1>h1</h1>
+    <span>span</span>
+    <p>pppp</p>
+    <h2>h2</h2>
+</body>
+</html>
+```
+
+#### 附：类与id区别
+
+**class类名与id属性值的区别**
+
+1. class类名相当于姓名，可以重复，一个标签可以同时有多个class类名
+2.  id属性值相当于身份证号码，不可重复，一个标签只能有一个id属性值
+
+**类选择器与id选择器的区别**
+
+1. 类选择器以 . 开头
+2. id选择器以 # 开头
+
+ **实际开发的情况**
+
+1. 类选择器用的最多
+2. id一般配合js使用，除非特殊情况，否则不要使用id设置样式
+3. 实际开发中会遇到冗余代码的抽取 （可以将一些公共的代码抽取到一个公共的类中去）
+
+### 字体和文本样式
+
+#### 1. 字体
+
+**字体样式**
+
+1. 字体大小：font-size
+   1. 单位px
+   2. 谷歌浏览器默认文字大小是16px
+   3. 单位需要设置，否则无效
+2. 字体粗细：font-weight
+   1. 取值
+      1. 关键字 
+         1. 正常：normal  
+         2. 加粗：bold
+      2. 纯数字：100~900的整百数
+         1. 正常：400
+         2. 加粗：700
+3. 字体样式（是否倾斜）：font-style
+   1. 取值
+      1. 正常：normal
+      2. 倾斜：italic
+4. 字体类型：font-family
+   1. 常见取值：
+      1. sans-serif、serif、monospace
+   2. 渲染规则：
+      1. 从左往右按照顺序查找，如果电脑中未安装该字体，则显示下一个字体
+      2. 如果都不支持，此时会根据操作系统，显示最后字体系列的默认字体
+         1. windows：微软雅黑
+         2. macOS：苹方
+   3. 注意点：
+      1. 如果字体名称中存在多个单词，推荐使用引号包裹
+      2. 最后一项字体系列不需要引号包裹
+      3. 网页开发时，尽量使用系统常见自带字体，保证不同用户浏览网页都可以正确显示
+   4. 常见字体
+      1. 无衬线字体（sans-serif）
+         1. 特点：文字笔画粗细均匀，并且首尾无装饰
+         2. 场景：网页中大多采用无衬线字体
+         3. 常见该系列字体：黑体、Arial
+      2. 衬线字体（serif）
+         1. 特点：文字笔画粗细不均，并且首尾有笔锋装饰
+         2. 场景：报刊书籍中应用广泛
+         3. 常见该系列字体：宋体、Times New Roman
+      3. 等宽字体（monospace）
+         1. 特点：每个字母或文字的宽度相等
+         2. 场景：一般用于程序代码编写，有利于代码的阅读和编写
+         3. 常见该系列字体：Consolas、fira code
+5. 字体类型：font属性连写
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        
+        p {
+            font-size: 30px;
+        }
+        div {
+            /* 加粗 */
+            font-weight: 700;
+        }
+
+        h1 {
+            /* 不加粗 */
+            font-weight: 400;
+        }
+        span {
+            /* 倾斜 */
+            font-style: italic;
+                  /* font-family: 宋体; */
+            /* 如果用户电脑没有安装微软雅黑, 就按黑体显示文字 */
+            /* 如果电脑没有安装黑体, 就按任意一种非衬线字体系列显示 */
+            font-family: 微软雅黑, 黑体, sans-serif;
+        }
+
+        em {
+            /* 正常的, 不倾斜 */
+            font-style: normal;
+        }
+       
+    </style>
+</head>
+<body>
+    <!-- 默认字号是16 -->
+
+    <p>段落文字</p>
+    <div>这是div</div>
+
+    <h1>一级标题</h1>
+    <span>div文字</span>
+    <em>em</em>
+
+</body>
+</html>
+```
+
+#### 2. 文本
+
+文本样式
+
+![image-20211222234557490](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211222234557490.png)
+
+1. 文本缩进：text-indent
+   1. 取值：
+      1. 数字+px
+      2. 数字+em（推荐：1em = 当前标签的font-size的大小）
+
+2. 文本水平对齐方式：text-align
+   1. 取值：
+      1. ![image-20211222234243576](C:\Users\DELL\AppData\Roaming\Typora\typora-user-images\image-20211222234243576.png)
+   2. 注意点：
+      1. 如果需要让文本水平居中，text-align属性给文本所在标签（文本的父元素）设置
+   3. 水平居中：
+      1.  text-align : center
+      2. 居中元素：
+         1. 文本
+         2. span标签、a标签
+         3. input标签、img标签
+      3. 注意：
+         1. 如果需要让以上元素水平居中， text-align : center 需要给以上元素的 父元素 设置
+3. 文本修饰：text-decoration
+   1. 取值：
+      1. ![image-20211222234501563](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211222234501563.png)
+   2. 注意点：
+      1. 开发中会使用 text-decoration : none ; 清除a标签默认的下划线
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        
+        p {
+            /* text-indent: 50px; */
+            /* 首行缩进2个字的大小 */
+            /* 默认字号: 16px ; 32 */
+            /* text-indent: 40px;
+            font-size: 20px; */
+
+            /* em: 一个字的大小 */
+            text-indent: 2em;
+            font-size: 40px;
+        }
+
+        h1 {
+            /* text-align: left; */
+            /* text-align: right; */
+            text-align: center;
+        }
+
+        body {
+            text-align: center;
+        }
+
+
+        div {
+            text-decoration: underline;
+        }
+
+        span {
+            text-decoration: line-through;
+        }
+
+        h2 {
+            text-decoration: overline;
+        }
+
+        a {
+            text-decoration: none;
+        }
+        
+    </style>
+</head>
+<body>
+    <p>2019年，事件视界望远镜团队让世界首次看到了黑洞的样子。不过，研究人员公布的这张发光环形物体的图像并不是传统的图片，而是经过计算获得的。利用位于美国、墨西哥、智利、西班牙和南极地区的射电望远镜所得到的数据，研究人员进行了数学转换，最终合成了这张标志性的图片。研究团队还发布了实现这一壮举所用的编程代码，并撰文记录这一发现，其他研究者也可以在此基础上进一步加以分析。</p>
+    <h1>新闻标题</h1>
+
+    <img src="./images/1.jpg" alt="">
+    <div>div</div>
+    <span>ppp</span>
+    <h2>h2</h2>
+    <a href="#">我是超链接, 点呀</a>
+</body>
+</html>
+```
+
+#### 3. line-height行高
+
+作用：控制一行的上下行间距
+
+取值：
+
+1. 数字+px
+
+2. 倍数（当前标签font-size的倍数）
+
+应用：
+
+1. 让单行文本**垂直居中**可以设置 **line-height : 文字父元素高度**
+2. 网页精准布局时，会设置 **line-height : 1 可以取消上下间距**
+
+行高与font连写的注意点：
+
+1. 如果同时设置了行高和font连写，注意覆盖问题
+2. font :  style  weight  size/line-height  family ;
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        p {
+            line-height: 50px;
+            /* 自己字号的1.5倍 */
+            /* line-height: 1.5; */
+
+            /* 66px 宋体 倾斜 加粗 行高是2倍 */
+            /* font: italic 700 66px/2 宋体; */
+        }
+    </style>
+</head>
+<body>
+    <p>2019年，事件视界望远镜团队让世界首次看到了黑洞的样子。不过，研究人员公布的这张发光环形物体的图像并不是传统的图片，而是经过计算获得的。利用位于美国、墨西哥、智利、西班牙和南极地区的射电望远镜所得到的数据，研究人员进行了数学转换，最终合成了这张标志性的图片。研究团队还发布了实现这一壮举所用的编程代码，并撰文记录这一发现，其他研究者也可以在此基础上进一步加以分析</p>
+</body>
+</html>
+```
+
+**垂直居中**
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div {
+            width: 552px;
+            height: 400px;
+            background-color: pink;
+            /* background-color: green; */
+            text-align: center;
+            /* 文字是单行的 */
+            /* 垂直居中技巧: 设置行高属性值 = 自身高度属性值 */
+            line-height: 400px;
+            font-size: 61px;
+        }
+    </style>
+</head>
+<body>
+    <div>文字</div>
+</body>
+</html>
+```
+
+#### 4. 颜色取值
+
+属性名：
+
+1. 文字颜色：color
+2. 背景颜色：background-color
+
+![image-20211222235757946](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211222235757946.png)
+
+**rgb**
+
+取值类型：rgb表示法
+
+每项取值范围：0~255
+
+常见颜色取值：
+
+• rgb ( 255 , 0 , 0 ) ：红色
+• rgb ( 0 , 255 , 0 ) ：绿色
+• rgb ( 0 , 0 , 255 ) ：蓝色
+• rgb ( 0 , 0 , 0 ) ：黑色
+• rgb ( 255 , 255 , 255 ) ：白色
+
+**rgba**
+
+其实，比rgb表示法多个一个a，a表示透明度a的取值范围：0~1
+
+• 1：完全不透明
+
+• 0：完全透明
+
+省略写法：
+
+• rgba ( 0 , 0 , 0 , 0.5 ) 可以省略写成 rgba ( 0 , 0 , 0 , .5 )
+
+**十六进制表示法**
+
+取值范围：
+
+两个数字为一组，每个数字的取值范围：0~9 , a , b , c , d , e , f
+
+省略写法：
+
+1. 如果三组中，每组数字都相同，此时可以每组可以省略只写一个数字
+2. 正确写法：#ffaabb 改写成 #fab
+
+常见取值：
+
+1. #fff ：白色
+2. #000 ：黑色
+
+注意点
+
+1. 类似于：#ffaabc 不能改写成 #fabc
+2. 实际开发中会直接使用测量工具直接得到颜色，不需要前端自己设计颜色，直接复制粘贴即可。
+
+### 元素显示模式
+
+#### 块级元素
+
+显示特点：
+
+1. 独占一行（一行只能显示一个）
+2. 宽度默认是父元素的宽度，高度默认由内容撑开
+3. 可以设置宽高
+
+代表标签：
+
+**div、p、h系列**、ul、li、dl、dt、dd、form、header、nav、footer.....
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* 块: 独占一行; 宽度默认是父级100%; 添加宽度都生效 */
+        div {
+            width: 300px;
+            height: 300px;
+            background-color: pink;
+
+            /* 行内块 */
+            /* display: inline-block; */
+
+            /* 行内 */
+            display: inline;
+        }
+    </style>
+</head>
+<body>
+    <div>11111</div>
+    <div>22222</div>
+</body>
+</html>
+```
+
+#### 行级元素
+
+显示特点：
+
+1. 一行可以显示多个
+2. 宽度和高度默认由内容撑开
+3. 不可以设置宽高
+
+代表标签：
+
+**a、span** 、b、u、i、s、strong、ins、em、del......
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* 行内: 不换行; 设置宽高不生效; 尺寸和内容的大小相同 */
+        span {
+            width: 300px;
+            height: 300px;
+            background-color: pink;
+
+            /* 行内块 */
+            /* display: inline-block; */
+
+            /* 块 */
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <span>span</span>
+    <span>span</span>
+</body>
+</html>
+```
+
+#### 行内块元素
+
+显示特点：
+
+1. 一行可以显示多个
+2. 可以设置宽高
+
+代表标签：
+
+1.  input、textarea、button、select......
+2. 特殊情况：img标签有行内块元素特点，但是Chrome调试工具中显示结果是inline
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* 行内块: 一行显示多个; 加宽高生效 */
+        img {
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+</head>
+<body>
+    <img src="./images/1.jpg" alt="">
+    <img src="./images/1.jpg" alt="">
+</body>
+</html>
+```
+
+#### 元素显示模式转换
+
+目的：改变元素默认的显示特点，让元素符合布局要求
+
+![image-20211223001117137](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211223001117137.png)
+
+#### 扩展
+
+##### HTML嵌套规范注意点
+
+块级元素一般作为大容器，可以嵌套：文本、块级元素、行内元素、行内块元素等等......但是p标签中不要嵌套div、p、h等块级元素
+
+a标签内部可以嵌套任意元素，但是a标签不能嵌套a标签
+
+##### 居中方法
+
+![image-20211223001329623](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211223001329623.png)
+
+### 盒子模型
+
+盒子的概念
+
+1. 页面中的每一个标签，都可看做是一个 “盒子”，通过盒子的视角更方便的进行布局
+2. 浏览器在渲染（显示）网页时，会将网页中的元素看做是一个个的矩形区域，我们也形象的称之为盒子
+
+盒子模型
+
+CSS 中规定每个盒子分别由：**内容区域（content）、内边距区域（padding）、边框区域（border）、外边距区域（margin）**构成，这就是 盒子模型
+
+![image-20211223001713570](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211223001713570.png)
+
+1. 内容区域宽高
+   1. width / height：数字+px
+2. 边框（ border ）
+   1. 给设置边框粗细、边框样式、边框颜色效果
+   2. ![image-20211223001853892](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211223001853892.png)
+   3. border : 10px solid red;
+   4. 给盒子设置四周 20像素、实线、蓝色的边框：border：20px solid blue
+   5. 给盒子设置上边框 10像素、虚线、黄色的边框：border-top：10px dashed yellow；
+3. 内边距（ padding ）
+   1. 作用：设置 边框 与 内容区域 之间的距离
+   2. ![image-20211223002126520](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211223002126520.png)
+   3. 给盒子设置四周 20px 的内边距：padding : 20px ;
+   4. 给盒子设置上下20px、左右30px的内边距：padding : 20px 30px ;
+   5. 给盒子设置左侧50px的内边距：padding-left : 50px ;
+4. 外边距（margin）
+   1. 作用：设置边框以外，盒子与盒子之间的距离
+   2. ![image-20211223002330260](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211223002330260.png)
+   3. 给盒子设置四周 20px 的外边距：margin : 20px ;
+   4. 给盒子设置上下20px、左右30px的外边距：margin : 20px 30px ;
+   5. 给盒子设置左侧50px的外边距：margin-left : 50px 
+   6. ![image-20211223002445781](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211223002445781.png)
+
+5. 清除默认内外边距
+
+   浏览器会默认给部分标签设置默认的margin和padding，但一般在项目开始前需要先清除这些标签默认的margin和padding
+
+   1. body标签默认有margin：8px
+
+   2. p标签默认有上下的margin
+
+   3. ul标签默认由上下的margin和padding-left
+
+   4. ```css
+      *{
+          margin:0;
+          padding:0;
+      }
+      ```
+
+   5. 
+
