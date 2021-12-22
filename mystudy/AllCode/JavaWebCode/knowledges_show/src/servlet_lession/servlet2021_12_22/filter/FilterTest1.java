@@ -1,7 +1,6 @@
-package servlet_ready_lession.servlet2021_12_21.filter;
+package servlet_lession.servlet2021_12_22.filter;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;

@@ -56,4 +56,14 @@
 <!--        <url-pattern>/blog/query</url-pattern>-->
 <!--    </servlet_lession-mapping>-->
 
+<!--    <filter>-->
+<!--        <filter-name>demo1</filter-name>-->
+<!--        <filter-class>servlet_lession.servlet2021_12_22.filter.FilterDemo</filter-class>-->
+<!--    </filter>-->
+<!--    <filter-mapping>-->
+<!--        <filter-name>demo1</filter-name>-->
+<!--        &lt;!&ndash;    过滤所有路径&ndash;&gt;-->
+<!--        <url-pattern>/*</url-pattern>-->
+<!--    </filter-mapping>-->
+
 </web-app>

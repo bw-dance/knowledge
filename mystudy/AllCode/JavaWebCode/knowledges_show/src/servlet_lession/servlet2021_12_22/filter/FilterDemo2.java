@@ -1,4 +1,4 @@
-package servlet_ready_lession.servlet2021_12_21.filter;
+package servlet_lession.servlet2021_12_22.filter;
 
 
 import javax.servlet.*;
@@ -12,7 +12,7 @@ import java.io.IOException;
  * @Created by DELL
  */
 @WebFilter("/filter/*")
-public class FilterDemo1 implements Filter {
+public class FilterDemo2 implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 
@@ -21,10 +21,10 @@ public class FilterDemo1 implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         //放行前，通常执行request的相关代码
-        System.out.println("i am filter1 begin");
-      filterChain.doFilter(servletRequest,servletResponse);
+        System.out.println("i am filter2 begin");
+        filterChain.doFilter(servletRequest,servletResponse);
         //放行后，通常执行response的相关代码
-        System.out.println("i am filter1 over");
+        System.out.println("i am filter2 over");
     }
 
     @Override

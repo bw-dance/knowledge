@@ -6,10 +6,7 @@ import service.impl.StudentServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import java.io.IOException;
 
 
@@ -29,13 +26,13 @@ public class LoginThird extends HttpServlet {
         request.setCharacterEncoding("utf-8");
         response.setContentType("text/html;charset=utf-8");
         //2.获取session
-        HttpSession session = request.getSession();
-        Student user = (Student) session.getAttribute("user");
-        if (user != null) {
-            //有用户数据，重定向到主页
-            response.sendRedirect("/students_system/all");
-            return;
-        }
+//        HttpSession session = request.getSession();
+//        Student user = (Student) session.getAttribute("user");
+//        if (user != null) {
+//            //有用户数据，重定向到主页
+//            response.sendRedirect("/students_system/all");
+//            return;
+//        }
         //3.获取请求参数
         String username = request.getParameter("username");
         String password = request.getParameter("password");
@@ -53,7 +50,11 @@ public class LoginThird extends HttpServlet {
             request.getRequestDispatcher("/login/loginThird.jsp").forward(request, response);
         } else {
             //重定向到主页
+            HttpSession session= request.getSession();
             session.setAttribute("user",student);
+            Cookie cookie = new Cookie("JSESSIONID",session.getId());
+            cookie.setMaxAge(60*60);
+            response.addCookie(cookie);
             response.sendRedirect("/students_system/all");
         }
     }
