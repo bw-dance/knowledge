@@ -15,6 +15,9 @@
     <welcome-file-list>
         <welcome-file>/response/redirect.jsp</welcome-file>
     </welcome-file-list>
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
 <!--    添加数据-->
 <!--    <servlet_lession>-->
 <!--        <servlet_lession-name>add</servlet_lession-name>-->
