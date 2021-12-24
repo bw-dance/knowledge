@@ -218,16 +218,18 @@ var x = "Bill";      // x 为字符串
 
 4. **isNaN()**
 
-   1. 用来判断一个变量是否为非数字的类型，返回 true 或者 false
+   1. 用来判断一个变量是否为不是数字的类型，返回 true 或者 false
 
    2. ![image-20211223201742098](C:\Users\DELL\AppData\Roaming\Typora\typora-user-images\image-20211223201742098.png)
 
    3. ```js
-      var usrAge = 21;
-      var isOk = isNaN(userAge);
-      console.log(isNum);            // false ，21 不是一个非数字
-      var usrName = "andy";
-      console.log(isNaN(userName));  // true ，"andy"是一个非数字
+        <script>
+              var usrAge = 21;
+              var isOk =  isNaN(usrAge);
+              console.log(isOk);            // false ，21 不是一个非数字
+              var usrName = "andy";                           
+              console.log(isNaN(usrName));  // true ，"andy"是一个非数字
+          </script>
       ```
 
 ```js
@@ -606,9 +608,8 @@ var arr = [1,2,3,4,5];
    1. ```js
       var 数组名 = new Array() ；
       var arr = new Array();   // 创建一个新的空数组
-      
       ```
-
+   
 2. 利用数组字面量创建数组
 
    1. ```js
@@ -746,7 +747,7 @@ console.log(arr[6]);
 ```js
 // 声明函数
 function 函数名() {
-    //函数体代码
+    //函数体代 码
 }
 
 // 调用函数
@@ -964,20 +965,22 @@ JS 没有块级作用域
    1. ```java
       if(true){
         int num = 123;
-        system.out.print(num);  // 123
+        System.out.print(num);  // 123
       }
-      system.out.print(num);    // 报错
+      System.out.print(num);    // 报错
       
       ```
 
 3. js没有块级作用域（es6之前）
 
    1. ```js
-      if(true){
-        var num = 123;
-        console.log(123); //123
-      }
-      console.log(123);   //123
+      <script>
+              if(true){
+                  var num = 123;
+                  console.log(num); //123
+              }
+              console.log(num);   //123
+      </script>
       ```
 
 ```js
@@ -1071,15 +1074,22 @@ JS 没有块级作用域
 5. 作用域链  ： 内部函数访问外部函数的变量，采取的是链式查找的方式来决定取那个值 这种结构我们称为作用域链
 
 ```js
-function f1() {
-    var num = 123;
-    function f2() {
-        console.log( num );
-    }
-    f2();
-}
-var num = 456;
-f1();
+<script>
+        var num;
+        function f1() {
+            //创建局部变量
+             var num = 123;
+            //使用的是全局变量
+            //num = 123;
+            function f2() {
+                console.log(num);
+            }
+            f2();
+        }
+        num = 456;
+        f1();
+        console.log(num);
+    </script>
 ```
 
 ![image-20211223212216063](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211223212216063.png)
@@ -1279,15 +1289,16 @@ function f1() {
 2. 利用 new Object 创建对象 
 
    1. ```js
-      var andy = new Obect();
-      andy.name = 'pink';
-      andy.age = 18;
-      andy.sex = '男';
-      andy.sayHi = function(){
-          alert('大家好啊~');
-      }
+       var andy = new Object();
+              andy.name = 'pink';
+              andy.age = 18;
+              andy.sex = '男';
+              andy.sayHi = function () {
+                  alert('andy大家好啊~');
+              }
+              andy.sayHi();
       ```
-
+      
    2. Object() ：第一个字母大写  
 
    3. new Object() ：需要 new 关键字
@@ -1665,6 +1676,40 @@ element.innerHTML
 
 </html>
 ```
+
+案例：
+
+批量为元素添加事件
+
+[(102条消息) 由JS for 循环中为元素添加点击事件到JS 中的事件委托_远走的兔子博客-CSDN博客_js 给元素添加点击事件](https://blog.csdn.net/u014182411/article/details/74452536)
+
+```java
+ <ul>
+        <li>知否知否，应是等你好久0</li>
+        <li>知否知否，应是等你好久1</li>
+        <li>知否知否，应是等你好久2</li>
+        <li>知否知否，应是等你好久3</li>
+
+    </ul>
+    <ol id="ol">
+        <li>生僻字0</li>
+        <li>生僻字1</li>
+        <li>生僻字2</li>
+        <li>生僻字3</li>
+
+    </ol>
+//所有标签添加点击事件
+        var lists = document.getElementsByTagName("li");
+        for (var a = 0; a < lists.length; a++) {
+            lists[a].onclick = (function clickItem(j) {
+                return function () {
+                    alert("你真害怕" + j)
+                }
+            })(a);
+        }
+```
+
+
 
 #### 3. 表单元素的属性操作 
 
