@@ -17,8 +17,6 @@
       background-image: url("./image/R-C.jfif");
       background-repeat: no-repeat;
       background-size: 100% 80%;
-
-
     }
     .body-div{
 
@@ -118,10 +116,8 @@
         <li>
           <span class="login-input">验证码：</span>
           <input type="text" class="input-con login-verify">
-
           <img class="verify-img" src="./image/cat.jpeg">
           <span id="verift-update">点击切换</span>
-
         </li>
         <li>
           <input type="button"id="login-button" value="登录">

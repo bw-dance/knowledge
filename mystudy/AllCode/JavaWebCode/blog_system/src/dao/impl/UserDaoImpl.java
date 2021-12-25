@@ -1,6 +1,4 @@
 package dao.impl;
-
-import dao.IArticleDao;
 import dao.IUserDao;
 
 /**
