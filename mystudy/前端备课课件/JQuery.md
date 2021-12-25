@@ -150,10 +150,11 @@ jQuery 可以使用 css 方法来修改简单元素样式； 也可以操作类�
 [jQuery 获取内容和属性 | 菜鸟教程 (runoob.com)](https://www.runoob.com/jquery/jquery-dom-get.html)
 
 1. **普通元素内容** **html()（ 相当于原生inner HTML)**
+   
    1. html()       // 获取元素的内容
-
+   
    2. html(''内容'')  // 设置元素的内容
-
+   
    3. [html()](https://www.runoob.com/jquery/html-html.html)
    
 2. **普通元素文本内容** **text()  (相当与原生 innerText)**
@@ -167,6 +168,32 @@ jQuery 可以使用 css 方法来修改简单元素样式； 也可以操作类�
    2. val(''内容'')  // 设置表单的值
 
    3. [val()](https://www.runoob.com/jquery/html-val.html)
+   
+   4. ```html
+      <!DOCTYPE html>
+      <html>
+      <head>
+      <meta charset="utf-8">
+      <title>菜鸟教程(runoob.com)</title>
+      <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js">
+      </script>
+      <script>
+      $(document).ready(function(){
+      	$("button").click(function(){
+      		$(this).text($("input:text").val())
+      	});
+      });
+      </script>
+      </head>
+      <body>
+      
+      <p>名称: <input type="text" name="user"></p>
+      	<p class="pl"></p>
+      <button>设置输入字段的值</button>
+      
+      </body>
+      </html>
+      ```
 
 ## 6. **jQuery** **元素操作**
 
@@ -174,20 +201,91 @@ jQuery 隐式迭代是对同一类元素做了同样的操作。 如果想要给
 
 1. **遍历元素：**
    1. $("div").each(function (index, domEle) { xxx; }）    
+   
    1. [each()](https://www.runoob.com/jquery/traversing-each.html)
-
+   
+   1. ```js
+      <!DOCTYPE html>
+      <html>
+      <head>
+      <meta charset="utf-8">
+      <title>菜鸟教程(runoob.com)</title>
+      <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js">
+      </script>
+      <script>
+      $(document).ready(function(){
+      
+      	$("li").each(function(){
+      		$(this).click(function(){
+      		alert($(this).text())
+      		})
+      		});
+      });
+      </script>
+      </head>
+      <body>
+      
+      <button>输出每个列表项的值</button>
+      <ul>
+      <li>Coffee</li>
+      <li>Milk</li>
+      <li>Soda</li>
+      </ul>
+      
+      </body>
+      </html>
+      ```
+   
 2. **内部添加：**
    1. element.append(''内容'')   //把内容放入匹配元素内部最后面，类似原生 appendChild。
+   
    2. element.prepend(''内容'')   //把内容放入匹配元素内部最前面。
+   
    3. 内部添加元素，生成之后，它们是父子关系
-   3. [jQuery 添加元素 | 菜鸟教程 (runoob.com)](https://www.runoob.com/jquery/jquery-dom-add.html)
-
+   
+   4. [jQuery 添加元素 | 菜鸟教程 (runoob.com)](https://www.runoob.com/jquery/jquery-dom-add.html)
+   
+   5. ```js
+      <!DOCTYPE html>
+      <html>
+      <head>
+      <meta charset="utf-8">
+      <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js">
+      </script>
+      <script>
+      $(document).ready(function(){
+        $("#btn1").click(function(){
+          $("p").append("jdhfkjsdkfsdk");
+        });
+      
+        $("#btn2").click(function(){
+          $("ol").append("<li>追加列表项<button>这是按钮</button></li>");
+        });
+      });
+      </script>
+      </head>
+      
+      <body>
+      <p>这是一个段落。</p>
+      <p>这是另外一个段落。</p>
+      <ol>
+      <li>List item 1</li>
+      <li>List item 2</li>
+      <li>List item 3</li>
+      </ol>
+      <button id="btn1">添加文本</button>
+      <button id="btn2">添加列表项</button>
+      </body>
+      </html>
+      ```
+   
 3. **外部添加**
+   
    1. element.after(''内容'')    // 把内容放入目标元素后面
    2. element.before(''内容'')   // 把内容放入目标元素前面 
    3. 外部添加元素，生成之后，他们是兄弟关系
    3. [jQuery 添加元素 | 菜鸟教程 (runoob.com)](https://www.runoob.com/jquery/jquery-dom-add.html)
-
+   
 4. **删除元素**
    1. element.remove()  // 删除匹配的元素（本身）
    2. element.empty()  //  删除匹配的元素集合中所有的子节点
@@ -229,7 +327,7 @@ jQuery 隐式迭代是对同一类元素做了同样的操作。 如果想要给
 
 3. 按钮：[按钮（Buttons） · Bootstrap v4 中文文档 v4.6 | Bootstrap 中文网 (bootcss.com)](https://v4.bootcss.com/docs/components/buttons/)
 
-4. 下来菜单：[Dropdowns · Bootstrap v4 中文文档 v4.6 | Bootstrap 中文网 (bootcss.com)](https://v4.bootcss.com/docs/components/dropdowns/)
+4. 下拉菜单：[Dropdowns · Bootstrap v4 中文文档 v4.6 | Bootstrap 中文网 (bootcss.com)](https://v4.bootcss.com/docs/components/dropdowns/)
 
 5. 表单：[Forms · Bootstrap v4 中文文档 v4.6 | Bootstrap 中文网 (bootcss.com)](https://v4.bootcss.com/docs/components/forms/)
 
