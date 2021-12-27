@@ -1,0 +1,29 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    width: 800px;
+    margin: 0 auto;
+}
+
+.title {
+    text-align: center;
+    margin-top: 10%;
+}
+
+article {
+    margin-top: 5%;
+}
+
+.btn-primary {
+    margin-left: 50%;
+    margin-top: 30px;
+    width: 100px;
+}
+
+
+.judge{
+    text-align: right;
+}

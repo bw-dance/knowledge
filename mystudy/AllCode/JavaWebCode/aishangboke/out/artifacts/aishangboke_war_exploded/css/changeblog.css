@@ -1,0 +1,27 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    width: 800px;
+    margin: 0 auto;
+}
+
+.title {
+    text-align: center;
+    margin-top: 10%;
+}
+
+.arctile {
+    margin-top: 5%;
+}
+
+.submit-now {
+    text-align: right;
+    margin-right: 20px;
+}
+
+.text-content {
+    margin-top: 5%;
+}

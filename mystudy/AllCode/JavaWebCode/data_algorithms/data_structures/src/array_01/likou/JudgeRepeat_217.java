@@ -15,7 +15,7 @@ public class JudgeRepeat_217 {
     }
 
     public static boolean containsDuplicate(int[] nums) {
-        if (nums.length==0){
+        if (nums.length == 0) {
             return false;
         }
         Arrays.sort(nums);
@@ -25,5 +25,11 @@ public class JudgeRepeat_217 {
             }
         }
         return false;
+    }
+
+
+
+    public static boolean containsDuplicateTwo(int[] nums) {
+        return Arrays.asList(nums).stream().distinct().count() < nums.length;
     }
 }

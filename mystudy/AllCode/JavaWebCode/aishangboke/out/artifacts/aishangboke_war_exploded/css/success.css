@@ -1,0 +1,25 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    width: 800px;
+    margin: 0 auto;
+}
+
+.title {
+    text-align: center;
+    margin-top: 10%;
+}
+
+.myblog {
+    font-size: 10px;
+    vertical-align: bottom;
+    color: blue;
+    text-decoration: underline;
+}
+.read-blog{
+    font-size: 20px;
+    color: blue;
+}
