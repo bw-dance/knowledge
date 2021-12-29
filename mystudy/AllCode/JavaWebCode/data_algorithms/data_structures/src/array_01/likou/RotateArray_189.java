@@ -6,7 +6,7 @@ package array_01.likou;
  * @Date 2021/12/26 21:33
  * @Created by zhq
  */
-public class RotateArray {
+public class RotateArray_189 {
     public static void main(String[] args) {
         int[] nums = {1, 2, 3, 4, 5, 6, 7};
         rotateTwo(nums, 3);

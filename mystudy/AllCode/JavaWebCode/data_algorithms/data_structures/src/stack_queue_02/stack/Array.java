@@ -1,9 +1,13 @@
-package array_01.fanxing;
+package stack_queue_02.stack;
 
 import java.util.Arrays;
 
-import static javafx.scene.input.KeyCode.T;
-
+/**
+ * @Classname Array
+ * @Description TODO
+ * @Date 2021/12/27 12:50
+ * @Created by zhq
+ */
 public class Array<E> {
     // 定义数组
     private E[] data;
@@ -48,7 +52,7 @@ public class Array<E> {
 
     //数组末尾添加元素
     public void addLast(E e) {
-        this.add(size,e);
+        this.add(size, e);
     }
 
     // 在第index位置插入元素e
@@ -60,7 +64,7 @@ public class Array<E> {
         }
         if (size == data.length) {
             //数组重置,进行二倍扩容
-            resize(2*data.length);
+            resize(2 * data.length);
         }
         //指定位置插入元素
         for (int i = size - 1; i >= index; i--) {
@@ -129,8 +133,8 @@ public class Array<E> {
         }
         size--;
         //当元素的个数小于数组长度的1/2时，则数组长度也/2
-        if(size<data.length/2) {
-            resize(data.length/2);
+        if (size < data.length / 2) {
+            resize(data.length / 2);
         }
         return ret;
     }
@@ -157,8 +161,8 @@ public class Array<E> {
             }
         }
         //当元素的个数小于数组长度的1/2时，则数组长度也/2
-        if(size<data.length/2) {
-            resize(data.length/2);
+        if (size < data.length / 2) {
+            resize(data.length / 2);
         }
     }
 
@@ -197,19 +201,20 @@ public class Array<E> {
             }
         }
     }
+
     @Override
     //添加@Override的原因是：因为toString属于Object类的方法，此时要覆盖object类的同toString方法，
     //如果toString拼写错误时，Override会检索不到Object中的方法，就会提示写法有错误
     public String toString() {
         //拼接一个字符串
         StringBuilder res = new StringBuilder();
-        res.append(String.format("Array:size=%d,capacity=%d\n",size,data.length));
+        res.append(String.format("Array:size=%d,capacity=%d\n", size, data.length));
         res.append('[');
-        for(int i =0;i<size;i++) {
+        for (int i = 0; i < size; i++) {
             res.append(data[i]);
 
             //每遍历一个元素，往后面添加一个逗号
-            if(i!=size-1) {
+            if (i != size - 1) {
                 res.append(",");
             }
 
@@ -218,5 +223,3 @@ public class Array<E> {
         return res.toString();
     }
 }
-
-
