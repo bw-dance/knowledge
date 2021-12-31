@@ -66,8 +66,8 @@ public class LoopQueue<E> implements Queue<E> {
         }
         data = newData;
         //扩容后，元素重新排列
-        front = 0;
         tail = (tail + data.length - front) % data.length;
+        front = 0;
     }
 
 
@@ -93,7 +93,7 @@ public class LoopQueue<E> implements Queue<E> {
     @Override
     public String toString() {
         StringBuilder res = new StringBuilder();
-        res.append(String.format("LoopQueue: size = {} , capacity = {}"), (tail + data.length - front) % data.length, getCapacity());
+        res.append(String.format("LoopQueue: size = %s , capacity = %s \n", (tail + data.length - front) % data.length, getCapacity()));
         res.append("front[");
         for (int i = 0; i < (tail + data.length - front) % data.length; i++) {
             res.append(data[(front + i) % data.length]);

@@ -22,3 +22,5 @@
 
 default.d是nginx.conf的子配置，可以针对不同的项目设置不同的xxx.d，然后使用同一nginx代理到不同的地方。
 
+
+
