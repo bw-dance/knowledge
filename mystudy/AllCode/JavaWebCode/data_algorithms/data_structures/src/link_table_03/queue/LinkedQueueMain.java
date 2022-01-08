@@ -1,4 +1,4 @@
-package link_table_03;
+package link_table_03.queue;
 
 import link_table_03.queue.LinkedQueue;
 import stack_queue_02.queue.Queue;
@@ -24,5 +24,7 @@ public class LinkedQueueMain {
             System.out.println(linkedQueue);
         }
         System.out.println(linkedQueue);
+
+
     }
 }

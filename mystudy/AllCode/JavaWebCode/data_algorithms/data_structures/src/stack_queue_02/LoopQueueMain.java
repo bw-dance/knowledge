@@ -18,5 +18,6 @@ public class LoopQueueMain {
             }
             System.out.println(loopQueue);
         }
+
     }
 }

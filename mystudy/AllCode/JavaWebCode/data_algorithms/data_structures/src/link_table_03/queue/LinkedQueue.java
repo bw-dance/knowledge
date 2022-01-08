@@ -4,7 +4,7 @@ import stack_queue_02.queue.Queue;
 
 /**
  * @Classname LinkedQueue
- * @Description TODO
+ * @Description 有虚拟头结点
  * @Date 2021/12/30 22:13
  * @Created by zhq
  */
@@ -42,43 +42,42 @@ public class LinkedQueue<E> implements Queue<E> {
 
     public LinkedQueue() {
         dummyHead = new Node(null, null);
-        tail = dummyHead;
+        tail = null;
         size = 0;
     }
 
 
-    @Override
-    public String toString() {
-        StringBuilder res = new StringBuilder();
-        for (Node cur = dummyHead.next; cur != null; cur = cur.next) {
-            res.append(cur + "->");
-        }
-        res.append("NULL");
-        return res.toString();
-    }
-
-
+    //入队操作
     @Override
     public void enqueue(E e) {
-        Node prev = new Node(e, null);
-        tail.next = prev;
-//        tail++;
+        Node cur = new Node(e, null);
+        if (isEmpty()) {
+            dummyHead.next = cur;
+            tail = cur;
+        } else {
+            tail.next = cur;
+            tail = cur;
+        }
         size++;
     }
 
+    //出队操作
     @Override
     public E dequeue() {
-        if (size == 0) throw new IllegalArgumentException("empty");
-        Node res = dummyHead.next;
-        dummyHead.next = res.next;
-        res.next = null;
+        if (isEmpty()) throw new IllegalArgumentException("empty");
+        Node retNode = dummyHead.next;
+        dummyHead.next = retNode.next;
+        retNode.next = null;
+        if (dummyHead.next == null)
+            tail = null;
         size--;
-        return (E) res.e;
+        return (E) retNode.e;
     }
 
+    //获取头结点
     @Override
     public E getFront() {
-        if (size == 0) throw new IllegalArgumentException("empty");
+        if (isEmpty()) throw new IllegalArgumentException("empty");
         return (E) dummyHead.next.e;
     }
 
@@ -90,5 +89,15 @@ public class LinkedQueue<E> implements Queue<E> {
     @Override
     public boolean isEmpty() {
         return getSize() == 0;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder res = new StringBuilder();
+        for (Node cur = dummyHead.next; cur != null; cur = cur.next) {
+            res.append(cur + "->");
+        }
+        res.append("NULL");
+        return res.toString();
     }
 }

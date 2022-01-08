@@ -1,4 +1,4 @@
-package link_table_03;
+package link_table_03.stack;
 
 import link_table_03.stack.LinkedStack;
 
