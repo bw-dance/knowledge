@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="76025946-4cfc-45c0-9efb-730631bea658" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/.idea/artifacts/login_war_exploded.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/.idea/libraries/commons_beanutils_1_8.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/.idea/libraries/commons_logging_1_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/login.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/out/artifacts/login_war_exploded/WEB-INF/classes/META-INF/login.kotlin_module" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/out/artifacts/login_war_exploded/WEB-INF/classes/cn/itcast/Util/JDBCUtils.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/out/artifacts/login_war_exploded/WEB-INF/classes/cn/itcast/dao/UserDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/out/artifacts/login_war_exploded/WEB-INF/classes/cn/itcast/domain/User.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/out/artifacts/login_war_exploded/WEB-INF/classes/cn/itcast/main/Test.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/out/artifacts/login_war_exploded/WEB-INF/classes/cn/itcast/servlet/ServletOne.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/out/artifacts/login_war_exploded/WEB-INF/classes/cn/itcast/servlet/ServletThree.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/out/artifacts/login_war_exploded/WEB-INF/classes/cn/itcast/servlet/ServletTwo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/out/artifacts/login_war_exploded/WEB-INF/css/login.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/out/artifacts/login_war_exploded/WEB-INF/frame/jquery-3.4.1.min压缩文档.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/out/artifacts/login_war_exploded/WEB-INF/js/login.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/out/artifacts/login_war_exploded/WEB-INF/lib/c3p0-0.9.5.5.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/out/artifacts/login_war_exploded/WEB-INF/lib/commons-beanutils-1.8.3.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/out/artifacts/login_war_exploded/WEB-INF/lib/commons-logging-1.2.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/out/artifacts/login_war_exploded/WEB-INF/lib/mchange-commons-java-0.2.19.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/out/artifacts/login_war_exploded/WEB-INF/lib/mysql-connector-java-8.0.19.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/out/artifacts/login_war_exploded/WEB-INF/view/Fail.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/out/artifacts/login_war_exploded/WEB-INF/view/Success.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/out/artifacts/login_war_exploded/WEB-INF/view/login.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/out/artifacts/login_war_exploded/index.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/out/artifacts/login_war_exploded/login.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/out/production/login/cn/itcast/Util/JDBCUtils.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/out/production/login/cn/itcast/dao/UserDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/out/production/login/cn/itcast/domain/User.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/out/production/login/cn/itcast/main/Test.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/out/production/login/cn/itcast/servlet/ServletOne.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/out/production/login/cn/itcast/servlet/ServletThree.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/out/production/login/cn/itcast/servlet/ServletTwo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/src/cn/itcast/Util/JDBCUtils.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/src/cn/itcast/dao/UserDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/src/cn/itcast/domain/User.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/src/cn/itcast/main/Test.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/src/cn/itcast/servlet/ServletOne.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/src/cn/itcast/servlet/ServletThree.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/src/cn/itcast/servlet/ServletTwo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/web/WEB-INF/css/login.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/web/WEB-INF/frame/jquery-3.4.1.min压缩文档.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/web/WEB-INF/js/login.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/web/WEB-INF/lib/c3p0-0.9.5.5.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/web/WEB-INF/lib/commons-beanutils-1.8.3.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/web/WEB-INF/lib/commons-logging-1.2.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/web/WEB-INF/lib/mchange-commons-java-0.2.19.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/web/WEB-INF/lib/mysql-connector-java-8.0.19.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/web/WEB-INF/view/Fail.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/web/WEB-INF/view/Success.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/web/WEB-INF/view/login.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/web/index.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/web/login.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/.idea/.name" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/.idea/artifacts/module_war_exploded.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/.idea/artifacts/servlet01_war_exploded.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/out/artifacts/servlet01_war_exploded/WEB-INF/classes/servlet_lession/servlet2021_12_17/ServletAdd.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/out/artifacts/servlet01_war_exploded/WEB-INF/classes/servlet_lession/servlet2021_12_17/ServletDelete.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/out/artifacts/servlet01_war_exploded/WEB-INF/classes/servlet_lession/servlet2021_12_17/ServletDemo1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/out/artifacts/servlet01_war_exploded/WEB-INF/classes/servlet_lession/servlet2021_12_17/ServletDemo2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/out/artifacts/servlet01_war_exploded/WEB-INF/classes/servlet_lession/servlet2021_12_17/ServletDemo3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/out/artifacts/servlet01_war_exploded/WEB-INF/classes/servlet_lession/servlet2021_12_17/ServletQuery.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/out/artifacts/servlet01_war_exploded/WEB-INF/classes/servlet_lession/servlet2021_12_17/ServletUpdate.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/out/artifacts/servlet01_war_exploded/WEB-INF/classes/servlet_lession/servlet2021_12_19/BlogDemo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/out/artifacts/servlet01_war_exploded/WEB-INF/classes/servlet_lession/servlet2021_12_19/HttpDemo1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/out/artifacts/servlet01_war_exploded/WEB-INF/classes/servlet_lession/servlet2021_12_19/RequestDemo1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/out/artifacts/servlet01_war_exploded/WEB-INF/classes/servlet_lession/servlet2021_12_19/RequestDemo2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/out/artifacts/servlet01_war_exploded/WEB-INF/classes/servlet_lession/servlet2021_12_20/ForwardDemo1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/out/artifacts/servlet01_war_exploded/WEB-INF/classes/servlet_lession/servlet2021_12_20/ForwardDemo2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/out/artifacts/servlet01_war_exploded/WEB-INF/classes/servlet_lession/servlet2021_12_20/ForwardDemo3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/out/artifacts/servlet01_war_exploded/WEB-INF/classes/servlet_lession/servlet2021_12_20/ForwardDemo4.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/out/artifacts/servlet01_war_exploded/WEB-INF/classes/servlet_lession/servlet2021_12_20/ForwardDemo5.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/out/artifacts/servlet01_war_exploded/WEB-INF/classes/servlet_lession/servlet2021_12_20/ForwardDemo6.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/out/artifacts/servlet01_war_exploded/WEB-INF/classes/servlet_lession/servlet2021_12_20/ForwardDemo7.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/out/artifacts/servlet01_war_exploded/WEB-INF/classes/servlet_lession/servlet2021_12_20/MessCodeDemo1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/out/artifacts/servlet01_war_exploded/WEB-INF/classes/servlet_ready_lession/servlet2021_12_19/Servlet01.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/out/artifacts/servlet01_war_exploded/WEB-INF/web.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/out/artifacts/servlet01_war_exploded/blog.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/out/artifacts/servlet01_war_exploded/css/http.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/out/artifacts/servlet01_war_exploded/hello.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/out/artifacts/servlet01_war_exploded/http.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/out/artifacts/servlet01_war_exploded/index.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/out/artifacts/servlet01_war_exploded/req.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/out/artifacts/servlet01_war_exploded/request.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/out/artifacts/servlet01_war_exploded/request/forward.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/out/artifacts/servlet01_war_exploded/request/forward01.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/out/artifacts/servlet01_war_exploded/request/messCode.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/out/artifacts/servlet01_war_exploded/request02.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/out/production/servlet01_rumen/servlet_lession/servlet2021_12_17/ServletAdd.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/out/production/servlet01_rumen/servlet_lession/servlet2021_12_17/ServletDelete.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/out/production/servlet01_rumen/servlet_lession/servlet2021_12_17/ServletDemo1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/out/production/servlet01_rumen/servlet_lession/servlet2021_12_17/ServletDemo2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/out/production/servlet01_rumen/servlet_lession/servlet2021_12_17/ServletDemo3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/out/production/servlet01_rumen/servlet_lession/servlet2021_12_17/ServletQuery.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/out/production/servlet01_rumen/servlet_lession/servlet2021_12_17/ServletUpdate.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/out/production/servlet01_rumen/servlet_lession/servlet2021_12_19/BlogDemo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/out/production/servlet01_rumen/servlet_lession/servlet2021_12_19/HttpDemo1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/out/production/servlet01_rumen/servlet_lession/servlet2021_12_19/RequestDemo1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/out/production/servlet01_rumen/servlet_lession/servlet2021_12_19/RequestDemo2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/out/production/servlet01_rumen/servlet_lession/servlet2021_12_20/ForwardDemo1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/out/production/servlet01_rumen/servlet_lession/servlet2021_12_20/ForwardDemo2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/out/production/servlet01_rumen/servlet_lession/servlet2021_12_20/ForwardDemo3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/out/production/servlet01_rumen/servlet_lession/servlet2021_12_20/ForwardDemo4.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/out/production/servlet01_rumen/servlet_lession/servlet2021_12_20/ForwardDemo5.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/out/production/servlet01_rumen/servlet_lession/servlet2021_12_20/ForwardDemo6.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/out/production/servlet01_rumen/servlet_lession/servlet2021_12_20/ForwardDemo7.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/out/production/servlet01_rumen/servlet_lession/servlet2021_12_20/MessCodeDemo1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/out/production/servlet01_rumen/servlet_ready_lession/servlet2021_12_19/Servlet01.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/servlet01_rumen.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/src/servlet_lession/servlet2021_12_17/ServletAdd.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/src/servlet_lession/servlet2021_12_17/ServletDelete.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/src/servlet_lession/servlet2021_12_17/ServletDemo1.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/src/servlet_lession/servlet2021_12_17/ServletDemo2.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/src/servlet_lession/servlet2021_12_17/ServletDemo3.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/src/servlet_lession/servlet2021_12_17/ServletQuery.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/src/servlet_lession/servlet2021_12_17/ServletUpdate.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/src/servlet_lession/servlet2021_12_19/BlogDemo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/src/servlet_lession/servlet2021_12_19/HttpDemo1.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/src/servlet_lession/servlet2021_12_19/RequestDemo1.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/src/servlet_lession/servlet2021_12_19/RequestDemo2.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/src/servlet_lession/servlet2021_12_20/ForwardDemo1.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/src/servlet_lession/servlet2021_12_20/ForwardDemo2.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/src/servlet_lession/servlet2021_12_20/ForwardDemo3.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/src/servlet_lession/servlet2021_12_20/ForwardDemo4.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/src/servlet_lession/servlet2021_12_20/ForwardDemo5.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/src/servlet_lession/servlet2021_12_20/ForwardDemo6.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/src/servlet_lession/servlet2021_12_20/ForwardDemo7.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/src/servlet_lession/servlet2021_12_20/MessCodeDemo1.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/src/servlet_ready_lession/servlet2021_12_19/Servlet01.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/web/WEB-INF/web.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/web/blog.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/web/css/http.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/web/hello.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/web/http.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/web/index.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/web/req.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/web/request.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/web/request/forward.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/web/request/forward01.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/web/request/messCode.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/servlet01_rumen/web/request02.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../JavaWebCoding/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../JavaWebCodings/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../JavaWebCodings/.idea/artifacts/pro_01_war_exploded.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../JavaWebCodings/.idea/artifacts/pro_02_war_exploded.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../JavaWebCodings/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../JavaWebCodings/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../JavaWebCodings/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../JavaWebCodings/out/artifacts/pro_01_war_exploded/WEB-INF/web.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../JavaWebCodings/out/artifacts/pro_01_war_exploded/index.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../JavaWebCodings/out/artifacts/pro_02_war_exploded/WEB-INF/web.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../JavaWebCodings/out/artifacts/pro_02_war_exploded/index.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../JavaWebCodings/pro_01/pro_01.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../JavaWebCodings/pro_01/web/WEB-INF/web.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../JavaWebCodings/pro_01/web/index.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../JavaWebCodings/pro_02/pro_02.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../JavaWebCodings/pro_02/web/WEB-INF/web.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../JavaWebCodings/pro_02/web/index.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JavaWebCode/daolian01/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JavaWebCode/daolian01/.idea/artifacts/daolian01_war_exploded.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JavaWebCode/daolian01/.idea/artifacts/server01_war_exploded.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JavaWebCode/daolian01/.idea/artifacts/server02_war_exploded.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JavaWebCode/daolian01/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JavaWebCode/daolian01/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JavaWebCode/daolian01/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JavaWebCode/daolian01/daolian01.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JavaWebCode/daolian01/out/artifacts/daolian01_war_exploded/WEB-INF/web.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JavaWebCode/daolian01/out/artifacts/daolian01_war_exploded/index.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JavaWebCode/daolian01/web/WEB-INF/web.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JavaWebCode/daolian01/web/index.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JavaWebCode/daolian02/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JavaWebCode/daolian02/.idea/artifacts/daolian02_war_exploded.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JavaWebCode/daolian02/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JavaWebCode/daolian02/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JavaWebCode/daolian02/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JavaWebCode/daolian02/daolian02.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JavaWebCode/daolian02/out/artifacts/daolian02_war_exploded/WEB-INF/classes/Server01.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JavaWebCode/daolian02/out/artifacts/daolian02_war_exploded/WEB-INF/web.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JavaWebCode/daolian02/out/artifacts/daolian02_war_exploded/index.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JavaWebCode/daolian02/out/production/daolian02/Server01.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JavaWebCode/daolian02/src/Server01.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JavaWebCode/daolian02/web/WEB-INF/web.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JavaWebCode/daolian02/web/index.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JavaWeb备课课件/4. Servlet应用.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../JavaWeb备课课件/4. Servlet应用.md" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
+  </component>
+  <component name="ProjectId" id="22YCqjOap7UxNRDUIj0jnBZHl08" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="showLibraryContents" value="true" />
+    <option name="showVisibilityIcons" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="android.sdk.path" value="E:/androidsdk" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/knowledge_show" />
+    <property name="settings.editor.selected.configurable" value="preferences.fileTypes" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="76025946-4cfc-45c0-9efb-730631bea658" name="Default Changelist" comment="" />
+      <created>1640005326029</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1640005326029</updated>
+      <workItem from="1640005327571" duration="27000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/JavaWebCode.iml" filepath="$PROJECT_DIR$/.idea/JavaWebCode.iml" />
+      <module fileurl="file://$PROJECT_DIR$/daolian02/daolian02.iml" filepath="$PROJECT_DIR$/daolian02/daolian02.iml" />
+      <module fileurl="file://$PROJECT_DIR$/knowledge_show/knowledge_show.iml" filepath="$PROJECT_DIR$/knowledge_show/knowledge_show.iml" />
+      <module fileurl="file://$PROJECT_DIR$/project_show/project_show.iml" filepath="$PROJECT_DIR$/project_show/project_show.iml" />
+    </modules>
+  </component>
+</project>

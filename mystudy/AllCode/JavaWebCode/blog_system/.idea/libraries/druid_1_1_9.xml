@@ -1,0 +1,17 @@
+<component name="libraryTable">
+  <library name="druid-1.1.9">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/web/lib/druid-1.1.9.jar!/" />
+      <root url="jar://$PROJECT_DIR$/web/lib/javax.servlet-api-4.0.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/web/lib/commons-beanutils-1.8.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/web/lib/commons-logging-1.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/web/lib/spring-beans-5.2.1.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/web/lib/mysql-connector-java-8.0.19.jar!/" />
+      <root url="jar://$PROJECT_DIR$/web/lib/spring-core-5.2.1.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/web/lib/spring-jdbc-5.2.1.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/web/lib/spring-tx-5.2.1.RELEASE.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

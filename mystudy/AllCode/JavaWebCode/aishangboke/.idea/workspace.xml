@@ -1,0 +1,809 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="aishangboke:Web exploded" />
+    </artifacts-to-build>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="934b040a-d7ac-4ee4-8e1f-5dd47d6046e0" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/artifacts/aishangboke_Web_exploded.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/alljar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../data_algorithms/.idea/artifacts/myjar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../data_algorithms/data_structures/src/link_table_03/queue/LinkedQueueMain.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../maven/web-pro/web-pro.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/aishangboke_war_exploded.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/aishangboke.iml" beforeDir="false" afterPath="$PROJECT_DIR$/aishangboke.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/WEB-INF/classes/SensitiviteWords" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/WEB-INF/classes/druid.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/WEB-INF/classes/web/dao/RegisterDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/WEB-INF/classes/web/dao/UserDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/WEB-INF/classes/web/dao/impl/UserDaoImpl$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/WEB-INF/classes/web/dao/impl/UserDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/WEB-INF/classes/web/domain/Blog.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/WEB-INF/classes/web/domain/MessageState.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/WEB-INF/classes/web/domain/PageSearch.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/WEB-INF/classes/web/domain/User.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/WEB-INF/classes/web/druid/DruidDemo1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/WEB-INF/classes/web/filiter/SensitivityFilter$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/WEB-INF/classes/web/filiter/SensitivityFilter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/WEB-INF/classes/web/service/UserService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/WEB-INF/classes/web/service/impl/UserServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/WEB-INF/classes/web/servlet/AddBlogServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/WEB-INF/classes/web/servlet/CheckCodeServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/WEB-INF/classes/web/servlet/CookieJudgeServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/WEB-INF/classes/web/servlet/DeleteBlogServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/WEB-INF/classes/web/servlet/DeleteSelectServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/WEB-INF/classes/web/servlet/FindUserServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/WEB-INF/classes/web/servlet/InputBlogToMeServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/WEB-INF/classes/web/servlet/LoginUserServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/WEB-INF/classes/web/servlet/LookBlogServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/WEB-INF/classes/web/servlet/PageSearchAllServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/WEB-INF/classes/web/servlet/PageSearchServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/WEB-INF/classes/web/servlet/RegisterUserServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/WEB-INF/classes/web/servlet/UpdateBlogServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/WEB-INF/classes/web/test/TestMain.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/WEB-INF/classes/web/utils/JDBCUtils.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/WEB-INF/lib/commons-beanutils-1.8.3.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/WEB-INF/lib/commons-logging-1.2.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/WEB-INF/lib/druid-1.1.9.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/WEB-INF/lib/jackson-annotations-2.2.3.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/WEB-INF/lib/jackson-core-2.2.3.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/WEB-INF/lib/jackson-databind-2.2.3.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/WEB-INF/lib/mysql-connector-java-8.0.19.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/WEB-INF/lib/spring-beans-5.2.1.RELEASE.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/WEB-INF/lib/spring-core-5.2.1.RELEASE.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/WEB-INF/lib/spring-jdbc-5.2.1.RELEASE.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/WEB-INF/lib/spring-tx-5.2.1.RELEASE.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/WEB-INF/lib/taglibs-standard-impl-1.2.5.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/WEB-INF/lib/taglibs-standard-spec-1.2.5.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/css/allblog.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/css/changeblog.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/css/login.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/css/myblog.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/css/register.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/css/success.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/css/writeblog.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/jquery-3.4.1.min压缩文档.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/.travis.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/CHANGELOG.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/bower.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/css/layui.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/css/layui.mobile.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/css/modules/code.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/css/modules/laydate/default/laydate.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/css/modules/layer/default/icon-ext.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/css/modules/layer/default/icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/css/modules/layer/default/layer.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/css/modules/layer/default/loading-0.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/css/modules/layer/default/loading-1.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/css/modules/layer/default/loading-2.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/font/iconfont.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/font/iconfont.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/font/iconfont.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/font/iconfont.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/font/iconfont.woff2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/0.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/1.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/10.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/11.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/12.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/13.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/14.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/15.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/16.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/17.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/18.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/19.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/2.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/20.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/21.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/22.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/23.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/24.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/25.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/26.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/27.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/28.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/29.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/3.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/30.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/31.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/32.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/33.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/34.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/35.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/36.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/37.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/38.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/39.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/4.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/40.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/41.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/42.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/43.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/44.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/45.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/46.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/47.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/48.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/49.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/5.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/50.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/51.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/52.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/53.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/54.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/55.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/56.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/57.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/58.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/59.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/6.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/60.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/61.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/62.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/63.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/64.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/65.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/66.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/67.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/68.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/69.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/7.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/70.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/71.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/8.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/images/face/9.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/lay/modules/carousel.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/lay/modules/code.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/lay/modules/colorpicker.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/lay/modules/element.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/lay/modules/flow.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/lay/modules/form.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/lay/modules/jquery.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/lay/modules/laydate.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/lay/modules/layedit.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/lay/modules/layer.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/lay/modules/laypage.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/lay/modules/laytpl.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/lay/modules/mobile.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/lay/modules/rate.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/lay/modules/slider.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/lay/modules/table.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/lay/modules/transfer.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/lay/modules/tree.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/lay/modules/upload.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/lay/modules/util.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/layui.all.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/dist/layui.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/doc/Git仓库.url" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/doc/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/doc/在线演示.url" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/doc/快速上手.url" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/examples/admin.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/examples/all.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/examples/button.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/examples/carousel.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/examples/code.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/examples/colorpicker.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/examples/element.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/examples/extend.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/examples/extends/mod1.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/examples/extends/mod2.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/examples/extends/temp.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/examples/flow.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/examples/form.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/examples/js/child/test.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/examples/js/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/examples/json/table/demo1.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/examples/json/table/demo2.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/examples/json/table/demo3.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/examples/json/upload/demoLayEdit.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/examples/laydate.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/examples/layedit.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/examples/layer.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/examples/layout.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/examples/laypage.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/examples/rate.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/examples/responsive.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/examples/slider.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/examples/table.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/examples/transfer.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/examples/tree.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/examples/upload.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/examples/util.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/examples/xingzuo.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/gulpfile.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/karma.conf.base.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/karma.conf.sauce.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/karma.conf.unit.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/css/layui.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/css/layui.mobile.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/css/modules/code.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/css/modules/laydate/default/font.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/css/modules/laydate/default/laydate.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/css/modules/layer/default/icon-ext.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/css/modules/layer/default/icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/css/modules/layer/default/layer.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/css/modules/layer/default/loading-0.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/css/modules/layer/default/loading-1.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/css/modules/layer/default/loading-2.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/font/iconfont.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/font/iconfont.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/font/iconfont.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/font/iconfont.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/font/iconfont.woff2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/0.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/1.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/10.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/11.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/12.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/13.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/14.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/15.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/16.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/17.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/18.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/19.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/2.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/20.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/21.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/22.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/23.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/24.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/25.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/26.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/27.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/28.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/29.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/3.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/30.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/31.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/32.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/33.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/34.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/35.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/36.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/37.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/38.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/39.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/4.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/40.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/41.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/42.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/43.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/44.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/45.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/46.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/47.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/48.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/49.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/5.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/50.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/51.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/52.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/53.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/54.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/55.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/56.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/57.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/58.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/59.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/6.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/60.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/61.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/62.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/63.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/64.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/65.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/66.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/67.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/68.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/69.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/7.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/70.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/71.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/8.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/images/face/9.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/lay/all-mobile.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/lay/all.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/lay/modules/carousel.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/lay/modules/code.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/lay/modules/colorpicker.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/lay/modules/element.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/lay/modules/flow.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/lay/modules/form.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/lay/modules/jquery.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/lay/modules/laydate.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/lay/modules/layedit.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/lay/modules/layer.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/lay/modules/laypage.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/lay/modules/laytpl.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/lay/modules/mobile.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/lay/modules/mobile/layer-mobile.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/lay/modules/mobile/layim-mobile-open.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/lay/modules/mobile/zepto.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/lay/modules/rate.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/lay/modules/slider.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/lay/modules/table.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/lay/modules/transfer.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/lay/modules/tree.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/lay/modules/upload.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/lay/modules/util.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/src/layui.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/test/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/test/lay/modules/code.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/test/lay/modules/laydate.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/test/lay/modules/laytpl.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/frame/layui-master/test/layui.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/index.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/js/allblog.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/js/changeblog.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/js/login.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/js/myblog.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/js/register.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/js/success.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/js/writeblog.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/view/allblog.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/view/changeblog.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/view/login.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/view/myblog.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/view/register.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/view/success.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/aishangboke_war_exploded/view/writeblog.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aishangboke/SensitiviteWords" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aishangboke/druid.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aishangboke/web/dao/RegisterDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aishangboke/web/dao/UserDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aishangboke/web/dao/impl/UserDaoImpl$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aishangboke/web/dao/impl/UserDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aishangboke/web/domain/Blog.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aishangboke/web/domain/MessageState.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aishangboke/web/domain/PageSearch.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aishangboke/web/domain/User.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aishangboke/web/druid/DruidDemo1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aishangboke/web/filiter/SensitivityFilter$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aishangboke/web/filiter/SensitivityFilter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aishangboke/web/service/UserService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aishangboke/web/service/impl/UserServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aishangboke/web/servlet/AddBlogServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aishangboke/web/servlet/CheckCodeServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aishangboke/web/servlet/CookieJudgeServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aishangboke/web/servlet/DeleteBlogServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aishangboke/web/servlet/DeleteSelectServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aishangboke/web/servlet/FindUserServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aishangboke/web/servlet/InputBlogToMeServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aishangboke/web/servlet/LoginUserServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aishangboke/web/servlet/LookBlogServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aishangboke/web/servlet/PageSearchAllServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aishangboke/web/servlet/PageSearchServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aishangboke/web/servlet/RegisterUserServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aishangboke/web/servlet/UpdateBlogServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aishangboke/web/test/TestMain.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aishangboke/web/utils/JDBCUtils.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aishangboke/web/utils/RandomQueryName$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aishangboke/web/utils/RandomQueryName.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aishangboke/web/utils/hasname.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aishangboke/web/utils/name.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../data_algorithms/data_structures/src/link_table_03/LinkedList02Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../data_algorithms/data_structures/src/link_table_03/base_02/LinkedList02Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../data_algorithms/data_structures/src/link_table_03/LinkedQueueMain.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../data_algorithms/data_structures/src/link_table_03/LinkedStackMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/../data_algorithms/data_structures/src/link_table_03/stack/LinkedStackMain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../data_algorithms/data_structures/src/link_table_03/queue/LinkedQueue.java" beforeDir="false" afterPath="$PROJECT_DIR$/../data_algorithms/data_structures/src/link_table_03/queue/LinkedQueue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../data_algorithms/data_structures/src/stack_queue_02/LoopQueueMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/../data_algorithms/data_structures/src/stack_queue_02/LoopQueueMain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../data_algorithms/out/production/data_structures/link_table_03/LinkedList02Main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../data_algorithms/out/production/data_structures/link_table_03/LinkedQueueMain.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../data_algorithms/out/production/data_structures/link_table_03/LinkedStackMain.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../data_algorithms/out/production/data_structures/link_table_03/queue/LinkedQueue.class" beforeDir="false" afterPath="$PROJECT_DIR$/../data_algorithms/out/production/data_structures/link_table_03/queue/LinkedQueue.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../data_algorithms/out/production/data_structures/stack_queue_02/LoopQueueMain.class" beforeDir="false" afterPath="$PROJECT_DIR$/../data_algorithms/out/production/data_structures/stack_queue_02/LoopQueueMain.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../JavaWeb备课课件/6. 博客系统.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../../JavaWeb备课课件/6. 博客系统.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Java备课课件/1. Java语言概述与开发环境.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Java备课课件/1. Java语言概述与开发环境.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../优秀好文/2.待读文章.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../../优秀好文/2.待读文章.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../服务器部署/前后端项目部署.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../../服务器部署/前后端项目部署.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../算法学习/数据结构/3. 链表.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../../算法学习/数据结构/3. 链表.md" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="JavaScript File" />
+        <option value="Jsp File" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../../.." />
+  </component>
+  <component name="LogFilters">
+    <option name="FILTER_ERRORS" value="false" />
+    <option name="FILTER_WARNINGS" value="false" />
+    <option name="FILTER_INFO" value="true" />
+    <option name="FILTER_DEBUG" value="true" />
+    <option name="CUSTOM_FILTER" />
+  </component>
+  <component name="ProjectId" id="1f8Zy8BZRq8BMcQMJhdPLFOEPtl" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="Downloaded.Files.Path.Enabled" value="false" />
+    <property name="Repository.Attach.Annotations" value="false" />
+    <property name="Repository.Attach.JavaDocs" value="false" />
+    <property name="Repository.Attach.Sources" value="false" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../../../../JavaLession/hsdlession/lessionshow/handele/JavaLessionTest" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.26337034" />
+    <property name="settings.editor.selected.configurable" value="File.Encoding" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\Java文件\aishangboke\web\js" />
+      <recent name="E:\Java文件\aishangboke\web\view" />
+      <recent name="E:\Java文件\aishangboke\web\css" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="web.servlet" />
+      <recent name="web.dao.impl" />
+      <recent name="web.dao" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\Java文件\aishangboke\web\css" />
+      <recent name="E:\Java文件\aishangboke\web\WEB-INF\lib" />
+      <recent name="E:\Java文件\aishangboke\src" />
+      <recent name="E:\Java文件\aishangboke\web" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Tomcat Server.Tomcat 9.0.56">
+    <configuration name="RandomQueryName" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="web.utils.RandomQueryName" />
+      <module name="aishangboke" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="web.utils.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DeleteBlogServlet.c" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="aishangboke" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="web.servlet.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="web.servlet" />
+      <option name="MAIN_CLASS_NAME" value="web.servlet.DeleteBlogServlet" />
+      <option name="METHOD_NAME" value="c" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestMain.testA" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="aishangboke" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="web.test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="web.test" />
+      <option name="MAIN_CLASS_NAME" value="web.test.TestMain" />
+      <option name="METHOD_NAME" value="testA" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserDaoImpl.a" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="aishangboke" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="web.dao.impl.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="web.dao.impl" />
+      <option name="MAIN_CLASS_NAME" value="web.dao.impl.UserDaoImpl" />
+      <option name="METHOD_NAME" value="a" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserDaoImpl.name" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="aishangboke" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="web.dao.impl.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="web.dao.impl" />
+      <option name="MAIN_CLASS_NAME" value="web.dao.impl.UserDaoImpl" />
+      <option name="METHOD_NAME" value="name" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserServiceImpl.s" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+      <module name="aishangboke" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="web.service.impl.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="web.service.impl" />
+      <option name="MAIN_CLASS_NAME" value="web.service.impl.UserServiceImpl" />
+      <option name="METHOD_NAME" value="s" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Tomcat 9.0.56" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 9.0.56" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true">
+      <option name="OPEN_IN_BROWSER_URL" value="http://localhost:8899/aishangboke/view/login.jsp" />
+      <option name="UPDATING_POLICY" value="restart-server" />
+      <deployment>
+        <artifact name="aishangboke:Web exploded">
+          <settings>
+            <option name="CONTEXT_PATH" value="/aishangboke" />
+          </settings>
+        </artifact>
+      </deployment>
+      <server-settings>
+        <option name="BASE_DIRECTORY_NAME" value="56adbe29-63b4-46c7-acd4-c9137b6f1e0b" />
+        <option name="HTTP_PORT" value="8899" />
+      </server-settings>
+      <predefined_log_file enabled="true" id="Tomcat" />
+      <predefined_log_file enabled="true" id="Tomcat Catalina" />
+      <predefined_log_file id="Tomcat Manager" />
+      <predefined_log_file id="Tomcat Host Manager" />
+      <predefined_log_file id="Tomcat Localhost Access" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="59214" />
+      </RunnerSettings>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Profile">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <method v="2">
+        <option name="Make" enabled="true" />
+        <option name="BuildArtifacts" enabled="true">
+          <artifact name="aishangboke:Web exploded" />
+        </option>
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.RandomQueryName" />
+      <item itemvalue="JUnit.UserServiceImpl.s" />
+      <item itemvalue="JUnit.UserDaoImpl.a" />
+      <item itemvalue="JUnit.DeleteBlogServlet.c" />
+      <item itemvalue="JUnit.TestMain.testA" />
+      <item itemvalue="JUnit.UserDaoImpl.name" />
+      <item itemvalue="Tomcat Server.Tomcat 9.0.56" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.RandomQueryName" />
+        <item itemvalue="JUnit.UserDaoImpl.name" />
+        <item itemvalue="JUnit.TestMain.testA" />
+        <item itemvalue="JUnit.DeleteBlogServlet.c" />
+        <item itemvalue="JUnit.UserDaoImpl.a" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="934b040a-d7ac-4ee4-8e1f-5dd47d6046e0" name="Default Changelist" comment="" />
+      <created>1595601932033</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1595601932033</updated>
+      <workItem from="1595601935351" duration="693000" />
+      <workItem from="1595637581578" duration="19018000" />
+      <workItem from="1595744618295" duration="32565000" />
+      <workItem from="1595818826015" duration="35069000" />
+      <workItem from="1595897730276" duration="24499000" />
+      <workItem from="1595981656412" duration="43943000" />
+      <workItem from="1596285875706" duration="16944000" />
+      <workItem from="1596449077629" duration="3897000" />
+      <workItem from="1596457114107" duration="6856000" />
+      <workItem from="1596587826707" duration="16362000" />
+      <workItem from="1596676702303" duration="4674000" />
+      <workItem from="1596684620745" duration="1086000" />
+      <workItem from="1596764373207" duration="5481000" />
+      <workItem from="1596959965056" duration="119000" />
+      <workItem from="1600396012483" duration="486000" />
+      <workItem from="1608697788409" duration="339000" />
+      <workItem from="1611542133999" duration="2650000" />
+      <workItem from="1613465553623" duration="2039000" />
+      <workItem from="1615451665347" duration="1837000" />
+      <workItem from="1626341672383" duration="4515000" />
+      <workItem from="1632396414959" duration="1569000" />
+      <workItem from="1632402917814" duration="2958000" />
+      <workItem from="1632473038493" duration="1937000" />
+      <workItem from="1632559228940" duration="6866000" />
+      <workItem from="1632832095276" duration="197000" />
+      <workItem from="1632832424898" duration="79000" />
+      <workItem from="1636593172084" duration="104000" />
+      <workItem from="1639458156745" duration="1575000" />
+      <workItem from="1639468832056" duration="568000" />
+      <workItem from="1639469419847" duration="38000" />
+      <workItem from="1639469471901" duration="2509000" />
+      <workItem from="1639481930158" duration="2736000" />
+      <workItem from="1639669907917" duration="1144000" />
+      <workItem from="1639703221062" duration="1587000" />
+      <workItem from="1639719103388" duration="3250000" />
+      <workItem from="1639731159529" duration="194000" />
+      <workItem from="1639744469535" duration="3097000" />
+      <workItem from="1639836213562" duration="1230000" />
+      <workItem from="1639879127228" duration="4291000" />
+      <workItem from="1639977023350" duration="1972000" />
+      <workItem from="1639982166268" duration="3665000" />
+      <workItem from="1640005176813" duration="1199000" />
+      <workItem from="1640008178458" duration="2246000" />
+      <workItem from="1640048055522" duration="3067000" />
+      <workItem from="1640097798378" duration="2620000" />
+      <workItem from="1640319646786" duration="6287000" />
+      <workItem from="1640351957650" duration="10937000" />
+      <workItem from="1640407223406" duration="4390000" />
+      <workItem from="1640568170479" duration="3648000" />
+      <workItem from="1640573089766" duration="291000" />
+      <workItem from="1640573734162" duration="1238000" />
+      <workItem from="1640609655592" duration="3214000" />
+      <workItem from="1640739414143" duration="10079000" />
+      <workItem from="1640827793285" duration="3543000" />
+      <workItem from="1640867794849" duration="176000" />
+      <workItem from="1641439040366" duration="11375000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/web/filiter/SensitivityFilter.java</url>
+          <line>17</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/web/servlet/LoginUserServlet.java</url>
+          <line>74</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/web/servlet/UpdateBlogServlet.java</url>
+          <line>48</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/web/servlet/UpdateBlogServlet.java</url>
+          <line>28</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/aishangboke$RandomQueryName.ic" NAME="RandomQueryName Coverage Results" MODIFIED="1640830050953" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>web.utils.*</FILTER>
+    </SUITE>
+  </component>
+</project>
