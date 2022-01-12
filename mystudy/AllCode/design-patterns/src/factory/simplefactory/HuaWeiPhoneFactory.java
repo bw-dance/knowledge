@@ -7,11 +7,11 @@ package factory.simplefactory;
  * @Created by zhq
  */
 public class HuaWeiPhoneFactory {
-    public HuaWeiPhone makePhone(String name) {
+    public HuaWeiPhone product(String name) {
         if (name.equalsIgnoreCase("P30")) {
-            return new P30();
+            return new P30("P30", 100, "red");
         } else if (name.equalsIgnoreCase("Mate20")) {
-            return new Mate20();
+            return new Mate20("Mate20", 100, "red");
         } else {
             throw new RuntimeException("we do not have this type phone");
         }

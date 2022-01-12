@@ -7,7 +7,16 @@ package factory.simplefactory;
  * @Created by zhq
  */
 public class P30 implements HuaWeiPhone {
-    public P30() {
+    private String name;
+    private double price;
+    private String color;
+    //等等各种属性
+
+
+    public P30(String name, double price, String color) {
+        this.name = name;
+        this.price = price;
+        this.color = color;
     }
 
     @Override

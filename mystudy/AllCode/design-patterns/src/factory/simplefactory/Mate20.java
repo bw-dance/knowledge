@@ -7,8 +7,17 @@ package factory.simplefactory;
  * @Created by zhq
  */
 public class Mate20 implements HuaWeiPhone {
-    public Mate20() {
+
+    private String name;
+    private double price;
+    private String color;
+
+    public Mate20(String name, double price, String color) {
+        this.name = name;
+        this.price = price;
+        this.color = color;
     }
+
 
     @Override
     public void call() {
