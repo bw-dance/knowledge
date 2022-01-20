@@ -35,6 +35,7 @@ class NumArray01 {
     }
 }
 
+
 //方式二：前缀和，时间复杂度为O（1）
 class NumArray02 {
 
@@ -53,6 +54,4 @@ class NumArray02 {
     public int sumRange(int left, int right) {
         return this.preSum[right + 1] - this.preSum[left];
     }
-
-
 }

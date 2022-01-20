@@ -8,12 +8,16 @@ package likou.z_suanfa_miji.数组.d二分查找;
  */
 public class 在排序数组中查找元素的第一个和最后一个位置_34 {
     public static void main(String[] args) {
-        int[] nums = {1, 2, 2, 2, 4};
-        Solution03 solution03 = new Solution03();
-        System.out.println(solution03.searchRange(nums, 4));
-        Solution04 solution04 = new Solution04();
-        System.out.println(solution04.searchRange(nums, 1));
-
+//        int[] nums = {1, 2, 2, 2, 4};
+//        Solution03 solution03 = new Solution03();
+//        System.out.println(solution03.searchRange(nums, 4));
+//        Solution04 solution04 = new Solution04();
+//        System.out.println(solution04.searchRange(nums, 1));
+        Long a = 1L;
+        for (int i = 1; i <= 1000; i++) {
+            a *= i;
+        }
+        System.out.println(a);
     }
 }
 
