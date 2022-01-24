@@ -95,7 +95,6 @@ class Solution {
  */
 class Solution03 {
     public ListNode removeElements(ListNode head, int val) {
-        if (head == null) return null;
         //1.处理头结点。
         while (head != null && head.val == val) head = head.next;
         //2.头结点为null
@@ -166,11 +165,30 @@ class Solution04 {
 //2.终止的判断，如果下一节点的值为null，则保持不变即可
 
 class Solution05 {
+    //分析
     public ListNode removeElements(ListNode head, int val) {
+        //1.对空节点的处理
         if (head == null) return head;
-        head.next = removeElements(head.next, val);
-        return head.val == val ? head.next : head;
+        //2.removeElements想象成一个子过程，删除值为value的节点.
+        //我们将值为value的节点删除后，剩下的链表
+        ListNode result = removeElements(head.next, val);
+        //3.处理，如果当前的节点的值为value，返回删除当前节点后，剩余的链表。
+        //如果当前节点的值不等于value，那么返回当前的节点即可。
+        if (head.val == val) {
+            return result;
+        } else {
+            head.next = result;
+            return head;
+        }
     }
+
+
+    //精简
+//    public ListNode removeElements(ListNode head, int val) {
+//        if (head == null) return head;
+//        head.next = removeElements(head.next, val);
+//        return head.val == val ? head.next : head;
+//    }
 }
 
 //递归扩展：求数组的和
