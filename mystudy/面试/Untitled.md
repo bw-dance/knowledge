@@ -17,6 +17,8 @@
 
 回答要简练。
 
+[Java面试题|JVM必看15道面试题 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/96756501)
+
 
 
 
