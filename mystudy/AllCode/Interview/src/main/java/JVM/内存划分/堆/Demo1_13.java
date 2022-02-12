@@ -10,6 +10,7 @@ package JVM.内存划分.堆;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * 演示查看对象个数 堆转储 dump
@@ -25,7 +26,8 @@ public class Demo1_13 {
         Thread.sleep(1000000000L);
     }
 }
+
 class Student {
-    private byte[] big = new byte[1024*1024];
+    private byte[] big = new byte[1024 * 1024 * 10];
 }
 
