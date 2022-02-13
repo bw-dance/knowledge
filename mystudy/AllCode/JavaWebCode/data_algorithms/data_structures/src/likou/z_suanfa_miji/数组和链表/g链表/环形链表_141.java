@@ -33,15 +33,17 @@ class Solution03 {
     }
 }
 
+//方式二：快慢指针。慢指针一次走一步，快指针一次走两步。如果快指针到null，说明没环状。如果有环，满指针=快指针。
 class Solution04 {
     public boolean hasCycle(ListNode head) {
-        //记录已排查的指针
-        ListNode dummy = new ListNode(-1);
-        dummy.next = head;
-        ListNode cur = dummy;
-        while (dummy.next != null) {
-            if (cur == cur.next) return true;
-            cur = cur.next;
+        ListNode slow = head;
+        ListNode fast = head;
+        //fast!=null 用于fast.next!=null的辅助判断。
+        //因为fast=fast.next.next，因此必须判断fast.next!=null
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+            if (slow == fast) return true;
         }
         return false;
     }
