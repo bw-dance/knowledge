@@ -1,6 +1,5 @@
 package JavaSE.多线程.synchionzed原理.偏向锁;
 
-import org.openjdk.jol.info.ClassLayout;
 
 /**
  * @Classname Demo01
@@ -21,7 +20,7 @@ class  MyThread extends Thread{
     @Override
     public void run() {
         synchronized (obj){
-            System.out.println(ClassLayout.parseInstance(obj).toPrintable());
+//            System.out.println(ClassLayout.parseInstance(obj).toPrintable());
         }
     }
 }

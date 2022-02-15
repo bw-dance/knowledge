@@ -1,31 +1,26 @@
-package JavaSE.多线程.synchionzed原理.对象布局;
-
-
+package JVM.内存划分.JMM;
 
 /**
- * @Classname Demo01
+ * @Classname f
  * @Description TODO
- * @Date 2022/1/17 12:07
+ * @Date 2022/2/15 15:14
  * @Created by zhq
  */
-public class Demo01 {
+public class f {
     static int i = 0;
     static Object obj = new Object();
+
     public static void main(String[] args) throws InterruptedException {
         Thread t1 = new Thread(() -> {
             for (int j = 0; j < 5000; j++) {
-                synchronized (obj) {
-                    i++;
-                }
+                i++;
             }
         });
 
         Thread t2 = new Thread(() -> {
             // 推荐把synchronized写在for外层，这样加锁解锁只会执行一次
-            synchronized (obj) {
-                for (int j = 0; j < 5000; j++) {
-                    i--;
-                }
+            for (int j = 0; j < 5000; j++) {
+                i--;
             }
         });
 
