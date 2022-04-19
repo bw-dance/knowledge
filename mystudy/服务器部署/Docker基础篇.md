@@ -2216,7 +2216,7 @@ docker build -f /home/docker-test-volume/dockerfile1 -t kuangshen/centos .
    5. 创建目录：mkdir 文件夹名
    6. 删除目录：
       1. (只能删除空目录)rmdir  文件夹名
-      2. （删除文件夹下所有文件）rm -rf 文件夹
+      2. （删除文件夹下所有文件）rm -rf(不要用，千万不要用。。。。。) 文件夹
       2. -i 删除前逐一询问确认。
       4. -f 即使原档案属性设为唯读，亦直接删除，无需逐一确认。
       5. -r 将目录及以下之档案亦逐一删除（并询问）。
@@ -2297,13 +2297,21 @@ docker build -f /home/docker-test-volume/dockerfile1 -t kuangshen/centos .
       3. -P  随机端口映射（大写P）
       4. -v 卷挂载
       5. -e 环境配置
-      
+
    6. 获取容器的ip地址：
 
       1. docker inspect 容器id/名称 | grep Mounts -A 20 *//查看容器与服务器的映射目录*
       2. docker inspect 容器id/名称 | grep IPAddress *//查看容器的ip地址*
       3. 获取一个容器：docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' 容器id/名称
       4. [(60条消息) 如何获取 docker 容器(container)的 ip 地址_sannerlittle的博客-CSDN博客_docker 获取容器ip](https://blog.csdn.net/sannerlittle/article/details/77063800)
+      4. 查看容器的进程id:docker inspect --format '{{.State.Pid}}' 容器id
+
+   7. 参数：
+
+      1. --redstart = always  重启docker容器时，redis容器也重启
+      2. --privileged=true   
+      3. 使用该参数，container内的root拥有真正的root权限。否则，container内的root只是外部的一个普通用户权限。
 
 3. docker 安装vim [(60条消息) docker容器中安装vim_人在码途-CSDN博客_docker vim](https://blog.csdn.net/huangjinao/article/details/101099081)
+
 
