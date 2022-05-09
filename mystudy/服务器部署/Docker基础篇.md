@@ -171,7 +171,7 @@ REDHAT_SUPPORT_PRODUCT_VERSION="7"
 
 ### 安装步骤
 
-[CentOS Docker 安装 | 菜鸟教程 (runoob.com)](https://www.runoob.com/docker/centos-docker-install.html)
+[Linux开发环境配置（Docker） · 语雀 (yuque.com)](https://www.yuque.com/zhangshuaiyin/guli-mall/lb4zw1)
 
 使用docker：
 
@@ -204,6 +204,10 @@ docker images
 ​          ![](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211107150649879.png)        
 
 将EOF前的内容（包含EOF）在控制台输入，之后再分别执行下面两句话。
+
+## 卸载docker
+
+[CentOS 7 清理删除卸载 Docker 环境 - 组学大讲堂问答社区 (omicsclass.com)](https://www.omicsclass.com/article/1184#:~:text=CentOS 7 清理删除卸载Docker 环境 1 杀死所有运行容器 ... 2,删除存储目录 %23 rm -rf %2Fetc%2Fdocker. ... 6 卸载docker.)
 
 # Docker原理
 
@@ -2313,5 +2317,4 @@ docker build -f /home/docker-test-volume/dockerfile1 -t kuangshen/centos .
       3. 使用该参数，container内的root拥有真正的root权限。否则，container内的root只是外部的一个普通用户权限。
 
 3. docker 安装vim [(60条消息) docker容器中安装vim_人在码途-CSDN博客_docker vim](https://blog.csdn.net/huangjinao/article/details/101099081)
-
 
