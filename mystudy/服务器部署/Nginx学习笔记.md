@@ -24,3 +24,11 @@ default.d是nginx.conf的子配置，可以针对不同的项目设置不同的x
 
 
 
+# 面试相关
+
+[Nginx 面试 38 问，妥了！ (qq.com)](https://mp.weixin.qq.com/s/pwWoAoTv2yIJ2PGgw3CUpQ)
+
+
+
+
+

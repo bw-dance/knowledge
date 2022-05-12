@@ -2280,6 +2280,7 @@ docker build -f /home/docker-test-volume/dockerfile1 -t kuangshen/centos .
    3. 操作命令
 
       1. 开机启动docker：systemctl  enable docker
+      1. 更新为自动启动：docker update 容器名称 -- restart = always
       2. 启动docker：systemctl start docker
       3. 停止docker：systemctl stop docker
       4. 创建容器：
