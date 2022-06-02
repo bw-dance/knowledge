@@ -148,7 +148,7 @@ var DD *sqlx.DB
 
 func init() {
 
-	database, err := sqlx.Open("mysql", "root:121156@tcp(39.96.41.35:3306)/binlog_test")
+	database, err := sqlx.Open("mysql", "root:123456@tcp(39.96.41.35:3306)/binlog_test")
 	if err!=nil {
 		fmt.Println(err)
 	}
@@ -303,7 +303,7 @@ import (
 var Tb *sqlx.DB
 
 func init() {
-	database, err := sqlx.Open("mysql", "root:121156@tcp(39.96.41.35:3306)/binlog_test")
+	database, err := sqlx.Open("mysql", "root:123456@tcp(39.96.41.35:3306)/binlog_test")
 	if err != nil {
 		fmt.Println("open mysql failed,", err)
 		return
