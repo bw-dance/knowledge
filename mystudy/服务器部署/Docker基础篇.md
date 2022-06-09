@@ -201,7 +201,18 @@ docker images
 
 第三步：配置使用
 
-​          ![](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211107150649879.png)        
+          ```java
+          sudo mkdir -p /etc/docker
+          sudo tee /etc/docker/daemon.json <<-'EOF'
+          {
+            "registry-mirrors": ["https://hkomobpk.mirror.aliyuncs.com"]
+          }
+          EOF
+          sudo systemctl daemon-reload
+          sudo systemctl restart docker
+          ```
+
+![](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211107150649879.png)        
 
 将EOF前的内容（包含EOF）在控制台输入，之后再分别执行下面两句话。
 
