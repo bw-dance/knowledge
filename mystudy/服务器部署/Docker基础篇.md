@@ -201,16 +201,18 @@ docker images
 
 第三步：配置使用
 
-          ```java
-          sudo mkdir -p /etc/docker
-          sudo tee /etc/docker/daemon.json <<-'EOF'
-          {
-            "registry-mirrors": ["https://hkomobpk.mirror.aliyuncs.com"]
-          }
-          EOF
-          sudo systemctl daemon-reload
-          sudo systemctl restart docker
-          ```
+```shell
+
+      sudo mkdir -p /etc/docker
+      sudo tee /etc/docker/daemon.json <<-'EOF'
+      {
+        "registry-mirrors": ["https://hkomobpk.mirror.aliyuncs.com"]
+      }
+      EOF
+      sudo systemctl daemon-reload
+      sudo systemctl restart docker
+  
+```
 
 ![](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211107150649879.png)        
 
