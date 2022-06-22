@@ -171,7 +171,54 @@ REDHAT_SUPPORT_PRODUCT_VERSION="7"
 
 ### 安装步骤
 
-[Linux开发环境配置（Docker） · 语雀 (yuque.com)](https://www.yuque.com/zhangshuaiyin/guli-mall/lb4zw1)
+1. 卸载旧版本
+
+   ```shell
+    sudo yum remove docker \
+                     docker-client \
+                     docker-client-latest \
+                     docker-common \
+                     docker-latest \
+                     docker-latest-logrotate \
+                     docker-logrotate \
+                     docker-engine
+   ```
+
+2. 安装工具包并设置存储库
+
+   ```shell
+   sudo yum install -y yum-utils
+   
+   #官方镜像
+   #sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+   
+   #阿里云镜像(推荐使用)
+   sudo yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo 
+   ```
+
+3. 安装docker引擎
+
+   ```shell
+   sudo yum install docker-ce docker-ce-cli containerd.io
+   ```
+
+4. 启动docker
+
+   ```shell
+   #启动
+   sudo systemctl start docker
+   
+   #停止
+   sudo systemctl stop docker
+   
+   #重启		
+   sudo service docker restart
+   
+   #开机启动
+   sudo systemctl enable docker
+   ```
+
+   [Linux开发环境配置（Docker） · 语雀 (yuque.com)](https://www.yuque.com/zhangshuaiyin/guli-mall/lb4zw1)
 
 使用docker：
 
@@ -202,16 +249,14 @@ docker images
 第三步：配置使用
 
 ```shell
-
-      sudo mkdir -p /etc/docker
-      sudo tee /etc/docker/daemon.json <<-'EOF'
-      {
-        "registry-mirrors": ["https://hkomobpk.mirror.aliyuncs.com"]
-      }
-      EOF
-      sudo systemctl daemon-reload
-      sudo systemctl restart docker
-  
+sudo mkdir -p /etc/docker
+sudo tee /etc/docker/daemon.json <<-'EOF'
+{
+  "registry-mirrors": ["https://hkomobpk.mirror.aliyuncs.com"]
+}
+EOF
+sudo systemctl daemon-reload
+sudo systemctl restart docker
 ```
 
 ![](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20211107150649879.png)        
