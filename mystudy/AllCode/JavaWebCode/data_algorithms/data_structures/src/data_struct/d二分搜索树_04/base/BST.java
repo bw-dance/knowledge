@@ -1,5 +1,7 @@
 package data_struct.d二分搜索树_04.base;
 
+import com.sun.javaws.IconUtil;
+
 import java.util.*;
 
 /**
@@ -218,10 +220,57 @@ public class BST<E extends Comparable<E>> {
         }
     }
 
+    //中序遍历的非递归写法
+    public void inOrderND() {
+        Stack<Node> stack = new Stack<>();
+        Node cur = root;
+        //将根元素的所有节点添加到栈中：因为中序遍历，左根右，即先获取的是最左侧的元素。
+        addLeftNodeToStack(stack,cur);
+        while (!stack.isEmpty()) {
+            cur = stack.pop();
+            System.out.println(cur.e);
+            //出栈元素，判断其包含是否有右节点，如果有右节点，则下一次应该打印的是右节点的最左侧元素
+            if (cur.right != null) {
+                cur = cur.right;
+                addLeftNodeToStack(stack,cur);
+            }
+        }
+    }
+    //中序遍历，将当前节点的所有左侧元素放入栈中
+    public void addLeftNodeToStack(Stack<Node> stack,Node cur){
+        while (cur != null) {
+            stack.push(cur);
+            if (cur.left==null){
+                break;
+            }
+            cur = cur.left;
+        }
+    }
+
+    public void postOrderND() {
+        Stack<Node> stack = new Stack<>();
+        Node cur = root;
+        while (cur!=null){
+            stack.add(cur);
+            cur = cur.right;
+        }
+        cur = root.left;
+        while (cur!=null){
+            stack.add(cur);
+            cur = cur.left;
+        }
+        while (!stack.isEmpty()){
+            Node node = stack.pop();
+            System.out.println(node.e);
+        }
+
+
+    }
+
+
     //广度优先遍历（层次遍历）
     public void rankOrder() {
         Deque<Node> deque = new ArrayDeque<>();
-        Queue<Node> queue = new LinkedList<>();
         deque.push(root);
         while (!deque.isEmpty()) {
             Node cur = deque.remove();
@@ -352,7 +401,6 @@ public class BST<E extends Comparable<E>> {
 //        }
 //        return node;
 //    }
-
 
 
     //删除节点：情况2  替换目标值为右侧子树的最小值

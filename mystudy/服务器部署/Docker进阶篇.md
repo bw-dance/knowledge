@@ -33,3 +33,10 @@
 2. 运行docker-compose文件
    1. 在docker-compose文件所在目录下，执行命令：docker-compose up
 
+# Docker 是否安全
+
+[(132条消息) Docker 安全问题与防护 (学习笔记)_pwl999的博客-CSDN博客](https://pwl999.blog.csdn.net/article/details/109649366?spm=1001.2101.3001.6650.8&utm_medium=distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~Rate-8-109649366-blog-99992714.pc_relevant_multi_platform_whitelistv4&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~Rate-8-109649366-blog-99992714.pc_relevant_multi_platform_whitelistv4&utm_relevant_index=9)
+
+# 镜像瘦身
+
+https://cloud.tencent.com/developer/article/1450374

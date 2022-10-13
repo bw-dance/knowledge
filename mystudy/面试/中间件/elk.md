@@ -20,6 +20,8 @@ elastic官方blog：[(103条消息) Logstash：用 Filebeat 把数据传入到 L
 
 基于8.1的优秀案例blog：[ELK 运维入门（6）- Filebeat 8.1 简介及收集日志演示 - 基于CentOS 7.9 (skynemo.cn)](https://www.skynemo.cn/archives/base-on-centos79-filebeat81-config-and-usage#简介及安装)
 
+[ELK日志平台（elasticsearch +logstash+kibana）原理和实操（史上最全） - 疯狂创客圈 - 博客园 (cnblogs.com)](https://www.cnblogs.com/crazymakercircle/p/16732034.html#autoid-h2-5-0-1)
+
 ## 3. 视频推荐
 
 尚硅谷：https://www.bilibili.com/video/BV1hh411D7sb?p=63

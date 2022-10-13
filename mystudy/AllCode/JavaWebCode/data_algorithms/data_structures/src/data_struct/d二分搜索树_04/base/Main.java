@@ -47,14 +47,21 @@ public class Main {
 //        }
         //移除任意元素测试
         BST bst2 = new BST();
-        int[] arr = {41, 22, 58, 15, 33, 50, 13, 37, 42, 53, 43, 44, 45, 51, 52,  56};
+        int[] arr = {28,16,30,13,22,29,42};
         for (int i = 0; i < arr.length; i++) {
             bst2.add(arr[i]);
         }
-        System.out.println("删除之前：");
-        bst2.rankOrder();
-        bst2.remove(50);
-        System.out.println("删除之后：");
-        bst2.rankOrder();
+//        System.out.println("---------------------前序--------------");
+//        bst2.preOrder();
+//        System.out.println("---------------------中序--------------");
+//        bst2.inOrder();
+//        System.out.println("-----------------------------------------");
+//        bst2.inOrderND();
+        bst2.postOrderND();
+//        System.out.println("删除之前：");
+//        bst2.rankOrder();
+//        bst2.remove(50);
+//        System.out.println("删除之后：");
+//        bst2.rankOrder();
     }
 }
