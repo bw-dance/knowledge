@@ -6,7 +6,7 @@
 
 ### 1.1 Netty 是什么？
 
-```
+```java
 Netty is an asynchronous event-driven network application framework
 for rapid development of maintainable high performance protocol servers & clients.
 ```
@@ -17,7 +17,7 @@ Netty 是一个异步的、基于事件驱动的网络应用框架，用于快�
 
 ### 1.2 Netty 的作者
 
-![](img/0005.png)
+![](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/0005.png)
 
 他还是另一个著名网络应用框架 Mina 的重要贡献者
 
@@ -112,7 +112,7 @@ new ServerBootstrap()
 
 * 2 处，选择服务 Scoket 实现类，其中 NioServerSocketChannel 表示基于 NIO 的服务器端实现，其它实现还有
 
-  ![](img/0006.png)
+  ![](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/0006.png)
 
 * 3 处，为啥方法叫 childHandler，是接下来添加的处理器都是给 SocketChannel 用的，而不是给 ServerSocketChannel。ChannelInitializer 处理器（仅执行一次），它的作用是待客户端 SocketChannel 建立连接后，执行 initChannel 以便添加更多的处理器
 
@@ -148,7 +148,7 @@ new Bootstrap()
 
 * 2 处，选择客户 Socket 实现类，NioSocketChannel 表示基于 NIO 的客户端实现，其它实现还有
 
-  ![](img/0007.png)
+  ![](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/0007.png)
 
 * 3 处，添加 SocketChannel 的处理器，ChannelInitializer 处理器（仅执行一次），它的作用是待客户端 SocketChannel 建立连接后，执行 initChannel 以便添加更多的处理器
 * 4 处，指定要连接的服务器和端口
@@ -162,7 +162,7 @@ new Bootstrap()
 
 ### 2.4 流程梳理
 
-![](img/0040.png)
+![](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/0040.png)
 
 #### 💡 提示
 
@@ -247,7 +247,7 @@ public class TestEventGroup {
 
 输出
 
-```
+```java
 io.netty.channel.DefaultEventLoop@60f82f98
 io.netty.channel.DefaultEventLoop@35f983a6
 io.netty.channel.DefaultEventLoop@60f82f98
@@ -264,7 +264,7 @@ for (EventExecutor eventLoop : group) {
 
 输出
 
-```
+```java
 io.netty.channel.DefaultEventLoop@60f82f98
 io.netty.channel.DefaultEventLoop@35f983a6
 ```
@@ -329,7 +329,7 @@ public static void main(String[] args) throws InterruptedException {
 
 最后输出
 
-```
+```java
 22:03:34 [DEBUG] [nioEventLoopGroup-3-1] c.i.o.EventLoopTest - zhangsan       
 22:03:36 [DEBUG] [nioEventLoopGroup-3-1] c.i.o.EventLoopTest - zhangsan       
 22:05:36 [DEBUG] [nioEventLoopGroup-3-2] c.i.o.EventLoopTest - lisi           
@@ -342,7 +342,7 @@ public static void main(String[] args) throws InterruptedException {
 
 当channel建立连接后，之后再发送数据使用的都是同一个EventLoop
 
-![](img/0042.png)
+![](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/0042.png)
 
 
 
@@ -397,7 +397,7 @@ public class EventLoopChannel {
 
 输出
 
-```
+```java
 22:19:48 [DEBUG] [nioEventLoopGroup-4-1] i.n.h.l.LoggingHandler - [id: 0x251562d5, L:/127.0.0.1:8080 - R:/127.0.0.1:52588] REGISTERED
 22:19:48 [DEBUG] [nioEventLoopGroup-4-1] i.n.h.l.LoggingHandler - [id: 0x251562d5, L:/127.0.0.1:8080 - R:/127.0.0.1:52588] ACTIVE
 22:19:48 [DEBUG] [nioEventLoopGroup-4-1] i.n.h.l.LoggingHandler - [id: 0x251562d5, L:/127.0.0.1:8080 - R:/127.0.0.1:52588] READ: 8B
@@ -458,7 +458,7 @@ public class EventLoopChannel {
 
 
 
-![](img/0041.png)
+![](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/0041.png)
 
 
 
@@ -509,7 +509,7 @@ nioWorkers.execute(()->{
 
 输出
 
-```
+```java
 22:30:36 [DEBUG] [main] c.i.o.EventLoopTest2 - server start...
 22:30:38 [DEBUG] [nioEventLoopGroup-2-1] c.i.o.EventLoopTest2 - normal task...
 ```
@@ -532,7 +532,7 @@ nioWorkers.scheduleAtFixedRate(() -> {
 
 输出
 
-```
+```java
 22:35:15 [DEBUG] [main] c.i.o.EventLoopTest2 - server start...
 22:35:17 [DEBUG] [nioEventLoopGroup-2-1] c.i.o.EventLoopTest2 - running...
 22:35:18 [DEBUG] [nioEventLoopGroup-2-1] c.i.o.EventLoopTest2 - running...
@@ -720,7 +720,7 @@ public class CloseFutureClient {
 
 思考下面的场景，4 个医生给人看病，每个病人花费 20 分钟，而且医生看病的过程中是以病人为单位的，一个病人看完了，才能看下一个病人。假设病人源源不断地来，可以计算一下 4 个医生一天工作 8 小时，处理的病人总数是：`4 * 8 * 3 = 96`
 
-![](img/0044.png)
+![](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/0044.png)
 
 
 
@@ -730,11 +730,11 @@ public class CloseFutureClient {
 
 经研究发现，看病可以细分为四个步骤，经拆分后每个步骤需要 5 分钟，如下
 
-![](img/0048.png)
+![](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/0048.png)
 
 因此可以做如下优化，只有一开始，医生 2、3、4 分别要等待 5、10、15 分钟才能执行工作，但只要后续病人源源不断地来，他们就能够满负荷工作，并且处理病人的能力提高到了 `4 * 8 * 12` 效率几乎是原来的四倍
 
-![](img/0047.png)
+![](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/0047.png)
 
 要点
 
@@ -841,7 +841,7 @@ log.debug("{}",promise.get());
 
 输出
 
-```
+```java
 11:51:53 [DEBUG] [main] c.i.o.DefaultPromiseTest2 - start...
 11:51:53 [DEBUG] [main] c.i.o.DefaultPromiseTest2 - null
 11:51:54 [DEBUG] [defaultEventLoop-1-1] c.i.o.DefaultPromiseTest2 - set success, 10
@@ -880,7 +880,7 @@ log.debug("start...");
 
 输出
 
-```
+```java
 11:49:30 [DEBUG] [main] c.i.o.DefaultPromiseTest2 - start...
 11:49:31 [DEBUG] [defaultEventLoop-1-1] c.i.o.DefaultPromiseTest2 - set success, 10
 11:49:31 [DEBUG] [defaultEventLoop-1-1] c.i.o.DefaultPromiseTest2 - 10
@@ -914,7 +914,7 @@ DefaultEventLoop eventExecutors = new DefaultEventLoop();
 
 输出
 
-```
+```java
 12:11:07 [DEBUG] [main] c.i.o.DefaultPromiseTest2 - start...
 12:11:07 [DEBUG] [main] c.i.o.DefaultPromiseTest2 - null
 12:11:08 [DEBUG] [defaultEventLoop-1-1] c.i.o.DefaultPromiseTest2 - set failure, java.lang.RuntimeException: error...
@@ -959,7 +959,7 @@ log.debug("result {}", (promise.isSuccess() ? promise.getNow() : promise.cause()
 
 输出
 
-```
+```java
 12:18:53 [DEBUG] [main] c.i.o.DefaultPromiseTest2 - start...
 12:18:53 [DEBUG] [main] c.i.o.DefaultPromiseTest2 - null
 12:18:54 [DEBUG] [defaultEventLoop-1-1] c.i.o.DefaultPromiseTest2 - set failure, java.lang.RuntimeException: error...
@@ -996,7 +996,7 @@ log.debug("start...");
 
 输出
 
-```
+```java
 12:04:57 [DEBUG] [main] c.i.o.DefaultPromiseTest2 - start...
 12:04:58 [DEBUG] [defaultEventLoop-1-1] c.i.o.DefaultPromiseTest2 - set failure, java.lang.RuntimeException: error...
 12:04:58 [DEBUG] [defaultEventLoop-1-1] c.i.o.DefaultPromiseTest2 - result java.lang.RuntimeException: error...
@@ -1037,7 +1037,7 @@ eventExecutors.submit(()->{
 
 输出
 
-```
+```java
 1
 2
 3
@@ -1234,7 +1234,7 @@ new Bootstrap()
 
 服务器端打印：
 
-```
+```java
 1
 2
 3
@@ -1245,7 +1245,7 @@ new Bootstrap()
 
 可以看到，ChannelInboundHandlerAdapter 是按照 addLast 的顺序执行的，而 ChannelOutboundHandlerAdapter 是按照 addLast 的逆序执行的。ChannelPipeline 的实现是一个 ChannelHandlerContext（包装了 ChannelHandler） 组成的双向链表
 
-![](img/0008.png)
+![](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/0008.png)
 
 * 入站处理器中，ctx.fireChannelRead(msg) 是 **调用下一个入站处理器**
   * 如果注释掉 1 处代码，则仅会打印 1
@@ -1265,7 +1265,7 @@ new Bootstrap()
 
 图1 - 服务端 pipeline 触发的原始流程，图中数字代表了处理步骤的先后次序
 
-![](img/0009.png)
+![](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/0009.png)
 
 #### 便于测试的handle
 
@@ -1333,7 +1333,7 @@ log(buffer);
 
 输出
 
-```
+```java
 read index:0 write index:0 capacity:10
 ```
 
@@ -1414,7 +1414,7 @@ ByteBuf buffer = ByteBufAllocator.DEFAULT.directBuffer(10);
 
 ByteBuf 由四部分组成
 
-![](img/0010.png)
+![](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/0010.png)
 
 最开始读写指针都在 0 位置
 
@@ -1456,7 +1456,7 @@ log(buffer);
 
 结果是
 
-```
+```java
 read index:0 write index:4 capacity:10
          +-------------------------------------------------+
          |  0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f |
@@ -1474,7 +1474,7 @@ log(buffer);
 
 结果是
 
-```
+```java
 read index:0 write index:8 capacity:10
          +-------------------------------------------------+
          |  0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f |
@@ -1506,7 +1506,7 @@ log(buffer);
 
 结果是
 
-```
+```java
 read index:0 write index:12 capacity:16
          +-------------------------------------------------+
          |  0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f |
@@ -1531,7 +1531,7 @@ log(buffer);
 
 读过的内容，就属于废弃部分了，再读只能读那些尚未读取的部分
 
-```
+```java
 1
 2
 3
@@ -1556,7 +1556,7 @@ log(buffer);
 
 结果
 
-```
+```java
 5
 read index:8 write index:12 capacity:16
          +-------------------------------------------------+
@@ -1575,7 +1575,7 @@ log(buffer);
 
 这时
 
-```
+```java
 read index:4 write index:12 capacity:16
          +-------------------------------------------------+
          |  0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f |
@@ -1707,7 +1707,7 @@ HeadContext 释放未处理消息逻辑。
 
 【零拷贝】的体现之一，对原始 ByteBuf 进行切片成多个 ByteBuf，切片后的 ByteBuf 并没有发生内存复制，还是使用原始 ByteBuf 的内存，切片后的 ByteBuf 维护独立的 read，write 指针
 
-![](img/0011.png)
+![](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/0011.png)
 
 例，原始 ByteBuf 进行一些初始操作
 
@@ -1720,7 +1720,7 @@ System.out.println(ByteBufUtil.prettyHexDump(origin));
 
 输出
 
-```
+```java
          +-------------------------------------------------+
          |  0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f |
 +--------+-------------------------------------------------+----------------+
@@ -1738,7 +1738,7 @@ System.out.println(ByteBufUtil.prettyHexDump(slice));
 
 输出
 
-```
+```java
          +-------------------------------------------------+
          |  0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f |
 +--------+-------------------------------------------------+----------------+
@@ -1755,7 +1755,7 @@ System.out.println(ByteBufUtil.prettyHexDump(origin));
 
 输出
 
-```
+```java
          +-------------------------------------------------+
          |  0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f |
 +--------+-------------------------------------------------+----------------+
@@ -1771,7 +1771,7 @@ System.out.println(ByteBufUtil.prettyHexDump(slice));
 
 输出
 
-```
+```java
          +-------------------------------------------------+
          |  0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f |
 +--------+-------------------------------------------------+----------------+
@@ -1788,7 +1788,7 @@ System.out.println(ByteBufUtil.prettyHexDump(slice));
 
 输出
 
-```
+```java
          +-------------------------------------------------+
          |  0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f |
 +--------+-------------------------------------------------+----------------+
@@ -1798,13 +1798,13 @@ System.out.println(ByteBufUtil.prettyHexDump(slice));
 
 这时，原始 ByteBuf 也会受影响，因为底层都是同一块内存
 
-```
+```java
 System.out.println(ByteBufUtil.prettyHexDump(origin));
 ```
 
 输出
 
-```
+```java
          +-------------------------------------------------+
          |  0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f |
 +--------+-------------------------------------------------+----------------+
@@ -1818,7 +1818,7 @@ System.out.println(ByteBufUtil.prettyHexDump(origin));
 
 【零拷贝】的体现之一，就好比截取了原始 ByteBuf 所有内容，并且没有 max capacity 的限制，也是与原始 ByteBuf 使用同一块底层内存，只是读写指针是独立的
 
-![](img/0012.png)
+![](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/0012.png)
 
 
 
@@ -1845,7 +1845,7 @@ System.out.println(ByteBufUtil.prettyHexDump(buf2));
 
 输出
 
-```
+```java
          +-------------------------------------------------+
          |  0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f |
 +--------+-------------------------------------------------+----------------+
@@ -1872,7 +1872,7 @@ System.out.println(ByteBufUtil.prettyHexDump(buf3));
 
 结果
 
-```
+```java
          +-------------------------------------------------+
          |  0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f |
 +--------+-------------------------------------------------+----------------+
@@ -1894,7 +1894,7 @@ buf3.addComponents(true, buf1, buf2);
 
 结果是一样的
 
-```
+```java
          +-------------------------------------------------+
          |  0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f |
 +--------+-------------------------------------------------+----------------+
@@ -1928,7 +1928,7 @@ System.out.println(ByteBufUtil.prettyHexDump(buf3));
 
 输出
 
-```
+```java
          +-------------------------------------------------+
          |  0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f |
 +--------+-------------------------------------------------+----------------+
@@ -1946,7 +1946,7 @@ System.out.println(ByteBufUtil.prettyHexDump(buf4));
 
 输出
 
-```
+```java
 class io.netty.buffer.CompositeByteBuf
          +-------------------------------------------------+
          |  0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f |
