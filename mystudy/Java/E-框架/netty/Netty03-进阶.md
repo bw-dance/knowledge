@@ -1384,6 +1384,8 @@ public class TestMessage {
 
 ### 3.1 聊天室业务介绍
 
+**登陆服务接口**
+
 ```java
 /**
  * 用户管理接口
@@ -1400,7 +1402,7 @@ public interface UserService {
 }
 ```
 
-
+**会话管理接口，管理建立的链接**
 
 ```java
 /**
@@ -1446,7 +1448,7 @@ public interface Session {
 }
 ```
 
-
+**群聊会话管理，管理建立的组会话**
 
 ```java
 /**
@@ -1505,6 +1507,89 @@ public interface GroupSession {
 
 ### 3.2 聊天室业务-登录
 
+#### 客户端初始
+
+```java
+@Slf4j
+public class ChatClient {
+    public static void main(String[] args) {
+        NioEventLoopGroup group = new NioEventLoopGroup();
+        LoggingHandler LOGGING_HANDLER = new LoggingHandler(LogLevel.DEBUG);
+        MessageCodecSharable MESSAGE_CODEC = new MessageCodecSharable();
+        try {
+            Bootstrap bootstrap = new Bootstrap();
+            bootstrap.channel(NioSocketChannel.class);
+            bootstrap.group(group);
+            bootstrap.handler(new ChannelInitializer<SocketChannel>() {
+                @Override
+                protected void initChannel(SocketChannel ch) throws Exception {
+                    //长度字段解码器
+                    ch.pipeline().addLast(new ProcotolFrameDecoder());
+                    ch.pipeline().addLast(LOGGING_HANDLER);
+                    //自定义协议
+                    ch.pipeline().addLast(MESSAGE_CODEC);
+                }
+            });
+            Channel channel = bootstrap.connect("localhost", 8080).sync().channel();
+            channel.closeFuture().sync();
+        } catch (Exception e) {
+            log.error("client error", e);
+        } finally {
+            group.shutdownGracefully();
+        }
+    }
+}
+```
+
+向服务器发送消息，有两种方式。
+
+1. Channel channel = bootstrap.connect("localhost", 8080).sync().channel();链接建立后，获取到channel，创建bytebuf，写入消息。
+2. 创建一个ChannelInboundHandlerAdapter，在handler中去写
+
+推荐方式二
+
+#### 添加消息发送handler
+
+消息发送的时候，单独起一条线程。因为如果不单独起，会占用我们定义的事件线程，如果发送的时间较长，会阻塞我们之后连接。、
+
+LoginRequestMessage表示登陆信息。包含 name和password两个字段。
+
+```java
+     				ch.pipeline().addLast("client handle",new ChannelInboundHandlerAdapter(){
+                        //读取服务端返回
+                        @Override
+                        public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+                            LoginResponseMessage res = (LoginResponseMessage) msg;
+                            System.out.println(String.valueOf(res));
+                            ctx.fireChannelRead(msg);
+                        }
+
+                        //在链接建立后触发该事件
+                        @Override
+                        public void channelActive(ChannelHandlerContext ctx) throws Exception {
+                            //让用户自己去输入自己的账户密码。启动新的线程。（新的线程与当前线程独立开，可以接收客户端的输入，用户的输入是阻塞的）
+                            new Thread(()->{
+                                //接收用户在控制台的输入，服务向服务器发送各种消息
+                                Scanner scanner = new Scanner(System.in);
+                                System.out.println("用户名:");
+                                String username = scanner.nextLine();
+                                System.out.println("密码：");
+                                String password = scanner.nextLine();
+                                LoginRequestMessage message = new LoginRequestMessage(username,password);
+                                //发送消息
+                                ctx.writeAndFlush(message);
+                            },"system in").start();
+
+
+                            ctx.fireChannelActive();
+                        }
+                    });
+```
+
+#### 服务端代码
+
+创建用于处理登陆请求的handler，只用于处理登陆的操作。登陆成功后或失败后，返回状态LoginResponseMessage给客户端。
+
 ```java
 @Slf4j
 public class ChatServer {
@@ -1520,22 +1605,24 @@ public class ChatServer {
             serverBootstrap.childHandler(new ChannelInitializer<SocketChannel>() {
                 @Override
                 protected void initChannel(SocketChannel ch) throws Exception {
+                    //自定义的解码器
                     ch.pipeline().addLast(new ProcotolFrameDecoder());
                     ch.pipeline().addLast(LOGGING_HANDLER);
                     ch.pipeline().addLast(MESSAGE_CODEC);
+                    //处理客户端的发送的数据
                     ch.pipeline().addLast(new SimpleChannelInboundHandler<LoginRequestMessage>() {
                         @Override
                         protected void channelRead0(ChannelHandlerContext ctx, LoginRequestMessage msg) throws Exception {
                             String username = msg.getUsername();
                             String password = msg.getPassword();
                             boolean login = UserServiceFactory.getUserService().login(username, password);
-                            LoginResponseMessage message;
-                            if(login) {
-                                message = new LoginResponseMessage(true, "登录成功");
-                            } else {
-                                message = new LoginResponseMessage(false, "用户名或密码不正确");
+                            LoginResponseMessage res =null;
+                            if (login){
+                                 res = new LoginResponseMessage(login, "成功");
+                            }else {
+                                 res = new LoginResponseMessage(login, "失败");
                             }
-                            ctx.writeAndFlush(message);
+                            ctx.writeAndFlush(res);
                         }
                     });
                 }
@@ -1552,7 +1639,14 @@ public class ChatServer {
 }
 ```
 
+客户端登陆，登陆成功后，服务器给响应。
+接到服务端请求后，客户端要进行一些处理，如登陆成功，则进行菜单选择操作，如果登陆失败，则关闭连接或重新登陆。
 
+使用CountDownLatch countDownLatch = new CountDownLatch(1);来记录线程的执行，即有服务端回应时，进行线程数量的减少。
+
+使用AtomicBoolean来判断登陆状态，因为变量的声明在主线程，登陆状态的处理在子线程，要保持一致性。
+
+#### 客户端代码
 
 ```java
 @Slf4j
@@ -1592,6 +1686,7 @@ public class ChatClient {
                         // 在连接建立后触发 active 事件
                         @Override
                         public void channelActive(ChannelHandlerContext ctx) throws Exception {
+                             //让用户自己去输入自己的账户密码。启动新的线程。（新的线程与当前线程独立开，可以接收客户端的输入，用户的输入是阻塞的）
                             // 负责接收用户在控制台的输入，负责向服务器发送各种消息
                             new Thread(() -> {
                                 Scanner scanner = new Scanner(System.in);
@@ -1668,11 +1763,9 @@ public class ChatClient {
 }
 ```
 
-
-
 ### 3.3 聊天室业务-单聊
 
-服务器端将 handler 独立出来
+服务器端将 handler 独立出来，因为我们发送消息，还需要建立单独的handler，之后每次对服务器端发送数据的操作，都需要建立单独的handler，因此把handler抽离出来，便于维护，也便于观看。
 
 登录 handler
 
@@ -1704,6 +1797,7 @@ public class ChatRequestMessageHandler extends SimpleChannelInboundHandler<ChatR
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, ChatRequestMessage msg) throws Exception {
         String to = msg.getTo();
+        //获取要接收的人channel，将发送的信息写入接收人的channel
         Channel channel = SessionFactory.getSession().getChannel(to);
         // 在线
         if(channel != null) {
@@ -1715,6 +1809,16 @@ public class ChatRequestMessageHandler extends SimpleChannelInboundHandler<ChatR
         }
     }
 }
+```
+
+客户端进行聊天时，需要聊天双方都进行登陆，登陆后才可进行聊天。
+
+客户端发送。
+
+```java
+   										case "send":
+                                            ctx.writeAndFlush(new ChatRequestMessage(username, s[1], s[2]));
+                                            break;
 ```
 
 
@@ -1859,7 +1963,21 @@ public class QuitHandler extends ChannelInboundHandlerAdapter {
 
 服务器端解决
 
-* 怎么判断客户端连接是否假死呢？如果能收到客户端数据，说明没有假死。因此策略就可以定为，每隔一段时间就检查这段时间内是否接收到客户端数据，没有就可以判定为连接假死
+可以添加`IdleStateHandler`对空闲时间进行检测，通过构造函数可以传入三个参数
+
+- readerIdleTimeSeconds 读空闲经过的秒数
+- writerIdleTimeSeconds 写空闲经过的秒数
+- allIdleTimeSeconds 读和写空闲经过的秒数
+
+当指定时间内未发生读或写事件时，**会触发特定事件**
+
+![image-20221017091318471](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20221017091318471.png)
+
+- 读空闲会触发`READER_IDLE`
+- 写空闲会触发`WRITE_IDLE`
+- 读和写空闲会触发`ALL_IDEL`
+
+怎么判断客户端连接是否假死呢？如果能收到客户端数据，说明没有假死。因此策略就可以定为，每隔一段时间就检查这段时间内是否接收到客户端数据，没有就可以判定为连接假死
 
 ```java
 // 用来判断是不是 读空闲时间过长，或 写空闲时间过长
@@ -1880,9 +1998,15 @@ ch.pipeline().addLast(new ChannelDuplexHandler() {
 });
 ```
 
-
+- 使用`IdleStateHandler`进行空闲检测
+- 使用双向处理器ChannelDuplexHandler对入站与出站事件进行处理
+  - `IdleStateHandler`中的事件为特殊事件，需要实现`ChannelDuplexHandler`的`userEventTriggered`方法，判断事件类型并自定义处理方式，来对事件进行处理
 
 客户端定时心跳
+
+为**避免因非网络等原因引发的READ_IDLE事件**，比如网络情况良好，只是用户本身没有输入数据，这时发生READ_IDLE事件，**直接让服务器断开连接是不可取的**
+
+为避免此类情况，需要在**客户端向服务器发送心跳包**，发送频率要**小于**服务器设置的`IdleTimeSeconds`，一般设置为其值的一半
 
 * 客户端可以定时向服务器端发送数据，只要这个时间间隔小于服务器定义的空闲检测的时间间隔，那么就能防止前面提到的误判，客户端可以定义如下心跳处理器
 
@@ -1905,7 +2029,15 @@ ch.pipeline().addLast(new ChannelDuplexHandler() {
 });
 ```
 
-
+```java
+public static final int PingMessage = 14;
+public class PingMessage extends Message {
+    @Override
+    public int getMessageType() {
+        return PingMessage;
+    }
+}
+```
 
 
 

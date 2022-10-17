@@ -41,6 +41,8 @@ public interface Serializer {
 
 提供两个实现，我这里直接将实现加入了枚举类 Serializer.Algorithm 中
 
+#### Java序列化
+
 ```java
 enum SerializerAlgorithm implements Serializer {
 	// Java 实现
@@ -67,7 +69,29 @@ enum SerializerAlgorithm implements Serializer {
                 throw new RuntimeException("SerializerAlgorithm.Java 序列化错误", e);
             }
         }
-    }, 
+    }
+```
+
+使用：
+
+```java
+        //序列化
+        byte[] serialize = Serializer.Algorithm.Java.serialize(msg);
+        out.writeBytes(serialize);
+
+        //反序列化
+        byte[] bytes = new byte[length];
+        in.readBytes(bytes, 0, length);
+        Message deserialize = Serializer.Algorithm.Java.deserialize(Message.class, bytes);
+```
+
+#### Json序列化
+
+使用Google开源的Gson。
+
+```java
+enum SerializerAlgorithm implements Serializer {
+	
     // Json 实现(引入了 Gson 依赖)
     Json {
         @Override
@@ -92,9 +116,7 @@ enum SerializerAlgorithm implements Serializer {
 }
 ```
 
-
-
-增加配置类和配置文件
+增加配置类和配置文件，编码时，需要从spring的配置文件中，获取要设置的编码类型。
 
 ```java
 public abstract class Config {
@@ -126,17 +148,13 @@ public abstract class Config {
 }
 ```
 
-
-
 配置文件
 
 ```properties
 serializer.algorithm=Json
 ```
 
-
-
-修改编解码器
+修改编解码器，解码时，需要从bytebuf中获取解码类型。
 
 ```java
 /**
@@ -181,7 +199,7 @@ public class MessageCodecSharable extends MessageToMessageCodec<ByteBuf, Message
 
         // 找到反序列化算法
         Serializer.Algorithm algorithm = Serializer.Algorithm.values()[serializerAlgorithm];
-        // 确定具体消息类型
+        // 确定具体消息类型：使用Gson序列化，必须指明消息的类型。Message.getMessageClass(messageType);获取实际的class类型（Message是一个抽象类）
         Class<? extends Message> messageClass = Message.getMessageClass(messageType);
         Message message = algorithm.deserialize(messageClass, bytes);
 //        log.debug("{}, {}, {}, {}, {}, {}", magicNum, version, serializerType, messageType, sequenceId, length);
@@ -255,10 +273,15 @@ public abstract class Message implements Serializable {
 
 ### 1.2 参数调优
 
+- 客户端通过 `Bootstrap.option` 函数来配置参数，**配置参数作用于 SocketChannel**
+- 服务器通过ServerBootstrap来配置参数，但是对于不同的 Channel 需要选择不同的方法
+  - 通过 `option` 来配置 **ServerSocketChannel** 上的参数
+  - 通过 `childOption` 来配置 **SocketChannel** 上的参数
+
 #### 1）CONNECT_TIMEOUT_MILLIS
 
 * 属于 SocketChannal 参数
-* 用在客户端建立连接时，如果在指定毫秒内无法连接，会抛出 timeout 异常
+* **用在客户端建立连接时，如果在指定毫秒内无法连接，会抛出 timeout 异常**
 
 * SO_TIMEOUT 主要用在阻塞 IO，阻塞 IO 中 accept，read 等都是无限等待的，如果不希望永远阻塞，使用它调整超时时间
 
@@ -287,33 +310,34 @@ public class TestConnectionTimeout {
 
 另外源码部分 `io.netty.channel.nio.AbstractNioChannel.AbstractNioUnsafe#connect`
 
+Netty设置客户端超时操作源码：
+
+netty客户端进行服务端链接时，可以设置超时参数，如果3s内连接不上，则认定为超时。
+
+这个3s的时间判断，是在客户端连接时，起了一个定时任务，这个定时任务3s执行一次，如果3s内连接没有成功，则视为失败。
+
 ```java
-@Override
-public final void connect(
-        final SocketAddress remoteAddress, final SocketAddress localAddress, final ChannelPromise promise) {
-    // ...
-    // Schedule connect timeout.
-    int connectTimeoutMillis = config().getConnectTimeoutMillis();
-    if (connectTimeoutMillis > 0) {
-        connectTimeoutFuture = eventLoop().schedule(new Runnable() {
-            @Override
-            public void run() {                
-                ChannelPromise connectPromise = AbstractNioChannel.this.connectPromise;
-                ConnectTimeoutException cause =
-                    new ConnectTimeoutException("connection timed out: " + remoteAddress); // 断点2
-                if (connectPromise != null && connectPromise.tryFailure(cause)) {
-                    close(voidPromise());
-                }
-            }
-        }, connectTimeoutMillis, TimeUnit.MILLISECONDS);
-    }
-	// ...
-}
+                    //用户设置的超时时间
+					int connectTimeoutMillis = config().getConnectTimeoutMillis();
+                    if (connectTimeoutMillis > 0) {
+                        connectTimeoutFuture = eventLoop().schedule(new Runnable() {
+                            @Override
+                            public void run() {
+                                ChannelPromise connectPromise = AbstractNioChannel.this.connectPromise;
+                                ConnectTimeoutException cause =
+                                        new ConnectTimeoutException("connection timed out: " + remoteAddress);
+                                if (connectPromise != null && connectPromise.tryFailure(cause)) {
+                                    close(voidPromise());
+                                }
+                            }
+                        }, connectTimeoutMillis, TimeUnit.MILLISECONDS);
+                    }
+
 ```
 
-
-
 #### 2）SO_BACKLOG
+
+[(186条消息) TCP半连接队列和全连接队列_库昊天的博客-CSDN博客_半连接队列](https://blog.csdn.net/yangguosb/article/details/90644683)
 
 * 属于 ServerSocketChannal 参数
 
@@ -341,9 +365,15 @@ aq -->> s :
 s ->> s : accept()
 ```
 
+sync queue 表示半连接队列，accept queue 表示全连接队列。
+
 1. 第一次握手，client 发送 SYN 到 server，状态修改为 SYN_SEND，server 收到，状态改变为 SYN_REVD，并将该请求放入 sync queue 队列
 2. 第二次握手，server 回复 SYN + ACK 给 client，client 收到，状态改变为 ESTABLISHED，并发送 ACK 给 server
 3. 第三次握手，server 收到 ACK，状态改变为 ESTABLISHED，将该请求从 sync queue 放入 accept queue
+
+三次握手，发生在accept之前。
+
+服务端进行accept的时候，可能忙不过来，因此使用队列，拿一个处理一个。
 
 其中
 
@@ -355,13 +385,17 @@ s ->> s : accept()
   * 其大小通过 /proc/sys/net/core/somaxconn 指定，在使用 listen 函数时，内核会根据传入的 backlog 参数与系统参数，取二者的较小值
   * 如果 accpet queue 队列满了，server 将发送一个拒绝连接的错误信息到 client
 
+在Linux下二者默认都是
 
+![image-20221017111956408](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20221017111956408.png)
 
-netty 中
+netty 中可以通过  option(ChannelOption.SO_BACKLOG, 值) 来设置大小。
 
-可以通过  option(ChannelOption.SO_BACKLOG, 值) 来设置大小
+**作用：**
 
+在Netty中，`SO_BACKLOG`主要用于设置全连接队列的大小。**当处理Accept的速率小于连接建立的速率时，全连接队列中堆积的连接数大于`SO_BACKLOG`设置的值是，便会抛出异常**
 
+**注意：**如果在程序中和操作系统的配置文件中都指定了BackLog的大小，那么实际使用中会取二者中较小的那一个。 
 
 可以通过下面源码查看默认大小
 
@@ -374,11 +408,15 @@ public class DefaultServerSocketChannelConfig extends DefaultChannelConfig
 }
 ```
 
+**编写服务端代码，进行调试**
 
+需要注意的是，netty处理accept的能力很强的，只有netty处理不过来的时候，才放入队列。我们可以让netty进行链接处理的时候打断点，阻断执行，进而让accept请求入队列。
+
+![image-20221017112456567](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20221017112456567.png)
+
+建立连接的代码，断点阻断。
 
 课堂调试关键断点为：`io.netty.channel.nio.NioEventLoop#processSelectedKey`
-
-
 
 oio 中更容易说明，不用 debug 模式
 
@@ -393,7 +431,28 @@ public class Server {
 }
 ```
 
-客户端启动 4 个
+**netty服务端**
+
+```java
+public class TestBackLogServer {
+    public static void main(String[] args) {
+        new ServerBootstrap()
+                .group(new NioEventLoopGroup())
+                .option(ChannelOption.SO_BACKLOG, 2)
+                .channel(NioServerSocketChannel.class)
+                .childHandler(new ChannelInitializer<SocketChannel>() {
+                    @Override
+                    protected void initChannel(SocketChannel ch) throws Exception {
+                        ch.pipeline().addLast(new LoggingHandler());
+                    }
+                }).bind(8080);
+    }
+}
+```
+
+**netty客户端**
+
+启动 4 个
 
 ```java
 public class Client {
@@ -422,15 +481,57 @@ Tue Apr 21 20:30:28 CST 2020 connected...
 
 第 4 个客户端连接时
 
-```
+```java
 Tue Apr 21 20:53:58 CST 2020 connecting...
 Tue Apr 21 20:53:59 CST 2020 connecting timeout...
 java.net.SocketTimeoutException: connect timed out
 ```
 
+![image-20221017113347971](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20221017113347971.png)
 
+**具体赋值操作：**
 
+```java
+SOMAXCONN = AccessController.doPrivileged(new PrivilegedAction<Integer>() {
+    @Override
+    public Integer run() {
+        // Determine the default somaxconn (server socket backlog) value of the platform.
+        // The known defaults:
+        // - Windows NT Server 4.0+: 200
+        // - Linux and Mac OS X: 128
+        int somaxconn = PlatformDependent.isWindows() ? 200 : 128;
+        File file = new File("/proc/sys/net/core/somaxconn");
+        BufferedReader in = null;
+        try {
+            // file.exists() may throw a SecurityException if a SecurityManager is used, so execute it in the
+            // try / catch block.
+            // See https://github.com/netty/netty/issues/4936
+            if (file.exists()) {
+                in = new BufferedReader(new FileReader(file));
+                // 将somaxconn设置为Linux配置文件中设置的值
+                somaxconn = Integer.parseInt(in.readLine());
+                if (logger.isDebugEnabled()) {
+                    logger.debug("{}: {}", file, somaxconn);
+                }
+            } else {
+                ...
+            }
+            ...
+        }  
+        // 返回backlog的值
+        return somaxconn;
+    }
+}
+```
 
+- backlog的值会根据操作系统的不同，来
+
+  选择不同的默认值
+
+  - Windows 200
+  - Linux/Mac OS 128
+
+- **如果配置文件`/proc/sys/net/core/somaxconn`存在**，会读取配置文件中的值，并将backlog的值设置为配置文件中指定的
 
 #### 3）ulimit -n
 
@@ -441,6 +542,8 @@ java.net.SocketTimeoutException: connect timed out
 #### 4）TCP_NODELAY
 
 * 属于 SocketChannal 参数
+* 因为 Nagle 算法，数据包会堆积到一定的数量后一起发送，这就**可能导致数据的发送存在一定的延时**
+* **该参数默认为false**，如果不希望的发送被延时，则需要将该值设置为true
 
 
 
@@ -448,15 +551,52 @@ java.net.SocketTimeoutException: connect timed out
 
 * SO_SNDBUF 属于 SocketChannal 参数
 * SO_RCVBUF 既可用于 SocketChannal 参数，也可以用于 ServerSocketChannal 参数（建议设置到 ServerSocketChannal 上）
+* 该参数用于**指定接收方与发送方的滑动窗口大小**
 
 
 
 #### 6）ALLOCATOR
 
 * 属于 SocketChannal 参数
-* 用来分配 ByteBuf， ctx.alloc()
+* 用来分配 ByteBuf， ctx.alloc()  用来配置 ByteBuf 是池化还是非池化，是直接内存还是堆内存
 
+**使用：**
 
+```java
+// 选择ALLOCATOR参数，设置SocketChannel中分配的ByteBuf类型
+// 第二个参数需要传入一个ByteBufAllocator，用于指定生成的 ByteBuf 的类型
+new ServerBootstrap().childOption(ChannelOption.ALLOCATOR, new PooledByteBufAllocator());
+```
+
+**ByteBufAllocator类型**
+
+- 池化并使用直接内存
+
+  ```java
+  // true表示使用直接内存
+  new PooledByteBufAllocator(true);
+  ```
+
+- 池化并使用堆内存
+
+  ```java
+  // false表示使用堆内存
+  new PooledByteBufAllocator(false);
+  ```
+
+- 非池化并使用直接内存
+
+  ```java
+  // ture表示使用直接内存
+  new UnpooledByteBufAllocator(true);
+  ```
+
+- 非池化并使用堆内存
+
+  ```java
+  // false表示使用堆内存
+  new UnpooledByteBufAllocator(false);
+  ```
 
 #### 7）RCVBUF_ALLOCATOR
 
@@ -664,7 +804,7 @@ public class ServicesFactory {
 
 相关配置 application.properties
 
-```
+```java
 serializer.algorithm=Json
 cn.itcast.server.service.HelloService=cn.itcast.server.service.HelloServiceImpl
 ```
