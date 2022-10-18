@@ -4,6 +4,8 @@
 
 [Netty学习之NIO基础 - Nyima's Blog (gitee.io)](https://nyimac.gitee.io/2021/04/18/Netty学习之NIO基础/#核心方法)
 
+[(153条消息) Scalable IO in Java_思维的深度的博客-CSDN博客](https://blog.csdn.net/skh2015java/article/details/106721630)
+
 
 
 

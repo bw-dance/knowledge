@@ -634,6 +634,14 @@ public abstract class Message implements Serializable {
 
 请求消息
 
+想要远程调用一个方法，必须知道以**下五个信息**
+
+- 方法所在的全限定类名
+- 方法名
+- 方法返回值类型
+- 方法参数类型
+- 方法参数值
+
 ```java
 @Getter
 @ToString(callSuper = true)
@@ -698,6 +706,8 @@ public class RpcResponseMessage extends Message {
 }
 ```
 
+响应消息中只需要获取**返回结果和异常值**
+
 服务器架子
 
 ```java
@@ -707,8 +717,8 @@ public class RpcServer {
         NioEventLoopGroup boss = new NioEventLoopGroup();
         NioEventLoopGroup worker = new NioEventLoopGroup();
         LoggingHandler LOGGING_HANDLER = new LoggingHandler(LogLevel.DEBUG);
+        //编码解码器
         MessageCodecSharable MESSAGE_CODEC = new MessageCodecSharable();
-        
         // rpc 请求消息处理器，待实现
         RpcRequestMessageHandler RPC_HANDLER = new RpcRequestMessageHandler();
         try {
@@ -718,9 +728,13 @@ public class RpcServer {
             serverBootstrap.childHandler(new ChannelInitializer<SocketChannel>() {
                 @Override
                 protected void initChannel(SocketChannel ch) throws Exception {
+                    //粘包，半包处理
                     ch.pipeline().addLast(new ProcotolFrameDecoder());
+                    //日志
                     ch.pipeline().addLast(LOGGING_HANDLER);
+                    //编码解码器
                     ch.pipeline().addLast(MESSAGE_CODEC);
+                    // rpc 请求消息处理器，待实现
                     ch.pipeline().addLast(RPC_HANDLER);
                 }
             });
@@ -754,9 +768,12 @@ public class RpcClient {
             bootstrap.handler(new ChannelInitializer<SocketChannel>() {
                 @Override
                 protected void initChannel(SocketChannel ch) throws Exception {
+                    //粘包，半包处理
                     ch.pipeline().addLast(new ProcotolFrameDecoder());
                     ch.pipeline().addLast(LOGGING_HANDLER);
+                    //编码解码器
                     ch.pipeline().addLast(MESSAGE_CODEC);
+                    // rpc 响应消息处理器，待实现
                     ch.pipeline().addLast(RPC_HANDLER);
                 }
             });
@@ -772,6 +789,10 @@ public class RpcClient {
 ```
 
 服务器端的 service 获取
+
+远程调用的时候，我们调用的都是服务器已经存在的对象，因此服务器需要先存储对象。
+
+此处代码相当于通过反射创建了一个`cn.itcast.server.service.HelloServiceImpl`对象，并把对象存储在了map中
 
 ```java
 public class ServicesFactory {
@@ -839,15 +860,18 @@ public class RpcRequestMessageHandler extends SimpleChannelInboundHandler<RpcReq
             // 调用异常
             response.setExceptionValue(e);
         }
-        // 返回结果
+        //  返回结果： 向channel中写入Message
         ctx.writeAndFlush(response);
     }
 }
 ```
 
+远程调用方法主要是通过反射实现的，大致步骤如下
 
-
-
+- 通过**请求消息传入被调入方法的各个参数**
+- 通过**全限定接口名，在map中查询到对应的类并实例化对象**
+- 通过反射获取Method，并调用其invoke方法的**返回值，并放入响应消息中**
+- 若有**异常需要捕获，并放入响应消息中**
 
 #### 3）客户端代码第一版
 
@@ -875,7 +899,7 @@ public class RpcClient {
                 }
             });
             Channel channel = bootstrap.connect("localhost", 8080).sync().channel();
-
+			//发送消息
             ChannelFuture future = channel.writeAndFlush(new RpcRequestMessage(
                     1,
                     "cn.itcast.server.service.HelloService",
@@ -900,8 +924,6 @@ public class RpcClient {
 }
 ```
 
-
-
 #### 4）客户端 handler 第一版
 
 ```java
@@ -915,13 +937,359 @@ public class RpcResponseMessageHandler extends SimpleChannelInboundHandler<RpcRe
 }
 ```
 
+##### 使用Gson转换出现异常
 
+使用Gson直接转换class对象的时候，会出现异常。
 
+```java
+        System.out.println(new Gson().toJson(String.class));
+```
 
+![image-20221018111652615](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20221018111652615.png)
 
-#### 5）客户端代码 第二版
+因为我们客户端向服务端发送信息时，传送的参数有class对象，因此出现了该问题，需要让Gson适配。
+
+创建Gson的适配器。
+
+```java
+@Slf4j
+public class TestEvent {
+    public static void main(String[] args) {
+        Gson gson = new GsonBuilder().registerTypeAdapter(Class.class, new Serializer.ClassCodec()).create();
+        System.out.println(gson.toJson(String.class));
+    }
+
+    class ClassCodec implements JsonSerializer<Class<?>>, JsonDeserializer<Class<?>> {
+
+        @Override
+        public Class<?> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+            try {
+                String str = json.getAsString();
+                return Class.forName(str);
+            } catch (ClassNotFoundException e) {
+                throw new JsonParseException(e);
+            }
+        }
+
+        @Override             //   String.class
+        public JsonElement serialize(Class<?> src, Type typeOfSrc, JsonSerializationContext context) {
+            // class -> json
+            return new JsonPrimitive(src.getName());
+        }
+    }
+}
+```
+
+**融合进序列化与反序列化代码中**
+
+```java
+public interface Serializer {
+
+    // 反序列化方法
+    <T> T deserialize(Class<T> clazz, byte[] bytes);
+
+    // 序列化方法
+    <T> byte[] serialize(T object);
+
+    enum Algorithm implements Serializer {
+
+        Java {
+            @Override
+            public <T> T deserialize(Class<T> clazz, byte[] bytes) {
+                try {
+                    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(bytes));
+                    return (T) ois.readObject();
+                } catch (IOException | ClassNotFoundException e) {
+                    throw new RuntimeException("反序列化失败", e);
+                }
+            }
+
+            @Override
+            public <T> byte[] serialize(T object) {
+                try {
+                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                    ObjectOutputStream oos = new ObjectOutputStream(bos);
+                    oos.writeObject(object);
+                    return bos.toByteArray();
+                } catch (IOException e) {
+                    throw new RuntimeException("序列化失败", e);
+                }
+            }
+        },
+
+        Json {
+            @Override
+            public <T> T deserialize(Class<T> clazz, byte[] bytes) {
+                Gson gson = new GsonBuilder().registerTypeAdapter(Class.class, new Serializer.ClassCodec()).create();
+                String json = new String(bytes, StandardCharsets.UTF_8);
+                return gson.fromJson(json, clazz);
+            }
+
+            @Override
+            public <T> byte[] serialize(T object) {
+                Gson gson = new GsonBuilder().registerTypeAdapter(Class.class, new Serializer.ClassCodec()).create();
+                String json = gson.toJson(object);
+                return json.getBytes(StandardCharsets.UTF_8);
+            }
+        }
+    }
+    class ClassCodec implements JsonSerializer<Class<?>>, JsonDeserializer<Class<?>> {
+
+        @Override
+        public Class<?> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+            try {
+                String str = json.getAsString();
+                return Class.forName(str);
+            } catch (ClassNotFoundException e) {
+                throw new JsonParseException(e);
+            }
+        }
+
+        @Override             //   String.class
+        public JsonElement serialize(Class<?> src, Type typeOfSrc, JsonSerializationContext context) {
+            // class -> json
+            return new JsonPrimitive(src.getName());
+        }
+    }
+}
+```
+
+问题解决。
+
+#### 5）客户端第一版问题
+
+1. 客户端消息对象是写死状态：
+
+   ```java
+   //发送消息
+               ChannelFuture future = channel.writeAndFlush(new RpcRequestMessage())
+   ```
+
+2. 远程调用时，我们也想按照接口的形式调用，即通过接口，调用方法传参即可，而不是传递一大堆接口的信息。
+
+   ```java
+   //目前        
+   new RpcRequestMessage(
+                       1,
+                       "cn.itcast.server.service.HelloService",
+                       "sayHello",
+                       String.class,
+                       new Class[]{String.class},
+                       new Object[]{"张三"}
+               )
+   //理想
+   HelloService service = new HelloServiceImpl();
+   service.sayHello("张三");
+   ```
+
+#### 6）客户端代码问题修改
 
 包括 channel 管理，代理，接收结果
+
+重构RpcClient为RpcClientManager
+
+目的：
+
+1. 谁想发送消息，调用channel对象发送即可。
+2. 发送的时候，直接调用接口发送即可，不需要传那么多关于类的信息。
+
+方式：
+
+1. 使用单例模式封装channel对象，每次调用的时候，使用get的channel对象发送。
+
+```java
+@Slf4j
+public class RpcClientManager {
+
+    //建立连接时，使用一个channel即可，因为客户端和服务器建立的是长链接。一次连接可以发送多个请求。
+    private static Channel channel = null;
+    private static final Object LOCK = new Object();
+
+    public static void main(String[] args) {
+        //发送消息。
+       getChannel().writeAndFlush(new RpcRequestMessage(
+               1,
+               "cn.itcast.server.service.HelloService",
+               "sayHello",
+               String.class,
+               new Class[]{String.class},
+               new Object[]{"张三"}
+       ));
+    }
+
+
+    //单例模式获取唯一的channel对象
+    public static Channel getChannel() {
+        if (channel != null) {
+            return channel;
+        }
+        synchronized (LOCK) {
+            if (channel != null) {
+                return channel;
+            }
+            channel = initChannel();
+            return channel;
+        }
+    }
+
+    // 初始化 channel 方法，只能执行一次。
+    private static Channel initChannel() {
+        NioEventLoopGroup group = new NioEventLoopGroup();
+        LoggingHandler LOGGING_HANDLER = new LoggingHandler(LogLevel.DEBUG);
+        MessageCodecSharable MESSAGE_CODEC = new MessageCodecSharable();
+        RpcResponseMessageHandler RPC_HANDLER = new RpcResponseMessageHandler();
+        Bootstrap bootstrap = new Bootstrap();
+        bootstrap.channel(NioSocketChannel.class);
+        bootstrap.group(group);
+        bootstrap.handler(new ChannelInitializer<SocketChannel>() {
+            @Override
+            protected void initChannel(SocketChannel ch) throws Exception {
+                ch.pipeline().addLast(new ProcotolFrameDecoder());
+                ch.pipeline().addLast(LOGGING_HANDLER);
+                ch.pipeline().addLast(MESSAGE_CODEC);
+                ch.pipeline().addLast(RPC_HANDLER);
+            }
+        });
+        try {
+            //创建channel对象
+            channel = bootstrap.connect("localhost", 8080).sync().channel();
+            //channel关闭，使用异步
+            channel.closeFuture().addListener(future -> {
+                group.shutdownGracefully();
+            });
+        } catch (Exception e) {
+            log.error("client error", e);
+        }
+        return channel;
+    }
+}
+```
+
+单例模式封装后，成功接收到服务器端的响应。
+
+```java
+11:44:34 [DEBUG] [nioEventLoopGroup-2-1] c.i.c.h.RpcResponseMessageHandler - RpcResponseMessage(super=Message(sequenceId=1, messageType=102), returnValue=你好, 张三, exceptionValue=null)
+```
+
+**优化消息的发送方式：**
+
+使用代理模式来优化：
+
+```java
+    public static <T> T getProxyService(Class<T> serverClass) {
+        ClassLoader loader = serverClass.getClassLoader();
+        Class<?>[] interfaces = new Class[]{serverClass};
+        Object o = Proxy.newProxyInstance(loader, interfaces, ((proxy, method, args) -> {
+            RpcRequestMessage rpcRequestMessage = new RpcRequestMessage(
+                    //生成一个ID，每次使用的时候，ID自增。
+                    SequenceIdGenerator.nextId(),
+                    serverClass.getName(),
+                    method.getName(),
+                    method.getReturnType(),
+                    method.getParameterTypes(),
+                    args
+            );
+            //将消息发送出去
+            getChannel().writeAndFlush(rpcRequestMessage);
+            return null;
+        }
+        ));
+        return (T) o;
+    }
+```
+
+使用:
+
+```java
+        HelloService proxyService = getProxyService(HelloService.class);
+        proxyService.sayHello("Lisi");
+```
+
+![image-20221018140144401](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20221018140144401.png)
+
+问题：我们在代理对象中进行了消息的发送`getChannel().writeAndFlush(rpcRequestMessage);`但是代理对象并没有接收返回值。
+
+分析：
+
+消息的发送是main线程中调用了代理对象的发送方法，消息返回的时候，返回到了RpcResponseMessageHandler，他是NIO线程。此时我们需要在主线程中，拿到NIO线程的返回结果。
+
+此时我们需要使用Promose对象，每次建立连接的时候，我们都传递了一个sequenceId，我们可以通过这个sequenceId，来获取相应的promise对象。所有的promise对象存放在Map中。
+
+![image-20221018140833750](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20221018140833750.png)
+
+修改代理对象
+
+```java
+    public static <T> T getProxyService(Class<T> serviceClass) {
+        ClassLoader loader = serviceClass.getClassLoader();
+        Class<?>[] interfaces = new Class[]{serviceClass};
+        //                                                            sayHello  "张三"
+        Object o = Proxy.newProxyInstance(loader, interfaces, (proxy, method, args) -> {
+            // 1. 将方法调用转换为 消息对象
+            int sequenceId = SequenceIdGenerator.nextId();
+            RpcRequestMessage msg = new RpcRequestMessage(
+                    sequenceId,
+                    serviceClass.getName(),
+                    method.getName(),
+                    method.getReturnType(),
+                    method.getParameterTypes(),
+                    args
+            );
+            // 2. 将消息对象发送出去
+            getChannel().writeAndFlush(msg);
+
+            // 3. 准备一个空 Promise 对象，来接收结果             指定 promise 对象异步接收结果线程
+            DefaultPromise<Object> promise = new DefaultPromise<>(getChannel().eventLoop());
+            RpcResponseMessageHandler.PROMISES.put(sequenceId, promise);
+
+//            promise.addListener(future -> {
+//                // 线程
+//            });
+
+            // 4. 等待 promise 结果
+            promise.await();
+            if(promise.isSuccess()) {
+                // 调用正常
+                return promise.getNow();
+            } else {
+                // 调用失败
+                throw new RuntimeException(promise.cause());
+            }
+        });
+        return (T) o;
+    }
+```
+
+修改RpcResponseMessageHandler
+
+```java
+@Slf4j
+@ChannelHandler.Sharable
+public class RpcResponseMessageHandler extends SimpleChannelInboundHandler<RpcResponseMessage> {
+
+    //                       序号      用来接收结果的 promise 对象
+    public static final Map<Integer, Promise<Object>> PROMISES = new ConcurrentHashMap<>();
+
+    @Override
+
+    protected void channelRead0(ChannelHandlerContext ctx, RpcResponseMessage msg) throws Exception {
+        log.debug("{}", msg);
+        // 拿到空的 promise
+        Promise<Object> promise = PROMISES.remove(msg.getSequenceId());
+        if (promise != null) {
+            Object returnValue = msg.getReturnValue();
+            Exception exceptionValue = msg.getExceptionValue();
+            if(exceptionValue != null) {
+                promise.setFailure(exceptionValue);
+            } else {
+                promise.setSuccess(returnValue);
+            }
+        }
+    }
+}
+```
+
+#### 7）客户端代码最终
 
 ```java
 @Slf4j
@@ -954,7 +1322,7 @@ public class RpcClientManager {
             // 2. 将消息对象发送出去
             getChannel().writeAndFlush(msg);
 
-            // 3. 准备一个空 Promise 对象，来接收结果             指定 promise 对象异步接收结果线程
+            // 3. 准备一个空 Promise 对象，来接收结果             指定 promise 对象异步接收结果线程，即调用addListener的时候，才使用该线程
             DefaultPromise<Object> promise = new DefaultPromise<>(getChannel().eventLoop());
             RpcResponseMessageHandler.PROMISES.put(sequenceId, promise);
 
@@ -962,7 +1330,7 @@ public class RpcClientManager {
 //                // 线程
 //            });
 
-            // 4. 等待 promise 结果
+            // 4. 等待 promise 结果，此处的等待是主线程等待。
             promise.await();
             if(promise.isSuccess()) {
                 // 调用正常
@@ -1024,11 +1392,11 @@ public class RpcClientManager {
 
 
 
-#### 6）客户端 handler 第二版
+#### 8）客户端 handler 最终
 
 ```java
 @Slf4j
-@ChannelHandler.Sharable
+@ChannelHandler.Sharable  //原则上该注解是不能添加的，因为PROMISES是有状态的，但是我们使用了ConcurrentHashMap，保证了线程安全，因此在此处可以使用此注解。
 public class RpcResponseMessageHandler extends SimpleChannelInboundHandler<RpcResponseMessage> {
 
     //                       序号      用来接收结果的 promise 对象
@@ -1053,9 +1421,108 @@ public class RpcResponseMessageHandler extends SimpleChannelInboundHandler<RpcRe
 }
 ```
 
+> 客户端流程分析：
+>
+> 1. 客户端发送信息给服务端，服务端接收数据后，返回Response对象给客户端，客户端的RpcResponseMessageHandler接收Response对象。
+>    1. 客户端是在Main线程中调用发送方法，发送给服务端，服务端返回数据时，处理返回数据的线程，是客户端的NIO线程，并不是Main线程。
+>    2. 此时，如果我们想在Main线程中获取服务端的返回值，就需要通过Promise对象接收。
+> 2. 定义Promise对象，Promise对象中，**需要指定一个接收异步结果的线程（使用addListener的使用，会使用该线程）**，我们将这个线程存储到Map中，以每次连接的sequenceId作为唯一标识。
+>    1. 发送消息时，创建Promise对象，并存储到Map中。
+>    2. 发送后，main线程设置Promise的等待。  promise.await();（主线程此时阻塞）
+>    3. 服务端相应给客户端后，根据对应的sequenceId，获取对应的Promise，将响应结果存储到promise对象中
 
+promise.await();是否阻塞分析。
 
+```java
+服务端参数判断，如果有张三，则睡眠10s 
+for (Object o : parameterValue) {
+                if (o.toString().equals("张三")){
+                    log.info("张三来了,睡眠10s");
+                    Thread.sleep(10000L);
+                }
+}
+客户端连续建立两条链接
+ 		HelloService service = getProxyService(HelloService.class);
+        System.out.println("调用结果："+service.sayHello("张三"));
+        System.out.println("准备执行下一个");
+        HelloService service2 = getProxyService(HelloService.class);
+        System.out.println("调用结果："+service2.sayHello("zhangsan"));
+```
 
+调用结果：
+
+50的时候服务端收到消息
+
+![image-20221018150835941](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20221018150835941.png)
+
+10s之后，客户端收到消息，执行下一个。
+
+![image-20221018150907719](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20221018150907719.png)
+
+第二个建立连接的请求则是在00触发，说明前一个promise.await阻塞了Main线程的运行：
+
+![image-20221018151008792](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20221018151008792.png)
+
+#### 9) 服务端的RequestMessage
+
+```java
+@Slf4j
+@ChannelHandler.Sharable
+public class RpcRequestMessageHandler extends SimpleChannelInboundHandler<RpcRequestMessage> {
+
+    @Override
+    protected void channelRead0(ChannelHandlerContext ctx, RpcRequestMessage message) {
+        RpcResponseMessage response = new RpcResponseMessage();
+        response.setSequenceId(message.getSequenceId());
+        try {
+                Object service =
+                    ServicesFactory.getService(Class.forName(message.getInterfaceName()));
+            Method method = service.getClass().getMethod(message.getMethodName(), message.getParameterTypes());
+            Object invoke = method.invoke(service, message.getParameterValue());
+            Object[] parameterValue = message.getParameterValue();
+            for (Object o : parameterValue) {
+                if (o.toString().equals("张三")){
+                    log.info("张三来了,睡眠10s");
+                    Thread.sleep(10000L);
+                }
+            }
+            response.setReturnValue(invoke);
+        } catch (Exception e) {
+            e.printStackTrace();
+            String msg = e.getCause().getMessage();
+            response.setExceptionValue(new Exception("远程调用出错:" + msg));
+        }
+        ctx.writeAndFlush(response);
+    }
+
+    public static void main(String[] args) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        RpcRequestMessage message = new RpcRequestMessage(
+                1,
+                "cn.itcast.server.service.HelloService",
+                "sayHello",
+                String.class,
+                new Class[]{String.class},
+                new Object[]{"张三"}
+        );
+        //获取容器中已经创建的对象。
+        Object service =
+                ServicesFactory.getService(Class.forName(message.getInterfaceName()));
+        Method method = service.getClass().getMethod(message.getMethodName(), message.getParameterTypes());
+        Object invoke = method.invoke(service, message.getParameterValue());
+        System.out.println(invoke);
+    }
+}
+```
+
+#### 9） 异常优化
+
+当我们服务端出现异常时，我们将异常信息直接告诉给了客户端。Java的异常信息e包含很多信息，如果直接返回，可能造成字节长度过长，超过了我们粘包半包设置的最大长度，因此需要进行优化。
+
+```java
+            e.printStackTrace();
+            String msg = e.getCause().getMessage();
+            response.setExceptionValue(new Exception("远程调用出错:" + msg));
+```
 
 ## 2. 源码分析
 
