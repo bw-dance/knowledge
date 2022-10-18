@@ -1297,8 +1297,6 @@ position: [13], limit: [13]
 * 通过 FileOutputStream 获取的 channel 只能写
 * 通过 RandomAccessFile 是否能读写根据构造 RandomAccessFile 时的读写模式决定
 
-
-
 #### 读取
 
 会从 channel 读取数据填充 ByteBuffer，返回值表示读到了多少字节，-1 表示到达了文件的末尾
@@ -1306,8 +1304,6 @@ position: [13], limit: [13]
 ```java
 int readBytes = channel.read(buffer);
 ```
-
-
 
 #### 写入
 
