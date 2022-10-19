@@ -9,6 +9,10 @@ public class Array<E> {
     // size在运用中既充当了数组中元素的个数（非长度），又可以间接充当元素的索引
     private int size;
 
+    public E[] getData() {
+        return data;
+    }
+
     // 构造函数，传入数组的容量capacity构造Array
     public Array(int capacity) {
         //因为 new一个 E[]的数组会报错，所以这里new了一个Object，然后进行强制转换
@@ -19,6 +23,14 @@ public class Array<E> {
     // 无参构造函数，默认容器的容量
     public Array() {
         this(10);
+    }
+
+    public Array(E[] data) {
+        this.data = (E[])new Object[data.length];
+        for (int i = 0; i < data.length; i++) {
+           this.data[i]=data[i];
+        }
+        size=data.length;
     }
 
     //获取数组中的元素个数

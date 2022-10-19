@@ -1524,9 +1524,46 @@ public class RpcRequestMessageHandler extends SimpleChannelInboundHandler<RpcReq
             response.setExceptionValue(new Exception("远程调用出错:" + msg));
 ```
 
-## 2. 源码分析
+## 2. 源码分析（未学习）
+
+[第4章_21-netty源码-启动流程-nio回顾_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1py4y1E7oA?p=139)
 
 ### 2.1 启动剖析
+
+#### 原生NIO
+
+原生NIO服务端流程
+
+> 1. 创建selector
+>
+>    ```java
+>    Selector selector = Selector.open(); 
+>    ```
+>
+> 2. 创建ServerScoketChannel
+>
+>    ```java
+>    ServerSocketChannel serverSocketChannel = ServerSocketChannel.open(); 
+>    serverSocketChannel.configureBlocking(false);
+>    ```
+>
+> 3. 注册事件到selector
+>
+>    ```java
+>    SelectionKey selectionKey = serverSocketChannel.register(selector, 0, null);
+>    ```
+>
+> 4. 绑定端口，建立连接
+>
+>    ```java
+>    serverSocketChannel.bind(new InetSocketAddress(8080));
+>    ```
+>
+> 5. 注册感兴趣的链接事件
+>
+>    ```java
+>    selectionKey.interestOps(SelectionKey.OP_ACCEPT);
+>    ```
 
 我们就来看看 netty 中对下面的代码是怎样进行处理的
 
@@ -1555,11 +1592,25 @@ serverSocketChannel.bind(new InetSocketAddress(8080));
 selectionKey.interestOps(SelectionKey.OP_ACCEPT);
 ```
 
+> netty在注册事件的时候，绑定了一个附件，这个附件就是NioServerSocketChannel。通过附件的方式，将serverSocketChannel和NioServerScoketChannel联系起来。
+>
+> SelectionKey selectionKey = serverSocketChannel.register(selector, 0, attachment);
 
+#### Netty源码分析
 
+```java
+        new ServerBootstrap()
+                .group(new NioEventLoopGroup())
+                .channel(NioServerSocketChannel.class)
+                .childHandler(new ChannelInitializer<NioSocketChannel>() {
+                    @Override
+                    protected void initChannel(NioSocketChannel ch) {
+                        ch.pipeline().addLast(new LoggingHandler());
+                    }
+                }).bind(8080);
+```
 
-
-
+##### 入口doBind
 
 入口 `io.netty.bootstrap.ServerBootstrap#bind`
 
@@ -1567,45 +1618,53 @@ selectionKey.interestOps(SelectionKey.OP_ACCEPT);
 
 ```java
 private ChannelFuture doBind(final SocketAddress localAddress) {
-	// 1. 执行初始化和注册 regFuture 会由 initAndRegister 设置其是否完成，从而回调 3.2 处代码
-    final ChannelFuture regFuture = initAndRegister();
-    final Channel channel = regFuture.channel();
-    if (regFuture.cause() != null) {
-        return regFuture;
-    }
-
-    // 2. 因为是 initAndRegister 异步执行，需要分两种情况来看，调试时也需要通过 suspend 断点类型加以区分
-    // 2.1 如果已经完成
-    if (regFuture.isDone()) {
-        ChannelPromise promise = channel.newPromise();
-        // 3.1 立刻调用 doBind0
-        doBind0(regFuture, channel, localAddress, promise);
-        return promise;
-    } 
-    // 2.2 还没有完成
-    else {
-        final PendingRegistrationPromise promise = new PendingRegistrationPromise(channel);
-        // 3.2 回调 doBind0
-        regFuture.addListener(new ChannelFutureListener() {
-            @Override
-            public void operationComplete(ChannelFuture future) throws Exception {
-                Throwable cause = future.cause();
-                if (cause != null) {
-                    // 处理异常...
-                    promise.setFailure(cause);
-                } else {
-                    promise.registered();
-					// 3. 由注册线程去执行 doBind0
-                    doBind0(regFuture, channel, localAddress, promise);
+        //1. 初始化（连接建立和事件初测）：相当于ServerSocketChannel.open();并serverSocketChannel.register(selector, 0, null);
+        final ChannelFuture regFuture = initAndRegister();
+        final Channel channel = regFuture.channel();
+        if (regFuture.cause() != null) {
+            return regFuture;
+        }
+        //2. 主线程：判断initAndRegister();是否执行完毕（此处大概率没有执行完毕）
+        if (regFuture.isDone()) {
+            // At this point we know that the registration was complete and successful.
+            ChannelPromise promise = channel.newPromise();
+             //主线程：initAndRegister()执行成功：建立连接
+            doBind0(regFuture, channel, localAddress, promise);
+            return promise;
+        } else {
+            //为regFuture注册监听，异步的接受链接建立和事件注册
+            // Registration future is almost always fulfilled already, but just in case it's not.
+            final PendingRegistrationPromise promise = new PendingRegistrationPromise(channel);
+            regFuture.addListener(new ChannelFutureListener() {
+                @Override
+                public void operationComplete(ChannelFuture future) throws Exception {
+                    Throwable cause = future.cause();
+                    if (cause != null) {
+                        // Registration on the EventLoop failed so fail the ChannelPromise directly to not cause an
+                        // IllegalStateException once we try to access the EventLoop of the Channel.
+                        promise.setFailure(cause);
+                    } else {
+                        // Registration was successful, so set the correct executor to use.
+                        // See https://github.com/netty/netty/issues/2586
+                        promise.registered();
+                        //子线程：initAndRegister()执行成功：建立连接
+                        doBind0(regFuture, channel, localAddress, promise);
+                    }
                 }
-            }
-        });
-        return promise;
+            });
+            return promise;
+        }
     }
-}
 ```
 
+##### initAndRegister
+
 关键代码 `io.netty.bootstrap.AbstractBootstrap#initAndRegister`
+
+其中包含两部操作：
+
+1. 创建，一个channel（NioServerScoketChannel，并open），channelFactory.newChannel（），init(channel);（为新创建的channel添加一个handler事件）
+2. 注册，将原生 channel 注册到 selector 上。
 
 ```java
 final ChannelFuture initAndRegister() {
@@ -1628,37 +1687,25 @@ final ChannelFuture initAndRegister() {
 }
 ```
 
+###### 创建
+
+包含newChannel和init（channel）
+
+**创建NioServerScoketChannel流程：channelFactory.newChannel();**
+
+![image-20221019101218552](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20221019101218552.png)
+
+**init(channel)：**
+
+     init(channel)，为NioServerScoketChannel的添加一个handler
+     添加的是ChannelInitalizer，这个handler只会执行一次。
+    注意：此时只是添加了这个handler，并没有执行。
 关键代码 `io.netty.bootstrap.ServerBootstrap#init`
 
 ```java
 // 这里 channel 实际上是 NioServerSocketChannel
 void init(Channel channel) throws Exception {
-    final Map<ChannelOption<?>, Object> options = options0();
-    synchronized (options) {
-        setChannelOptions(channel, options, logger);
-    }
-
-    final Map<AttributeKey<?>, Object> attrs = attrs0();
-    synchronized (attrs) {
-        for (Entry<AttributeKey<?>, Object> e: attrs.entrySet()) {
-            @SuppressWarnings("unchecked")
-            AttributeKey<Object> key = (AttributeKey<Object>) e.getKey();
-            channel.attr(key).set(e.getValue());
-        }
-    }
-
-    ChannelPipeline p = channel.pipeline();
-
-    final EventLoopGroup currentChildGroup = childGroup;
-    final ChannelHandler currentChildHandler = childHandler;
-    final Entry<ChannelOption<?>, Object>[] currentChildOptions;
-    final Entry<AttributeKey<?>, Object>[] currentChildAttrs;
-    synchronized (childOptions) {
-        currentChildOptions = childOptions.entrySet().toArray(newOptionArray(0));
-    }
-    synchronized (childAttrs) {
-        currentChildAttrs = childAttrs.entrySet().toArray(newAttrArray(0));
-    }
+    //。。。。。。。。。。。。。。一大堆代码。。。。。。。。。。。。。。。。
 	
     // 为 NioServerSocketChannel 添加初始化器
     p.addLast(new ChannelInitializer<Channel>() {
@@ -1682,6 +1729,8 @@ void init(Channel channel) throws Exception {
     });
 }
 ```
+
+###### 注册
 
 关键代码 `io.netty.channel.AbstractChannel.AbstractUnsafe#register`
 

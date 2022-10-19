@@ -6,7 +6,7 @@ public class MaxHeap<E extends Comparable<E>> {
     @Override
     public String toString() {
         return "MaxHeap{" +
-                "data=" + data +
+                "data=" + Arrays.toString(data.getData()) +
                 '}';
     }
 
@@ -18,6 +18,13 @@ public class MaxHeap<E extends Comparable<E>> {
 
     public MaxHeap() {
         data = new Array<>();
+    }
+
+    public MaxHeap(E[] data) {
+        this.data = new Array<>(data);
+        for (int i = parent(data.length - 1); i >= 0; i--) {
+            shiftDown(i);
+        }
     }
 
     // 返回堆中的元素个数
@@ -166,4 +173,14 @@ public class MaxHeap<E extends Comparable<E>> {
             k = j;
         }
     }
+
+    //替换堆中的最大元素
+    public E replace(E e) {
+        E max = findMax();
+        data.set(0, e);
+        shiftDown(0);
+        return max;
+    }
+
+
 }

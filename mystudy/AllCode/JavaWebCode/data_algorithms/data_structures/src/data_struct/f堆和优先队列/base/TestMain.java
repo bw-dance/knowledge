@@ -13,10 +13,11 @@ public class TestMain {
 //        System.out.println(a);
         MaxHeap<Integer> maxHeap = new MaxHeap<>();
         Random random    = new Random();
-        int n = 100000;
+        int n = 100;
         for (int i = 0; i < n; i++) {
-            maxHeap.add(random.nextInt(Integer.MAX_VALUE));
+            maxHeap.add(random.nextInt(100));
         }
+        System.out.println(maxHeap.toString());
         int[] arr = new int[n];
         for (int i = 0; i < n; i++) {
             arr[i]=maxHeap.extractMax();
@@ -25,6 +26,7 @@ public class TestMain {
             if (arr[i-1]<arr[i])
                 throw new IllegalArgumentException("Error");
         }
+
         System.out.println("complete");
     }
 }
