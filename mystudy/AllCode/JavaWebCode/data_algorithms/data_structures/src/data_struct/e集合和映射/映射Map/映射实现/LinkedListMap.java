@@ -2,6 +2,7 @@ package data_struct.e集合和映射.映射Map.映射实现;
 
 import data_struct.e集合和映射.映射Map.Map;
 
+import java.util.PriorityQueue;
 import java.util.prefs.BackingStoreException;
 
 /**
@@ -64,6 +65,7 @@ public class LinkedListMap<K, V> implements Map<K, V> {
 
     @Override
     public V remove(K key) {
+
         //删除节点时，需要获取指定节点的前一个节点。切换指向。
         Node prev = dummyHead;
         while (prev.next != null) {

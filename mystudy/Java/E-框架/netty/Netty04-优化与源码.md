@@ -1616,6 +1616,8 @@ selectionKey.interestOps(SelectionKey.OP_ACCEPT);
 
 关键代码 `io.netty.bootstrap.AbstractBootstrap#doBind`
 
+![image-20221019115528926](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20221019115528926.png)
+
 ```java
 private ChannelFuture doBind(final SocketAddress localAddress) {
         //1. 初始化（连接建立和事件初测）：相当于ServerSocketChannel.open();并serverSocketChannel.register(selector, 0, null);
