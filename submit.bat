@@ -2,7 +2,7 @@
 echo "DOCS PUSH BAT"
 
 echo "1. Move to working directory" 
-cd G:\ComputerStudy\cloudnote\knowledge\knowledges
+cd /d G:\ComputerStudy\cloudnote\knowledge\knowledges
 
 echo "2. Start submitting code to the local repository"
 git add .
