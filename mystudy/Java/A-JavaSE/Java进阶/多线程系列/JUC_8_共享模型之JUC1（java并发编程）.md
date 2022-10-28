@@ -1,46 +1,6 @@
-### 共享模型之JUC
+# 共享模型之JUC
 
-- [AQS 原理](#AQS__2)
-- - [概述](#_4)
-  - [实现不可重入锁](#_53)
-- [ReentrantLock 原理](#ReentrantLock__188)
-- - [非公平锁实现原理](#_194)
-  - - [加锁解锁流程](#_196)
-    - - [new NonfairSync();源码](#new_NonfairSync_227)
-      - [acquire()源码](#acquire_250)
-      - [acquireQueued()源码](#acquireQueued_270)
-      - [unlock、release源码](#unlockrelease_318)
-      - [tryRelease()源码](#tryRelease_336)
-    - [加锁源码](#_369)
-    - [解锁源码](#_525)
-  - [可重入原理](#_592)
-  - [可打断原理](#_638)
-  - - [不可打断模式](#_640)
-    - [可打断模式](#_698)
-  - [公平锁实现原理](#_739)
-  - [条件变量实现原理](#_796)
-  - - [await 流程](#await__800)
-    - [signal 流程](#signal__878)
-    - [源码](#_942)
-- [读写锁](#_1167)
-- - [ReentrantReadWriteLock](#ReentrantReadWriteLock_1169)
-  - [StampedLock](#StampedLock_1324)
-  - - [概念](#_1326)
-    - [示例](#_1358)
-  - [应用之缓存](#_1462)
-  - - [缓存更新策略](#_1464)
-    - [读写锁实现一致性缓存](#_1492)
-  - [读写锁原理](#_1623)
-  - - [图解流程](#_1625)
-    - - [t1 w.lock，t2 r.lock](#t1_wlockt2_rlock_1629)
-      - [t3 r.lock，t4 w.lock](#t3_rlockt4_wlock_1669)
-      - [t1 w.unlock](#t1_wunlock_1680)
-      - [t2 r.unlock，t3 r.unlock](#t2_runlockt3_runlock_1722)
-    - [源码分析](#_1742)
-    - - 写锁上锁流程
-      - 写锁释放流程
-      - 读锁上锁流程
-      - 读锁释放流程
+[toc]
 
 
 
@@ -156,7 +116,6 @@ class MyLock implements Lock {
         return sync.newCondition();
     }
 }
-1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465
 ```
 
 测试一下
@@ -214,13 +173,13 @@ public class TestAqs {
                 log.debug("unlocking...");
                 lock.unlock();
             }
-        },"t1").start();
+        },"t1").start(); 
     }
 }
 12345678910111213141516171819
 ```
 
-![image-20211107104259489](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/ac5186f6246fffa343d1fcc9954d1851.png)
+ ![image-20211107104259489](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/ac5186f6246fffa343d1fcc9954d1851.png)
 
 # ReentrantLock 原理
 
@@ -236,7 +195,6 @@ public class TestAqs {
 public ReentrantLock() {
   sync = new NonfairSync();
 }
-123
 ```
 
 NonfairSync 继承自 AQS

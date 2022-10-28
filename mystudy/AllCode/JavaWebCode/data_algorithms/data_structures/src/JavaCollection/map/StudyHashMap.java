@@ -3,6 +3,9 @@ package JavaCollection.map;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class StudyHashMap {
     public static void main(String[] args) {
@@ -25,6 +28,8 @@ public class StudyHashMap {
         System.out.println(s=="ab");//false
         System.out.println(s2=="ab");//true
 
+        ExecutorService executorService = Executors.newFixedThreadPool(10);
+        executorService.submit()
 
     }
 }
