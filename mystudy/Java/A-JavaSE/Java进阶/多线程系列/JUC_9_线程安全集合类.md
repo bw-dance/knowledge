@@ -97,7 +97,6 @@ public static void main(String[] args) {
         }
     }
 }
-1234567891011121314151617181920212223
 ```
 
 模版代码，模版代码中封装了多线程读取文件的代码
@@ -145,7 +144,6 @@ public static List<String> readFromFile(int i) {
         throw new RuntimeException(e);
     }
 }
-123456789101112131415161718192021222324252627282930313233343536373839404142
 ```
 
 你要做的是实现两个参数

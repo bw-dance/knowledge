@@ -35,7 +35,6 @@
 if (!tryAcquire(arg)) {
   // 入队, 可以选择阻塞当前线程 park unpark
 }
-1234
 ```
 
 释放锁的姿势
@@ -45,7 +44,6 @@ if (!tryAcquire(arg)) {
 if (tryRelease(arg)) {
   // 让阻塞线程恢复运行
 }
-1234
 ```
 
 ## 实现不可重入锁
@@ -147,7 +145,6 @@ public class TestAqs {
         },"t2").start();
     }
 }
-1234567891011121314151617181920212223242526
 ```
 
 ![image-20211107104148605](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/f2facaf83a80b7eca78955612ca7b22c.png)
@@ -176,7 +173,6 @@ public class TestAqs {
         },"t1").start(); 
     }
 }
-12345678910111213141516171819
 ```
 
  ![image-20211107104259489](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/ac5186f6246fffa343d1fcc9954d1851.png)
@@ -237,7 +233,6 @@ static final class NonfairSync extends Sync {
         return nonfairTryAcquire(acquires);
     }
 }
-123456789101112131415161718
 ```
 
 #### acquire()源码
@@ -248,7 +243,6 @@ public final void acquire(int arg) {
         acquireQueued(addWaiter(Node.EXCLUSIVE), arg))
         selfInterrupt();
 }
-12345
 ```
 
 ![image-20211107110100797](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/fdd670c7516178c820f1fb52eeb01db1.png)
