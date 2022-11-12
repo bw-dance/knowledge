@@ -2,6 +2,8 @@
 
 [MySQL实战45讲 (gitee.io)](https://funnylog.gitee.io/mysql45/)
 
+[MySQL索引与查询优化 - 掘金 (juejin.cn)](https://juejin.cn/post/6844903818056974350#heading-21)
+
 ## 基础
 
 ### 1. 三大范式
@@ -1303,4 +1305,8 @@ MySQL的慢查询日志是MySQL提供的一种日志记录，它用来记录在M
 [B+树及插入和删除操作详解 (biancheng.net)](http://data.biancheng.net/view/61.html)
 
 [图解：什么是红黑树？ - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/273829162)
+
+### 开窗函数
+
+[(238条消息) MySQL8.0开窗函数_kejiayuan的博客-CSDN博客_mysql 开窗函数](https://blog.csdn.net/kejiayuan0806/article/details/103297893#:~:text=MySQL从8.0开始支持开窗函数，这个功能在大多商业数据库如Oracle和PostgreSQL中早已支持，也叫分析函数。 它可以理解为记录集合，开窗函数也就是在满足某种条件的记录集合上执行的特殊函数。 对于每条记录都要在此窗口内执行函数，有的函数随着记录不同，窗口大小都是固定的，这种属于静态窗口；有的函数则相反，不同的记录对应着不同的窗口，这种动态变化的窗口叫滑动窗口。,开窗函数的本质还是聚合运算，只不过它更具灵活性，它对数据的每一行，都使用与该行相关的行进行计算并返回计算结果。 聚合函数是将多条记录聚合为一条；而开窗函数是每条记录都会执行，有几条记录执行完还是几条。 聚合函数也可以用于开窗函数中。)
 
