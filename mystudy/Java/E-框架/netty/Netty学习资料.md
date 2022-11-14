@@ -6,6 +6,8 @@
 
 [(153条消息) Scalable IO in Java_思维的深度的博客-CSDN博客](https://blog.csdn.net/skh2015java/article/details/106721630)
 
+光亮：[Netty 入门 | Bug (zglgithubx.github.io)](https://zglgithubx.github.io/posts/51340.html#前置知识)
+
 
 
 
