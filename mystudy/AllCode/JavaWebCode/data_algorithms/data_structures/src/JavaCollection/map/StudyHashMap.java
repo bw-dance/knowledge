@@ -1,16 +1,27 @@
 package JavaCollection.map;
 
 import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+
 
 public class StudyHashMap {
+    public void send(){
+        try{
+            if (true){
+                throw new RuntimeException("12");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        } finally {
+            System.out.println(11);
+        }
+        System.out.println(12);
+    }
     public static void main(String[] args) throws NoSuchFieldException, IllegalAccessException {
+        StudyHashMap a = new StudyHashMap();
+        a.send();
+
+
+
 //        Map<String,String> map = new HashMap<>();
 //        map.put("1","张三");
 //        map.put("1","李四");
