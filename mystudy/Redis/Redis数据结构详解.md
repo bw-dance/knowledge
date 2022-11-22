@@ -826,7 +826,7 @@ Redis Zrank 返回有序集中指定成员的排名。其中有序集成员按�
 ZADD runkey 1 redis 2 mysql 3 java 4 go
 //获取排名
 ZRANK runkey redis
-//获取所有排名
+//获取所有排名a
 ZRANGE runoobkey 0 -1 WITHSCORES
 ```
 
@@ -1021,6 +1021,45 @@ redis使用渐进式hash，将rehash的操作均摊到每次的增删改查操�
 更新：找到ht[o]，进行删除，之后新增到ht[1]。
 
 在渐进式rehash执行期间，新添加到字典的键值对一律会被保存到ht[1]里面，而ht[0]则不再进行任何添加操作，这一措施保证了ht[0]包含的键值对数量会只减不增，并随着rehash操作的执行而最终变成空表。
+
+## 小整数集合
+
+当一个集合只包含整数值元素，并且这个集合的元素数量不多时，Redis就会使用整数集合作为集合键的底层实现。
+
+Redis Sadd 命令将一个或多个成员元素加入到集合中，已经存在于集合的成员元素将被忽略。
+
+```java
+127.0.0.1:6379> SADD codeholes 1 2 3
+(integer) 3
+127.0.0.1:6379> OBJECT ENCODING codeholes
+"intset"
+    
+如果添加的是字符串，不是整数，那么类型是hashtable
+127.0.0.1:6379> sadd school zhangsan
+(integer) 1
+127.0.0.1:6379> OBJECT ENCODING school
+"hashtable"
+```
+
+### 实现方式
+
+![image-20221118132636945](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20221118132636945.png)
+
+```c
+struct intset<T> {
+ int32 encoding; // 决定整数位宽是 16 位、32 位还是 64 位
+ int32 length; // 元素个数
+ int<T> contents; // 整数数组，可以是 16 位、32 位和 64 位
+}
+```
+
+·整数集合是集合键的底层实现之一。
+
+·整数集合的底层实现为数组，这个数组以有序、无重复的方式保存集合元素，在有需要时，程序会根据新添加元素的类型，改变这个数组的类型。
+
+·升级操作为整数集合带来了操作上的灵活性，并且尽可能地节约了内存。
+
+·整数集合只支持升级操作，不支持降级操作。
 
 ## 链表
 
@@ -1223,30 +1262,88 @@ listpack 的设计彻底消灭了 ziplist 存在的级联更新行为，元素�
 
 listpack 的设计的目的是用来取代 ziplist，不过当下还没有做好替换 ziplist 的准备，因为有很多兼容性的问题需要考虑，ziplist 在 Redis 数据结构中使用太广泛了，替换起来复杂度会非常之高。它目前只使用在了新增加的 Stream 数据结构中。
 
-
-
 ## 跳表
 
 ```c
-节点
-struct zslnode {
- string value;
- double score;
- zslnode*[] forwards; // 多层连接指针
- zslnode* backward; // 回溯指针
+
+
+链表+map
+struct zsl {
+ zskiplistNode* header; // 跳跃列表头指针
+ int maxLevel; // 跳跃列表当前的最高层
+ map<string, node*> ht; // hash 结构的所有键值对
 }
 
-链表
-struct zsl {
- zslnode* header; // 跳跃列表头指针
- int maxLevel; // 跳跃列表当前的最高层
- map<string, zslnode*> ht; // hash 结构的所有键值对
-}
+链表节点
+typedef struct zskiplistNode {
+    // 层
+    struct zskiplistLevel {
+        // 前进指针
+        struct zskiplistNode *forward;
+        // 跨度
+        unsigned int span;
+    } level[];
+    // 后退指针
+    struct zskiplistNode *backward;
+    // 分值
+    double score;
+    // 成员对象
+    robj *obj;
+} zskiplistNode;
+
+typedef struct zskiplist {
+    // 表头节点和表尾节点
+    structz skiplistNode *header, *tail;
+    // 表中节点的数量
+    unsigned long length;
+    // 表中层数最大的节点的层数
+    int level;
+} zskiplist;
 ```
 
-![image-20221118104507501](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20221118104507501.png)
+![image-20221118110235865](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20221118110235865.png)
 
+zset 的内部实现是一个 hash 字典加一个跳跃列表 (skiplist)。
 
+Redis 的跳跃表共有 64 层，意味着最多可以容纳 2^64 次方个元素。
+
+**增删改查**：
+
+如果跳表只有一层，查询复杂度为O(n)，如果有多层，则复杂度为O(lg(n))。
+
+查询：定位到那个紫色的 kv，需要从 header 的最高层开始遍历找到第一个节点 (最后一个比「我」小的元素)，然后从这个节点开始降一层再遍历找到第二个节点 (最
+
+后一个比「我」小的元素)，然后一直降到最底层进行遍历就找到了期望的节点 (最底层的最后一个比我「小」的元素)这样，就可以快速找到要查找的元素。
+
+插入的时候，需要定位到位置，然后插入元素，但是新插入的节点，有多少层，需要使用算法分配。跳跃列表使用的是随机算法。
+
+删除过程和插入过程类似，都需先把这个「搜索路径」找出来。然后对于每个层的相关节点都重排一下前向后向指针就可以了。同时还要注意更新一下最高层数 maxLevel。
+
+更新策略：
+
+1. 假设这个新的score 值不会带来排序位置上的改变，那么就不需要调整位置，直接修改元素的 score 值就可以了。但是如果排序位置改变了，那就要调整位置。
+2. score发生改变，位置也改变，删除key，再新增。
+
+ 在一个极端的情况下，zset 中所有的 score 值都是一样的，zset 的查找性能会退化为O(n)，zset 的排序元素不只看 score 值，如果score 值相同还需要再比较 value 值 (字符串比较)
+
+**计算排名**
+
+redis Zrank 返回有序集中指定成员的排名。其中有序集成员按分数值递增(从小到大)顺序排列。
+
+```c
+//添加元素
+ZADD runkey 1 redis 2 mysql 3 java 4 go
+//获取排名
+ZRANK runkey redis
+//获取所有排名a
+ZRANGE runoobkey 0 -1 WITHSCORES
+```
+
+Redis 在 zskiplistNode的 forward 指针上进行了优化，给每一个 forward 指针都增加了 span 属性，span 是「跨度」的意思，表示从前一个节点沿着当前层的 forward 指针跳到当前这个节点中间会跳过多少个节点。Redis 在插入删除操作时会更新 span 值的大小。
+
+当我们要计算一个元素的排名时，只需要将「搜索路径」上的经过的所有节点的跨度 span 值进行叠加就可以算出元素的最终 rank 值.
+
+![zset](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/zset.png)
 
 
 
