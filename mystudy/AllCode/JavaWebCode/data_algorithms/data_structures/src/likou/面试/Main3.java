@@ -8,15 +8,15 @@ public class Main3 {
         ListNode node3 = new ListNode(3);
         ListNode node4 = new ListNode(4);
         ListNode node5 = new ListNode(5);
-        node1.next=node2;
-        node2.next=node3;
-        node3.next=node4;
-        node4.next=node5;
+        node1.next = node2;
+        node2.next = node3;
+        node3.next = node4;
+        node4.next = node5;
         System.out.println(swapPairs(node1));
     }
 
     public static ListNode swapPairs(ListNode head) {
-        if(head == null || head.next == null){
+        if (head == null || head.next == null) {
             return head;
         }
         ListNode next = head.next;
@@ -24,7 +24,18 @@ public class Main3 {
         next.next = head;
         return next;
     }
+
+    public static ListNode swapPairs2(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode cur = head.next;
+        head.next = swapPairs2(cur.next);
+       cur=head
+
+    }
 }
+
 class ListNode {
     int val;
     ListNode next;

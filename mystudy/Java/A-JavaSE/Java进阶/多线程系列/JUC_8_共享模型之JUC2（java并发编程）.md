@@ -46,7 +46,6 @@ public class TestSemaphore {
         }
     }
 }
-12345678910111213141516171819202122232425
 ```
 
 输出，最多3个线程同时运行
@@ -286,7 +285,6 @@ private static void test4() throws InterruptedException {
     latch.await();
     log.debug("wait end...");
 }
-12345678910111213141516171819202122232425262728
 ```
 
 输出
