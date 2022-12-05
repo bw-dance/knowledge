@@ -1,4 +1,4 @@
-package likou.面试;
+package likou.面试.数字马力;
 
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package likou.面试;
+package likou.面试.数字马力;
 
 public class Main3 {
 
