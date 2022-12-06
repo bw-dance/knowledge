@@ -19,7 +19,7 @@ public class Main {
         ListNode cur = l1;
         while (cur.next!=null){
             ListNode now = cur.next;
-            if (cur>no)
+//            if (cur>no)
         }
 
 

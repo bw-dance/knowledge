@@ -31,8 +31,8 @@ public class Main3 {
         }
         ListNode cur = head.next;
         head.next = swapPairs2(cur.next);
-       cur=head
-
+//       cur=head
+return null;
     }
 }
 
