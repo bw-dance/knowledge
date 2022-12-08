@@ -11,9 +11,9 @@ public class 薪资计算 {
                 //公积金
                 double accumulationFund = 0.12;
                 //每月房租，燃气，电费
-                int rent = 2000;
+                int rent = 3100;
                 //每月自己生活费
-                int livingExpenses = 2000;
+                int livingExpenses = 3000;
                 //已交的金额
                 int  hasSub = 48000;
                 //工资计算
