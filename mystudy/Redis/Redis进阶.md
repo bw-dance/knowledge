@@ -502,6 +502,522 @@ Redis cluster 主要是针对海量数据+高并发+高可用的场景，如果�
 
 原生复制的弊端在早期的版本中也会比较突出，如：Redis复制中断后，Slave会发起psync，此时如果同步不成功，则会进行全量同步，主库执行全量备份的同时可能会造成毫秒或秒级的卡顿；又由于COW机制，导致极端情况下的主库内存溢出，程序异常退出或宕机；主库节点生成备份文件导致服务器磁盘IO和CPU（压缩）资源消耗；发送数GB大小的备份文件导致服务器出口带宽暴增，阻塞请求，建议升级到最新版本。
 
+**哨兵：**
+
+master 宕机，哨兵会自动选举 master 并将其他的 slave 指向新的 master。
+
+部署架构主要包括两部分：Redis Sentinel集群和Redis数据集群。
+
+Redis Sentinel集群是由若干Sentinel节点组成的分布式集群，可以实现故障发现、故障自动转移、配置中心和客户端通知。Redis Sentinel的节点数量要满足2n+1（n>=1）的奇数个。
+
+优点：
+
+1. 解决主从模式下的高可用切换问题。
+
+缺点：
+
+1. 部署相对主从复杂
+2. Redis数据节点中slave节点作为备份节点不提供服务
+3. 不能解决读写分离问题
+4. 每个服务都存储相同的数据，浪费内存
+5. Redis Sentinel主要是针对Redis数据节点中的主节点的高可用切换，对Redis的数据节点做失败判定分为主观下线和客观下线两种，对于Redis的从节点有对节点做主观下线操作，**并不执行故障转移。**
+
+**集群：**
+
+将数据分片存储
+
+Redis Cluster集群节点最小配置6个节点以上（3主3从），其中主节点提供读写操作，**从节点作为备用节点，不提供请求，只作为故障转移使用。**
+
+优点：
+
+1. 无中心架构
+2. 数据分布在多个节点上，节点间数据共享，可动态调整数据分布
+3. 可扩展：可线性扩展到1000多个节点，节点可动态添加或删除；
+4. 高可用：部分节点不可用时，集群仍可用。通过增加Slave做standby数据副本，能够实现故障自动failover，节点之间通过gossip协议交换状态信息，用投票机制完成Slave到Master的角色提升；
+5. 降低运维成本，提高系统的扩展性和可用性。
+
+缺点：
+
+> Client实现复杂，驱动要求实现Smart Client，缓存slots mapping信息并及时更新，提高了开发难度，客户端的不成熟影响业务的稳定性。目前仅JedisCluster相对成熟，异常处理部分还不完善，比如常见的“max redirect exception”。
+>
+> 节点会因为某些原因发生阻塞（阻塞时间大于clutser-node-timeout），被判断下线，这种failover是没有必要的。
+>
+> 数据通过异步复制，不保证数据的强一致性。
+>
+> 多个业务使用同一套集群时，无法根据统计区分冷热数据，资源隔离性较差，容易出现相互影响的情况。
+>
+> 150Slave在集群中充当“冷备”，不能缓解读压力，当然可以通过SDK的合理设计来提高Slave资源的利用率。
+>
+> Key批量操作限制，如使用mset、mget目前只支持具有相同slot值的Key执行批量操作。对于映射为不同slot值的Key由于Keys不支持跨slot查询，所以执行mset、mget、sunion等操作支持不友好。
+>
+> Key事务操作支持有限，只支持多key在同一节点上的事务操作，当多个Key分布于不同的节点上时无法使用事务功能。
+>
+> Key作为数据分区的最小粒度，不能将一个很大的键值对象如hash、list等映射到不同的节点。
+>
+> 不支持多数据库空间，单机下的Redis可以支持到16个数据库，集群模式下只能使用1个数据库空间，即db 0。
+>
+> 复制结构只支持一层，从节点只能复制主节点，不支持嵌套树状复制结构。
+>
+> 避免产生hot-key，导致主库节点成为系统的短板。
+>
+> 避免产生big-key，导致网卡撑爆、慢查询等。
+>
+> 重试时间应该大于cluster-node-time时间。
+>
+> Redis Cluster不建议使用pipeline和multi-keys操作，减少max redirect产生的场景。
+
+### 3. Redis高可用方案具体实施
+
+使用官方推荐的哨兵(sentinel)机制就能实现，当主节点出现故障时，由Sentinel自动完成故障发现和转移，并通知应用方，实现高可用性。它有四个主要功能：
+
+集群监控，负责监控Redis master和slave进程是否正常工作。
+
+消息通知，如果某个Redis实例有故障，那么哨兵负责发送消息作为报警通知给管理员。
+
+故障转移，如果master node挂掉了，会自动转移到slave node上。
+
+配置中心，如果故障转移发生了，通知client客户端新的master地址。
+
+### 4. 主从复制原理
+
+#### 快照同步
+
+**Redis 主从工作原理**
+
+1. 如果你为master配置了一个slave,不管这个slave是否是第一次连接上Master,它都会发送一个PSYNC命令给master请求复制数据。
+2. master收到PSYNC命令后，会在后台进行数据持久化通过bgsave生成最新的rdb快照文件，持久化期间，master会继续接受客户端的请求，他会把这些可能修改的数据集的请求缓存在buffer中，当持久化进行完毕以后，master会将buffer发送给slave。
+3. salve加载之前先要将当前内存的数据清空，之后把收到的数据进行持久化生成rdb,然后再加载到内存中。加载完毕后通知主节点继续进行增量同步。然后，master再将之前缓存在buffer中的命令发送给slave.
+4. 当master与slave之间的连接由于某些原因而断开时，slave能够自动重连Master，如果master收到了多个slave并发连接请求，他只会进行一次持久化，而不是一个连接一次，然后再把这一份持久化的数据发送给多个并发连接的slave
+
+#### 增量同步
+
+Redis 同步的是指令流，主节点会将产生修改性影响的指令记录在本地的内存 buffer 中，然后异步将 buffer 中的指令同步到从节点，从节点一边执行同步的指令流来达到和主节点一样的状态，一遍向主节点反馈自己同步到哪里了 (偏移量)。
+
+内存的 buffer 是有限的，所以 Redis 主库不能将所有的指令都记录在内存 buffer 中。Redis 的复制内存 buffer 是一个定长的环形数组，如果数组内容满了，就会从头开始覆盖前面的内容
+
+如果网络状况不好，从节点在短时间内无法和主节点进行同步，那么当网络状况恢复时，Redis 的主节点中那些没有同步的指令在 buffer 中有可能已经被后续的指令覆盖掉了，从节点将无法直接通过指令流来进行同步，这个时候就需要快照同步。
+
+**注意：**
+
+如果全量备份时间过长或buffer过小，都会导致同步期间的增量指令在复制 buffer 中被覆盖，这样就会导致快照同步完成后无法进行增量复制，然后会再次发起快照同步，如此极有可能会陷入快照同步的死循环。以务必配置一个合适的复制 buffer 大小参数，避免快照复制的死循环。
+
+当从节点刚刚加入到集群时，它必须先要进行一次快照同步，同步完成后再继续进行增量同步。
+
+**主从复制流程图：**
+
+![image-20221115154521199](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/image-20221115154521199.png)
+
+#### 无盘复制
+
+快照同步时，会进行很重的IO操作，对于非 SSD 磁盘存储时，快照会对系统的负载产生较大影响
+
+当系统正在进行 AOF 的 fsync 操作时如果发生快照，fsync 将会被推迟执行，这就会严重影响主节点的服务效率
+
+无盘复制：
+
+无磁盘化复制是master不会将RDB文件落到本地磁盘，会将RDB文件直接从内存中通过网络传输到slave的内存中。如果我们的服务器使用的是普通的机械硬盘（重点是磁盘的读写效率很低），而且内网的网络带宽又很高（内网网速快），那么完全可以使用这种无磁盘化的复制方式。
+
+```java
+# 开启redis的无磁盘化复制，默认是关闭的
+repl-diskless-sync yes
+# 这一点很重要，因为一旦传输开始，就不可能服务新的从服务器到达，它将排队等待下一次RDB传输，所以服
+# 务器等待延迟以便让更多的从节点到达。延迟以秒为单位指定，默认为5秒。禁用它完全只是设置为0秒，传
+# 输将尽快开始。
+repl-diskless-sync-delay 5
+```
+
+**过期key处理**
+
+slave不会过期key，只会等待master过期key。如果master过期了一个key，或者通过LRU淘汰了一个key，那么会模拟一条del命令发送给slave。
+
+**主从复制的断点续传**
+
+从Redis 2.8开始，就支持主从复制的断点续传，如果主从复制过程中，网络连接断掉了，那么可以接着上次复制的地方，继续复制下去，而不是从头开始复制一份
+
+master node会在内存中常见一个backlog，master和slave都会保存一个replica offset还有一个master id，offset就是保存在backlog中的。如果master和slave网络连接断掉了，slave会让master从上次的replica offset开始继续复制
+
+#### wait指令
+
+Redis 的复制是异步进行的，wait 指令可以让异步复制变身同步复制，确保系统的强一致性 (不严格)。wait 指令是 Redis3.0 版本以后才出现的。
+
+```java
+> set key value
+OK
+> wait 1 0
+(integer) 1
+```
+
+wait 提供两个参数，第一个参数是从库的数量 N，第二个参数是时间 t，以毫秒为单位。它表示等待 wait 指令之前的所有写操作同步到 N 个从库 (也就是确保 N 个从库的同
+
+步没有滞后)，最多等待时间 t。如果时间 t=0，表示无限等待直到 N 个从库同步完成达成一致。
+
+假设此时出现了网络分区，wait 指令第二个参数时间 t=0，主从同步无法继续进行，wait 指令会永远阻塞，Redis 服务器将丧失可用性。
+
+### 5. 主从延迟读取到过期数据怎么处理
+
+1. 通过scan命令扫库：当Redis中的key被scan的时候，相当于访问了该key，同样也会做过期检测，充分发挥Redis惰性删除的策略。这个方法能大大降低了脏数据读取的概率，但缺点也比较明显，会造成一定的数据库压力，否则影响线上业务的效率。
+
+2. Redis3.2之前：读从库并不会判断数据是否过期，所以有可能返回过期数据。
+
+   Redis3.2之后：读从库，如果数据已经过期，则会过滤并返回空值。
+
+### 6. 主从复制的过程中如果因为网络原因停止复制了会怎么样
+
+1. 断开后，会自动重连
+
+2. 2.8之后，有断点续传功能，可以接着上次复制的地方，继续复制下去，而不是从头开始复制一份。
+
+   master如果发现有多个slave node都来重新连接，仅仅会启动一个rdb save操作，用一份数据服务所有slave node。master node会在内存中创建一个 backlog ，master和slave都会保存一个 replica offset ，还有一个 master id ，offset就是保存在backlog中的。如果master和slave网络连接断掉了，slave会让
+
+   master从上次的replica offset开始继续复制。但是如果没有找到对应的offset，那么就会执行一次 resynchronization 全量复制
+
+### 7. Redis主从架构数据会丢失吗
+
+1. 异步复制导致的数据丢失：因为master -> slave的复制是异步的，所以可能有部分数据还没复制到slave，master就宕机了，此时这些部分数据就丢失了。
+2. 脑裂导致的数据丢失：某个master所在机器突然脱离了正常的网络，跟其他slave机器不能连接，但是实际上master还运行着，此时哨兵可能就会认为master宕机了，然后开启选举，将其他slave切换成了master。这个时候，集群里就会有两个master，也就是所谓的脑裂。此时虽然某个slave被切换成了master，但是可能client还没来得及切换到新的master，还继续写向旧master的数据可能也丢失了。因此旧master再次恢复的时候，会被作为一个slave挂到新的master上去，自己的数据会清空，重新从新的master复制数据。
+
+如何解决丢失问题？
+
+不可避免，尽量减少。
+
+redis配置：
+
+```java
+min-slaves-to-write 1
+min-slaves-max-lag 10
+```
+
+min-slaves-to-write 默认情况下是0， min-slaves-max-lag 默认情况下是10。
+
+至少有1个slave，数据复制和同步的延迟不能超过10秒。如果说一旦所有的slave，数据复制和同步的延迟都超过了10秒钟，那么这个时候，master就不会再接收任何请求了。
+
+减小 min-slaves-max-lag 参数的值，这样就可以避免在发生故障时大量的数据丢失，一旦发现延迟超过了该值就不会往master中写入数据。
+
+那么对于client，我们可以采取降级措施，将数据暂时写入本地缓存和磁盘中，在一段时间后重新写入master来保证数据不丢失；也可以将数据写入kafka消息队列，隔一段时间去消费kafka中的数据。
+
+### 8. Redis哨兵怎么工作
+
+1. 每个Sentinel以每秒钟一次的频率向它所知的Master，Slave以及其他 Sentinel 实例发送一个PING 命令。
+
+2. 如果一个实例（instance）距离最后一次有效回复 PING 命令的时间超过 down-after-milliseconds选项所指定的值， 则这个实例会被当前 Sentinel 标记为主观下线。
+
+3. 如果一个Master被标记为主观下线，则正在监视这个Master的所有 Sentinel 要以每秒一次的频率确认Master的确进入了主观下线状态。
+
+4. 当有足够数量的 Sentinel（大于等于配置文件指定的值）在指定的时间范围内确认Master的确进入了主观下线状态， 则Master会被标记为客观下线 。
+
+5. 当Master被 Sentinel 标记为客观下线时，Sentinel 向下线的 Master 的所有 Slave 发送 INFO 命令的频率会从 10 秒一次改为每秒一次 （在一般情况下， 每个 Sentinel 会以每 10 秒一次的频率向它已知的所有Master，Slave发送 INFO 命令 ）。
+
+6. 若没有足够数量的 Sentinel 同意 Master 已经下线， Master 的客观下线状态就会变成主观下线。若 Master 重新向 Sentinel 的 PING 命令返回有效回复， Master 的主观下线状态就会被移除。
+
+7. sentinel节点会与其他sentinel节点进行“沟通”，投票选举一个sentinel节点进行故障处理，在从节点中选取一个主节点，其他从节点挂载到新的主节点上自动复制新主节点的数据。
+
+### 9. 故障转移时会从剩下的**slave**选举一个新的**master**，被选举为master的标准是什么？
+
+如果一个master被认为odown了，而且majority哨兵都允许了主备切换，那么某个哨兵就会执行主备切换操作，此时首先要选举一个slave来，会考虑slave的一些信息。
+
+1. 跟master断开连接的时长
+
+   如果一个slave跟master断开连接已经超过了down-after-milliseconds的10倍，外加master宕机的时长，那么slave就被认为不适合选举为master
+
+2. slave优先级
+
+   按照slave优先级进行排序，slave priority越低，优先级就越高
+
+3. 复制offset
+
+   如果slave priority相同，那么看replica offset，哪个slave复制了越多的数据，offset越靠后，优先级就越高
+
+4. run id
+
+   如果上面两个条件都相同，那么选择一个run id比较小的那个slave。
+
+### 10. 为什么**Redis**哨兵集群只有**2**个节点无法正常工作
+
+**quorum:**法定哨兵数量
+
+**majority：**大多数哨兵数量：2的majority=2，3的majority=2，5的majority=3，4的majority=2
+
+只有majority>quorum才能切换master
+
+如果quorum < majority，比如5个哨兵，majority就是3，quorum设置为2，那么就3个哨兵授权就可以执行切换,但是如果quorum >= majority，那么必须quorum数量的哨兵都授权，比如5个哨兵，quorum是5，那么必须5个哨兵都同意授权，才能执行切换。
+
+
+
+如果哨兵集群仅仅部署了个2个哨兵实例，quorum=1
+
+master宕机，s1和s2中只要有1个哨兵认为master宕机就可以还行切换，同时s1和s2中会选举出一个哨兵来执行故障转移
+
+同时这个时候，需要majority，也就是大多数哨兵都是运行的，2个哨兵的majority就是2(2的majority=2，3的majority=2，5的majority=3，4的majority=2)，2个哨兵都运行着，就可以允许执行故障转移
+
+但是如果整个M1和S1运行的机器宕机了，那么哨兵只有1个了，此时就没有majority来允许执行故障转移，虽然另外一台机器还有一个R1，但是故障转移不会执行
+
+## 分布式
+
+### 1. 分布式锁
+
+是Java的锁只能保证单机的时候有效，分布式集群环境就无能为力了，这个时候我们就需要用到分布式锁。来控制分布式系统之间同步访问共享资源。
+
+1、互斥性：在任何时刻，对于同一条数据，只有一台应用可以获取到分布式锁；
+
+2、高可用性：在分布式场景下，一小部分服务器宕机不影响正常使用，这种情况就需要将提供分布式锁的服务以集群的方式部署；
+
+3、防止锁超时：如果客户端没有主动释放锁，服务器会在一段时间之后自动释放锁，防止客户端宕机或者网络不可达时产生死锁；
+
+4、独占性：加锁解锁必须由同一台服务器进行，也就是锁的持有者才可以释放锁，不能出现你加的锁，别人给你解锁了。
+
+### 2. 常见的分布式锁解决方案
+
+1. 基于Mysql
+
+   依赖数据库的唯一性来实现资源锁定，比如主键和唯一索引等。
+
+   缺点：
+
+   这把锁强依赖数据库的可用性，数据库是一个单点，一旦数据库挂掉，会导致业务系统不可用。
+
+   这把锁没有失效时间，一旦解锁操作失败，就会导致锁记录一直在数据库中，其他线程无法再获得到锁。
+
+   这把锁只能是非阻塞的，因为数据的insert操作，一旦插入失败就会直接报错。没有获得锁的线程并不会进入排队队列，要想再次获得锁就要再次触发获得锁操作。
+
+   这把锁是非重入的，同一个线程在没有释放锁之前无法再次获得该锁。因为数据中数据已经存在了
+
+2. 基于Redis
+
+   Redis 锁实现简单，理解逻辑简单，性能好，可以支撑高并发的获取、释放锁操作。
+
+   缺点：
+
+   Redis 容易单点故障，集群部署，并不是强一致性的，锁的不够健壮；
+
+   key 的过期时间设置多少不明确，只能根据实际情况调整；
+
+   需要自己不断去尝试获取锁，比较消耗性能。
+
+3. 基于Zookeeper
+
+   优点：
+
+   zookeeper 天生设计定位就是分布式协调，强一致性，锁很健壮。如果获取不到锁，只需要添加一个监
+
+   听器就可以了，不用一直轮询，性能消耗较小。
+
+   缺点：
+
+   在高请求高并发下，系统疯狂的加锁释放锁，最后 zk 承受不住这么大的压力可能会存在宕机的风险。
+
+### Redis实现分布式锁
+
+使用set is not exits 命令占锁，占锁成功后执行业务，执行完成后释放锁del。
+
+setnx lock true
+
+**问题：死锁**
+
+业务未执行完，发生异常，del没有执行，陷入死锁，锁永远得不到释放。
+
+解决：为锁设置过期时间。
+
+**问题：锁误解**
+
+业务时间过长，锁提前释放。业务再次执行时新添加锁，此时之前的业务执行完毕，将新业务的锁释放掉。
+
+解决：
+
+1. 每个线程加锁时，都设置一个唯一ID，删除的时候，根据id进行删除。
+2. 分布式锁不要用于过长时间任务，如果出现了锁现象，数据小范围错乱人工干预。
+3. 使用lua脚本，为每次加锁设置一个唯一的随机数，只能此随机数进行锁释放。（设置过期时间的话还有可能造成业务没执行完，锁提前释放问题-使用看门狗机制）
+
+**问题：超时解锁并发**
+
+如果线程 A 成功获取锁并设置过期时间 30 秒，但线程 A 执行时间超过了 30 秒，锁过期自动释放，此时线程 B 获取到了锁，线程 A 和线程 B 并发执行。这种情况是不被允许的。
+
+解决：
+
+1. 过期时间足够长
+2. 为获取锁的线程增加守护线程，为将要过期但未释放的锁增加有效时间。
+
+**问题：不可重入**
+
+当线程在持有锁的情况下再次请求加锁，如果一个锁支持一个线程多次加锁，那么这个锁就是可重入的。如果一个不可重入锁被再次加锁，由于该锁已经被持有，再次加锁会失败。Redis 可通过对锁进行重入计数，加锁时加 1，解锁时减 1，当计数归 0 时释放锁
+
+**问题：无法等待锁释放**
+
+上述命令执行都是立即返回的，如果客户端可以等待锁释放就无法使用。
+
+1. 可以通过客户端轮询的方式解决该问题，当未获取到锁时，等待一段时间重新获取锁，直到成功获取锁或等待超时。这种方式比较消耗服务器资源，当并发量比较大时，会影响服务器的效率。
+
+2. 使用 Redis 的发布订阅功能，当获取锁失败时，订阅锁释放消息，获取锁成功后释放时，发送锁释放消息。
+
+**手写可重入锁**
+
+```java
+@Component
+@Log4j2
+public class RedisLock {
+  @Resource
+  private RedisTemplate redisTemplate;
+  private ThreadLocal<String> threadLock = new ThreadLocal<>();
+  private ThreadLocal<Integer> threadLocalInteger = new ThreadLocal<Integer>();
+
+  /**
+   * @Description 加锁
+   * @Date 2022/09/14 14:36
+   * @Param [key, timeout, unit]
+   * @return boolean
+   */
+  public boolean tryLock(String key, long timeout, TimeUnit unit) {
+    Boolean isLocked = false;
+    if (threadLock.get() == null) {
+      String uuid = UUID.randomUUID() +"_"+System.currentTimeMillis();
+      threadLock.set(uuid);
+      isLocked = redisTemplate.opsForValue().setIfAbsent(key, uuid, timeout, unit);
+      if(!isLocked){
+        //
+        for (;;) {
+          isLocked = redisTemplate.opsForValue().setIfAbsent(key, uuid, timeout, unit);
+          if (isLocked) {
+            break;
+          }
+        }
+      }
+      //启动新线程来执行定时任务，更新锁过期时间
+      new Thread(new UpdateLockTimeoutTask(uuid, redisTemplate, key)).start();
+    } else {
+      isLocked = true;
+    }
+    // 重入次数加1
+    if (isLocked) {
+      Integer count = threadLocalInteger.get() == null ? 0 : threadLocalInteger.get();
+      threadLocalInteger.set(count++);
+    }
+    return isLocked;
+  }
+  /**
+   * @Description 释放锁
+   * @Date 2022/09/14 14:36
+   * @Param [key]
+   * @return void
+   */
+  public void releaseLock(String key) {
+    //当前线程中绑定的uuid与Redis中的uuid相同
+    String uuid= (String) redisTemplate.opsForValue().get(key);
+    if(threadLock.get().equals(uuid)&&!StringUtils.isEmpty(uuid)){
+      Integer count = threadLocalInteger.get();
+      // 计数器减为0时才能释放锁
+      if (count == null || --count <= 0) {
+        redisTemplate.delete(key);
+        // 获取更新锁超时时间的线程
+        long threadId = (long) redisTemplate.opsForValue().get(uuid);
+        Thread updateLockTimeoutThread = getThreadByThreadId(threadId);
+        if (updateLockTimeoutThread != null) {
+          // 中断更新锁超时时间的线程
+          updateLockTimeoutThread.interrupt();
+          redisTemplate.delete(uuid);
+        }
+      }
+    }
+  }
+
+  /**
+   * @Description 根据线程id获取线程对象
+   * @Date 2022/09/14 14:36
+   * @Param [threadId]
+   * @return java.lang.Thread
+   */
+  public Thread getThreadByThreadId(long threadId) {
+    ThreadGroup group = Thread.currentThread().getThreadGroup();
+    Thread[] threads = new Thread[(int)(group.activeCount() * 1.2)];
+    int current=0;
+    if(group != null){
+      int count = group.enumerate(threads, true);
+      for (int i = 0; i < count; i++){
+        if (threadId == threads[i].getId()) {
+          current=i;
+          break;
+        }
+      }
+    }else {
+      return null;
+    }
+    return threads[current];
+  }
+}
+
+
+public class UpdateLockTimeoutTask implements Runnable{
+  private String uuid;
+  private String key;
+  private RedisTemplate redisTemplate;
+
+  //uuid=UUID.randomUUID() +"_"+System.currentTimeMillis();
+  //key=userId+标识
+  public UpdateLockTimeoutTask(String uuid, RedisTemplate redisTemplate, String key) {
+    this.uuid = uuid;
+    this.key = key;
+    this.redisTemplate = redisTemplate;
+  }
+
+  @Override
+  public void run() {
+    // 将以uuid为Key，当前线程Id为Value的键值对保存到Redis中
+    redisTemplate.opsForValue().set(uuid, Thread.currentThread().getId());
+    while (true) {
+      // 更新锁的过期时间，30秒更新一次
+      redisTemplate.expire(key, 30, TimeUnit.SECONDS);
+      try{
+        // 每隔10秒执行一次;
+        Thread.sleep(1000*10);
+      }catch (InterruptedException e){
+        break;
+      }
+    }
+  }
+}
+```
+
+## 优化
+
+### 1. Redis如何做内存优化
+
+1. 控制key的数量
+
+2. 缩减键值对象：降低Redis内存使用最直接的方式就是缩减键（key）和值（value）的长度。
+
+   key：减少key的长度
+
+   value：删除value中的无效数据
+
+3. 选择合适的数据结构
+
+[Redis进阶不得不了解的内存优化细节 - 腾讯云开发者社区-腾讯云 (tencent.com)](https://cloud.tencent.com/developer/article/1162213)
+
+### 2. 如果现在有个读超高并发的系统，用**Redis**来抗住大部分读请求，你会怎么设计？
+
+如果是读高并发的话，先看读并发的数量级是多少，因为Redis单机的读QPS在万级，每秒几万没问题，使用一主多从+哨兵集群的缓存架构来承载每秒10W+的读并发，主从复制，读写分离。
+
+使用哨兵集群主要是提高缓存架构的可用性，解决单点故障问题。主库负责写，多个从库负责读，支持水平扩容，根据读请求的QPS来决定加多少个Redis从实例。如果读并发继续增加的话，只需要增加Redis从实例就行了。
+
+如果需要缓存1T+的数据，选择Redis cluster模式，每个主节点存一部分数据，假设一个master存32G，那只需要n*32G>=1T，n个这样的master节点就可以支持1T+的海量数据的存储了。
+
+> Redis单主的瓶颈不在于读写的并发，而在于内存容量，即使是一主多从也是不能解决该问题，因为一主多从架构下，多个slave的数据和master的完全一样。假如master是10G那slave也只能存10G数据。所以数据量受单主的影响。
+>
+> 而这个时候又需要缓存海量数据，那就必须得有多主了，并且多个主保存的数据还不能一样。Redis官方给出的 Redis cluster 模式完美的解决了这个问题
+
 ## 问题：
 
 1. redis的单线程和多线程
+
+## 真实面试
+
+### 1. Redis过期自动续期，如果一直续期造成死锁怎么办？
+
+1. 检查自己代码逻辑，是否产生死循环
+2. 检查数据库，是否有慢SQL或者数据库大量事务没有提交或超时
+3. 请求网络资源，网络不稳定，可能造成超时，导致一直重试
+   1. 设置最大请求时间
+   2. 设置重试次数
+
+整体解决方案：为锁定制最大过期时间或最大续期次数
+
+
+
