@@ -6,31 +6,28 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 class Department {
-    private long id;
-    private long pid;
-    private String name;
+    private String id;
+    private String pid;
+
     // 子部门列表
     private List<Department> subDeps;
 
-    public Department(long id, long pid, String name) {
+    public Department(String id, String pid) {
         this.id = id;
         this.pid = pid;
-        this.name = name;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
 
-    public long getPid() {
+    public String getPid() {
         return pid;
     }
 
 
-    public String getName() {
-        return name;
-    }
+
 
 
     public List<Department> getSubDeps() {
@@ -46,7 +43,6 @@ class Department {
         return "Department{" +
                 "id=" + id +
                 ", pid=" + pid +
-                ", name='" + name + '\'' +
                 ", subDeps=" + subDeps +
                 '}';
     }
@@ -56,19 +52,19 @@ public class Main {
 
     public static void main(String[] args) {
         List<Department> deps = new ArrayList<>(16);
-        deps.add(new Department(1, 0, "公司根"));
-        deps.add(new Department(2, 1, "产品部"));
-        deps.add(new Department(3, 1, "技术部"));
-        deps.add(new Department(4, 1, "行政部门"));
+        deps.add(new Department("1", "0"));
+        deps.add(new Department("1.1", "1"));
+        deps.add(new Department("1.2", "1"));
+        deps.add(new Department("2", "0"));
         // 技术部的子部门
-        deps.add(new Department(5, 3, "开发部门"));
-        deps.add(new Department(6, 3, "测试部门"));
+        deps.add(new Department("3", "0"));
+        deps.add(new Department("1.3" ,   "1"));
         // 技术部-开发部门的子部门
-        deps.add(new Department(7, 5, "前端开发"));
-        deps.add(new Department(8, 5, "后端开发"));
+        deps.add(new Department("1.3.1", "1.3"));
+        deps.add(new Department("1.3.2", "1.3"));
         // 行政部门的子部门
-        deps.add(new Department(9, 4, "安保部门"));
-        deps.add(new Department(10, 4, "后勤部门"));
+        deps.add(new Department("1.4", "1.3"));
+        deps.add(new Department("1.3.1.1", "1.3.1"));
         System.out.println(buildTree(deps));
     }
 
@@ -81,7 +77,7 @@ public class Main {
     public static Department buildTree(List<Department> deps) {
         Department department = null;
         for (Department dept : deps) {
-            if (dept.getPid() == 0) {
+            if (dept.getPid() .equals("0") ) {
                 department = dept;
                 department.setSubDeps(getSubDeps(dept, deps));
                 break;
@@ -91,8 +87,8 @@ public class Main {
     }
 
     private static List<Department> getSubDeps(Department dept, List<Department> deps) {
-        List<Department> otherDeps = deps.stream().filter(item -> dept.getId() != item.getPid()).collect(Collectors.toList());
-        List<Department> subDeps = deps.stream().filter(item -> dept.getId() == item.getPid()).map(item -> {
+        List<Department> otherDeps = deps.stream().filter(item ->! dept.getId() .equals(item.getPid()) ).collect(Collectors.toList());
+        List<Department> subDeps = deps.stream().filter(item -> dept.getId() .equals(item.getPid())).map(item -> {
             item.setSubDeps(getSubDeps(item, otherDeps));
             return item;
         }).collect(Collectors.toList());
