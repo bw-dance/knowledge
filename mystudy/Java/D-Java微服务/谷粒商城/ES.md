@@ -1,3 +1,5 @@
+文章：[(142条消息) java 操作elasticsearch详细总结_逆风飞翔的小叔的博客-CSDN博客_java 操作elasticsearch](https://blog.csdn.net/congge_study/article/details/128194887)
+
 # 本节参考 [官方文档](https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-search.html) 检索示例：
 
 # 导入样本测试数据
@@ -24,7 +26,7 @@ https://raw.githubusercontent.com/elastic/elasticsearch/master/docs/src/test/res
 
 访问失败可请求：[镜像地址](https://raw.fastgit.org/elastic/elasticsearch/master/docs/src/test/resources/accounts.json) 。导入测试数据。
 
-```
+```java
 POST bank/account/_bulk
 ```
 

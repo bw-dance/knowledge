@@ -13,8 +13,6 @@ for rapid development of maintainable high performance protocol servers & client
 
 Netty 是一个异步的、基于事件驱动的网络应用框架，用于快速开发可维护、高性能的网络服务器和客户端
 
-
-
 ### 1.2 Netty 的作者
 
 ![](https://mynotepicbed.oss-cn-beijing.aliyuncs.com/img/0005.png)

@@ -7,13 +7,13 @@ public class 薪资计算 {
             if (i % 10000 == 0) {
                 //i:年包
                 //month:多少薪资
-                int month = 13;
+                int month = 14;
                 //公积金
-                double accumulationFund = 0.12;
+                double accumulationFund = 0.05;
                 //每月房租，燃气，电费
-                int rent = 3100;
+                int rent = 3000;
                 //每月自己生活费
-                int livingExpenses = 3000;
+                int livingExpenses = 2000;
                 //已交的金额
                 int  hasSub = 48000;
                 //工资计算
