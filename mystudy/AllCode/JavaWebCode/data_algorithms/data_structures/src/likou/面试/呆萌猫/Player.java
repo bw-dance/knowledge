@@ -22,7 +22,7 @@ public interface Player {
     /**
      * 向玩家发送消息。
      */
-    void write(String message);
+    void  write(String message);
 
     /**
      * 玩家是否掉线。

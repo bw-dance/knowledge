@@ -7,15 +7,15 @@ public class 薪资计算 {
             if (i % 10000 == 0) {
                 //i:年包
                 //month:多少薪资
-                int month = 13;
+                int month = 12;
                 //公积金
                 double accumulationFund = 0.05;
                 //每月房租，燃气，电费
-                int rent = 3000;
+                int rent = 1000;
                 //每月自己生活费
-                int livingExpenses = 2000;
+                int livingExpenses = 3000;
                 //已交的金额
-                int  hasSub =48000;
+                int hasSub = 48000;
                 //工资计算
                 computedWages(i, month, accumulationFund, livingExpenses, rent, hasSub);
             }
@@ -28,7 +28,7 @@ public class 薪资计算 {
         double tax = tax(allSalary - insuranceAndFoud);
         double lifeAndRent = LifeAndRent(livingExpenses, rent);
 //        double back = back(allSalary, hasSub);
-     double back =0;
+               double back = 0;
         double last = allSalary - insuranceAndFoud - tax - lifeAndRent - back;
         System.out.println("------------" + allSalary + "-----------------");
         System.out.println("还钱：" + back);
@@ -45,8 +45,8 @@ public class 薪资计算 {
      */
     private static double back(int allSalary, int hasSub) {
         int backSalary = allSalary - 180000;
-        double sumBack = 48000+ (backSalary > 0 ? backSalary * 0.6 : 0);
-        return sumBack < 150000 ? sumBack-hasSub : 150000-hasSub;
+        double sumBack = 48000 + (backSalary > 0 ? backSalary * 0.6 : 0);
+        return sumBack < 150000 ? sumBack - hasSub : 150000 - hasSub;
     }
 
     /**
